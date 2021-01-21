@@ -1,15 +1,11 @@
 <template>
   <div>
-      <el-row :gutter="30">
-          <el-col v-for="i in 10" :key="i" :xs="12" :md="6">
-              <func></func>
-          </el-col>
-      </el-row>
+      <func></func>
   </div>
 </template>
 
 <script>
-import func from '../card/functionCard'
+import func from '../courseManager/allCourse'
 export default {
     components:{
         func

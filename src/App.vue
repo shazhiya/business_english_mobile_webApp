@@ -1,14 +1,20 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+<!--    <router-view></router-view>-->
+    <card>
+      <p>this is my card</p>
+      <p>this is my card</p>
+      <p>this is my card</p>
+      <p>this is my card</p>
+      <p>this is my card</p>
+    </card>
   </div>
 </template>
 
 <script>
+import card from 'component/card/baseCard'
 export default {
-  created(){
-    
-  }
+  components:{card}
 }
 
 </script>

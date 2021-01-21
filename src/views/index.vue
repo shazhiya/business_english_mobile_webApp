@@ -4,7 +4,7 @@
       <el-header style="width: 75%; margin: auto">
           <navbar></navbar>
       </el-header>
-      <el-main style="width: 75%; margin: auto; margin-top: 30px">
+      <el-main style="width: 75%; margin: 30px auto auto;">
           <router-view name="main"/>
       </el-main>
     </el-container>

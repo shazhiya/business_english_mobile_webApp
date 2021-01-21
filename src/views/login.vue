@@ -12,9 +12,9 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col style="margin-top: 40px; color: white; font-size: 24px"
-        >login</el-col
-      >
+      <el-col style="margin-top: 40px; color: white; font-size: 24px">
+        登录
+      </el-col>
     </el-row>
     <el-row type="flex" justify="center" style="margin-top: 25px">
       <el-col :xs="20" :md="10">
@@ -50,10 +50,10 @@
       <el-col :xs="20" :md="10">
         <el-row>
           <el-col :span="15">
-            <el-button :round="true" @click="login">login</el-button>
+            <el-button :round="true" @click="login">登录</el-button>
           </el-col>
           <el-col :span="8" :offset="1">
-            <el-button :round="true" @click="register">register</el-button>
+            <el-button :round="true" @click="register">注册</el-button>
           </el-col>
         </el-row>
       </el-col>
@@ -75,6 +75,7 @@ export default {
       this.$store
         .dispatch('login',{username:this.username,password:this.password})
         .then(result=>{
+          console.log(result);
           if(result) {
             this.$message({message: 'login successfully',type: 'success'})
             Promise.all([this.$store.dispatch("user/security/querySecuritiesByUsername",{userName: this.$store.state.user.username}),this.$store.dispatch("user/getInfo",this.$store.state.user.username)])

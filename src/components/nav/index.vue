@@ -25,22 +25,22 @@
     <el-drawer
       :visible.sync="drawer"
       :direction="direction"
-      :title="'menu'"
+      :title="'菜单'"
       :show-close="false"
       :size="'60%'"
     >
       <el-menu>
         <el-menu-item @click="$router.push({name:'index'})">
-          home
+          主页
         </el-menu-item>
         <el-menu-item @click="$router.push({name:'mine',query: { userName: $store.state.user.username}})">
-          mine
+          个人信息
         </el-menu-item>
         <el-menu-item @click="$router.push({name:'userManager'})" v-if="judge('userManager')">
-          user manage
+          用户管理
         </el-menu-item>
         <el-menu-item @click="$router.push({name:'courseManager'})" v-if="judge('courseManager')">
-          course manager
+          课程管理
         </el-menu-item>
       </el-menu>
     </el-drawer>
@@ -48,8 +48,8 @@
     <el-popover ref="popover" placement="bottom" width="300" trigger="click">
         <show :info='$store.state.user.userInfo'>
           <div slot="funcs">
-            <el-button type="primary" @click="$router.push({name:'login'})">logout</el-button>
-            <el-button type="primary">notify</el-button>
+            <el-button type="primary" @click="$router.push({name:'login'})">登出</el-button>
+            <el-button type="primary">消息通知</el-button>
           </div>
         </show>
     </el-popover>

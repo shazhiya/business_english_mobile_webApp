@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseURL = 'back/'
+let isPro = process.env.NODE_ENV == 'production'
+
+const baseURL = isPro?'http://localhost:9090':'back/'
 const back = axios.create({
     baseURL,
     headers: {

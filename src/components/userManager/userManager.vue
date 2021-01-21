@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card class="card">
-      <el-divider content-position='left'>user manage</el-divider>
+      <el-divider content-position='left'>用户管理</el-divider>
       <user-list
         ref="userList"
         :start="start"

@@ -28,19 +28,19 @@
 
           <div class="body">
               <el-row >
-                <el-col :span="6"><div>email:</div></el-col>
+                <el-col :span="6"><div>电子邮件:</div></el-col>
                 <el-col :span="18" class="textRight gray"><div>{{info.userEmail}}</div></el-col>
               </el-row>
               <el-row class="margin">
-                <el-col :span="10"><div>register date:</div></el-col>
+                <el-col :span="10"><div>注册日期:</div></el-col>
                 <el-col :span="14" class="textRight gray"><div>{{info.userRegisterdate}}</div></el-col>
               </el-row>
               <el-row class="margin">
-                <el-col :span="8"><div>telephone:</div></el-col>
+                <el-col :span="8"><div>电话:</div></el-col>
                 <el-col :span="16" class="textRight gray"><div>{{info.userTelephone}}</div></el-col>
               </el-row>
               <el-row class="margin">
-                <el-col :span="4"><div>roles:</div></el-col>
+                <el-col :span="4"><div>角色:</div></el-col>
                 <el-col :span="20" class="textRight gray">
                   <el-tag effect="dark" size="mini" hit:true v-for="role of info.roles" :key="role.roleId" style="margin-left:1px">
                       {{role.roleName}}
@@ -50,10 +50,10 @@
               <el-divider></el-divider>
               <el-menu v-if="$store.state.user.profile.userName == $store.state.user.username">
                 <el-menu-item>
-                  <span class="el-icon-s-home" @click="$router.push({name:'mine'})"> home</span>
+                  <span class="el-icon-s-home" @click="$router.push({name:'mine'})">简介</span>
                 </el-menu-item>
                 <el-menu-item>
-                  <span class="el-icon-edit" @click="$router.push({name:'edit'})"> edit</span>
+                  <span class="el-icon-edit" @click="$router.push({name:'edit'})">编辑个人信息</span>
                 </el-menu-item>
               </el-menu>
           </div>
