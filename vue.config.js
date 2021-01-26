@@ -15,8 +15,7 @@ module.exports =  {
         .set('asset',resolve('src/assets'))
     },
     devServer: {
-        host: 'localhost',
-        port: 8080,
+        port: 80,
         proxy: {
           'back/': {
             target: 'http://localhost:9090',

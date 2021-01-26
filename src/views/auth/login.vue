@@ -1,5 +1,5 @@
 <template>
-  <div class="bg">
+  <card class="bg">
     <el-row type="flex" justify="center">
       <el-col :span="8">
         <div style="width: 100px; height: 100px; margin: auto">
@@ -9,11 +9,6 @@
             style="border-radius: 50px"
           ></el-image>
         </div>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col style="margin-top: 40px; color: white; font-size: 24px">
-        登录
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" style="margin-top: 25px">
@@ -45,7 +40,6 @@
         </el-row>
       </el-col>
     </el-row>
-
     <el-row type="flex" justify="center">
       <el-col :xs="20" :md="10">
         <el-row>
@@ -58,7 +52,7 @@
         </el-row>
       </el-col>
     </el-row>
-  </div>
+  </card>
 </template>
 
 <script>
@@ -108,8 +102,9 @@ export default {
 .bg {
   padding-top: 100px;
   text-align: center;
-  height: calc(100vh);
-  background: url("../assets/bg.jpg");
+  height: 100%;
+  box-sizing: border-box;
+  background: gray;
   background-size: cover;
   overflow: hidden;
 }
@@ -118,6 +113,8 @@ div /deep/ input {
   border-radius: 30px;
   background: rgba(128, 128, 128, 0.3);
   color: white;
+  font-size: 24px;
+  text-align: center;
   border: 1px black solid;
 }
 

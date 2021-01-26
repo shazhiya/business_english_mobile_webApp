@@ -1,32 +1,24 @@
 <template>
   <div id="app">
-<!--    <router-view></router-view>-->
-    <card>
-      <p>this is my card</p>
-      <p>this is my card</p>
-      <p>this is my card</p>
-      <p>this is my card</p>
-      <p>this is my card</p>
-    </card>
+    <router-view name="root"/>
   </div>
 </template>
 
 <script>
-import card from 'component/card/baseCard'
 export default {
-  components:{card}
 }
 
 </script>
 
 <style>
-body {
+body ,#app{
   margin: 0;
+  height: 100vh;
 }
-* {
-  margin: 0;
+*{
+  margin:auto 0;
   padding: 0;
-  border: 0;
+  box-sizing: border-box;
 }
 
 ::-webkit-scrollbar {

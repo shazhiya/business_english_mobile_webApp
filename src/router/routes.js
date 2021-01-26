@@ -1,28 +1,51 @@
 const routes = [
     {
-        name: 'root',
-        path:'/',
-        component: ()=> import('view/login')
+        path: '/auth',
+        components: {
+            root: ()=> import("view/auth/index")
+        },
+        children: [
+            {
+                name: "login",
+                path: "login",
+                components:{
+                    auth: ()=> import("view/auth/login")
+                }
+            },
+            {
+                name: 'register',
+                path: 'register',
+                components:{
+                    auth:  ()=> import('view/auth/register')
+                }
+            }
+        ]
     },
     {
-        name: 'login',
-        path: '/login',
-        component: ()=> import('view/login')
+        path: '/exception',
+        component: ()=>import('view/exception/index'),
+        children: [
+            {
+                name: "notFound",
+                path: "notFound",
+                components: {
+                    exception: ()=> import("view/exception/404")
+                }
+            }
+        ]
     },
     {
-        name: 'register',
-        path: '/register',
-        component: ()=> import('view/register')
-    },
-    {
-        name: '404',
-        path: '/NotFound',
-        component: ()=>import('view/404')
+        name: "test",
+        path: "/test",
+        components: {
+            root: ()=> import("component/detail/iconText")
+        }
+
     },
     {
         path: '/index',
         components:{
-            default:  ()=> import('view')
+            root:  ()=> import('view/index/index')
         },
         children:[
             {
@@ -37,7 +60,6 @@ const routes = [
                 path: 'usermanager',
                 components:{
                     main: () => import('component/userManager/userManager'),
-                    default: () => import('view')
                 }
             },
             {

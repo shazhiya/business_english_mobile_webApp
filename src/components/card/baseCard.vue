@@ -1,6 +1,8 @@
 <template>
-  <div :style="Object.assign({width:width,minHeight},iStyle)" class="base">
-    <slot></slot>
+  <div :style="{width:width}">
+    <div :style="Object.assign({minHeight},iStyle)" class="baseCard">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -25,15 +27,16 @@ export default {
 }
 </script>
 
-<style scoped>
-.base{
+<style>
+.baseCard{
   border: 1px solid #EBEEF5;
   background-color: #FFF;
+  width: calc(100% - 2px);
   color: #303133;
   transition: .3s;
   border-radius: 8px;
   overflow: hidden;
-  margin: auto 5px;
+  margin: auto;
   padding: 2px;
   box-shadow: 0 2px 12px 0 gray;
 }

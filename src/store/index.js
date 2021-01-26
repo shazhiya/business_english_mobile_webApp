@@ -22,7 +22,7 @@ export default new Vuex.Store({
   },
   actions:{
     login({commit},data){
-      return post('login',data,res=>{
+      return post('login',data, res=>{
         if(res.data != 'success') return false
         commit('changeSignUp',true)
         commit('user/updateUserName',data,{root:true})
