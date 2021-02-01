@@ -1,43 +1,76 @@
 <template>
   <div class="container">
-    <card>
+<!--    top bar-->
+    <van-row>
+      <van-col span="3">
+        <van-image
+            width="48"
+            height="48"
+            radius="12"
+            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            style="margin: 5px 0 0 5px"
+        />
+      </van-col>
+      <van-col span="16">
+        <van-search
+            v-model="value"
+            shape="round"
+            placeholder="请输入搜索关键词"
+        />
+      </van-col>
+      <van-col span="5">
+        <van-row style="margin-top: 10px">
+          <van-col span="12">
+            <van-button icon="plus" size="small" type="primary" />
+          </van-col>
+          <van-col span="12">
+            <van-button icon="plus" size="small" type="primary"/>
+          </van-col>
+        </van-row>
+      </van-col>
+    </van-row>
 
-    </card>
+    <div class="main">
+      <router-view name="main"/>
+    </div>
 
-    <flex-container class="footer">
-      <div @click="changeActive(i)" v-for="i in 5">
-        <iconText :ref="'it'" />
-      </div>
-    </flex-container>
+<!--    bottom menu bar-->
+    <van-tabbar v-model="active" :fixed="true" active-color="#ee0a24" inactive-color="#000" :placeholder="true">
+      <van-tabbar-item icon="home-o">标签</van-tabbar-item>
+      <van-tabbar-item icon="search">标签</van-tabbar-item>
+      <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
+      <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
 <script>
-import iconText from "component/detail/iconText";
 export default {
     components:{
-      iconText
+
+    },
+    data(){
+        return {
+          active: 0,
+          value: ""
+        }
     },
     methods:{
-      changeActive(i){
-        for (let s = 0;s<5;s++) {
-          this.$refs['it'][s].unActive()
-        }
-        this.$refs['it'][i-1].active()
-      }
+
     }
 }
 </script>
 
 <style scoped>
 .container{
-  position: relative;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
-.footer{
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  display: block;
+.main{
+  flex: 1;
+  background: red;
 }
 </style>

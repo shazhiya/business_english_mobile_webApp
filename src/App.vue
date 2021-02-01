@@ -15,14 +15,4 @@ body ,#app{
   margin: 0;
   height: 100vh;
 }
-*{
-  margin:auto 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-::-webkit-scrollbar {
-  display: none;
-  /* background-color:transparent; */
-}
 </style>
