@@ -1,6 +1,10 @@
 let mysql = require('mysql')
+let path = require("path");
+let fs = require("fs");
 
-
+function getFiles(dirPath){
+    return fs.readdirSync(dirPath)
+}
 
 let connection = mysql.createConnection({
     host: 'localhost',
@@ -10,61 +14,21 @@ let connection = mysql.createConnection({
     database: 'business_english',
 })
 
-
-let userIds = []
-let roleIds = []
-connection.connect()
-connection.query('select user_id from user where user_id != 1',(err,res)=>{
-    res.forEach(row=>{
-        userIds.push(row.user_id)
-    })
-
-    // userIds.filter(uid=>Math.random()>0.7).forEach(uid=>{
-    //     connection.query('update user set user_enable = false where user_id = ?',[uid],(err,res)=>{
-    //         console.log(res)
-    //     })
-    // })
-
-    // connection.end()
-
-    //  user_role
-    connection.query('select role_id from role', (err,res)=>{
-        res.forEach(row=>{
-            roleIds.push(row.role_id)
+!function addCurriculum(){
+    let dir = 'E:\\files\\courseCover'
+    let insert = 'insert into curriculum(curriculum_cover,curriculum_description,curriculum_name) value(?,?,?)'
+    connection.connect()
+    getFiles(dir).forEach((fileName,index)=>{
+        connection.query(insert,["courseCover\\"+fileName,"this is a curriculum for business English online!","course_"+index],(err,res)=>{
+            if (err){
+                console.log(err)
+            }else{
+                console.log(res)
+            }
         })
-
-        roleIds.forEach(rid=>{
-            userIds.filter(id=>Math.random()>0.4).forEach(uid=>{
-                connection.query('insert into user_role value(?,?)',[uid,rid])
-            })
-        })
-
-        connection.end()
     })
-})
-
-
-// let insert = 'insert into user(user_name,password,user_email,user_intro,user_headico) value(?,"123456","2691032513@qq.com","I am hollow knight!",?)'
-// var path = require("path");
-// var fs = require("fs");
-// var dirs = [];
-// var pathName = "E:/files/headIco";
-// connection.connect()
-// fs.readdir(pathName, function(err, files){
-//     files.forEach((value,index)=>{
-//         connection.query(insert,['shazhi_'+index,'headIco/'+value],(err,result)=>{
-//             if(err){
-//                 console.log('INSERT ERROR: '+ err)
-//             }else{
-//                 console.log('INSERT SUCCESS: ' + result)
-//             }
-            
-//         })
-//     })
-//     connection.end()    
-// });
-
-
+    connection.end()
+}();
 
 
 

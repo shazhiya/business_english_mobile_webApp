@@ -6,7 +6,7 @@
       finished-text="没有更多了"
       :error.sync="error"
       error-text="请求失败，点击重新加载"
-      @load="onLoad"
+      @load="loadCourses"
     >
       <van-row v-for="(row,index) in renderList" :key="index">
         <van-col span="12" v-for="course in row" :key="course.id">
@@ -34,35 +34,32 @@ export default {
     };
   },
   methods: {
-    onLoad() {
+    loadCourses(reverse) {
       console.log(this.courses.length);
-      setTimeout(() => {
-        if (this.refreshing) {
-          this.list = [];
-          this.refreshing = false;
-        }
-
-        for (let i = 0; i < 10; i++) {
-          this.courses.push({
-            id: this.courses.length + 1,
-          });
-        }
-        this.loading = false;
-
-        if (this.courses.length >= 40) {
-          this.finished = true;
-        }
-      }, 1000);
+      let additional = this.generate(10)
+      this.refreshing = false
+      if (additional.length<10){
+        this.finished = true
+      }
+      this.loading = false
+      if (reverse) {
+        this.courses.unshift(...additional)
+      }else {
+        this.courses.push(...additional)
+      }
     },
     onRefresh() {
-      // 清空列表数据
-      this.finished = false;
-
-      // 重新加载数据
-      // 将 loading 设置为 true，表示处于加载状态
-      this.loading = true;
-      this.onLoad();
+      this.loadCourses(true)
     },
+    generate(size){
+      let re = []
+      for(let i = 0; i<size;i++){
+        re.push({
+          id: i
+        })
+      }
+      return re
+    }
   },
   computed:{
     renderList(){

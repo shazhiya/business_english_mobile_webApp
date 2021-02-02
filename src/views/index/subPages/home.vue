@@ -21,7 +21,7 @@ export default {
           title: "推荐",
         },
       ],
-      courseList: this.generate(50)
+      courseList: []
     };
   },
   methods: {
