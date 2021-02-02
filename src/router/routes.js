@@ -52,7 +52,7 @@ const routes = [
                 name:'index',
                 path:'',
                 components: {
-                    main: ()=> import('component/home/home')
+                    main: ()=> import('view/index/subPages/home')
                 }
             },
             {

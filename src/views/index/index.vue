@@ -63,14 +63,13 @@ export default {
 
 <style scoped>
 .container{
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  overflow: hidden;
+  overflow: visible;
 }
 .main{
-  flex: 1;
-  background: red;
+  max-height: calc(100vh - 107px);
 }
 </style>
