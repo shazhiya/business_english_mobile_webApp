@@ -6,8 +6,10 @@ export default {
     },
     mutations: {
         pullSearchResult(state, payload) {
+            if (!payload) return state.search = {};
             if (!state.search[payload.type]) {
                 state.search[payload.type] = payload.data
+                return
             }
             if (payload.isUnshift) {
                 state.search[payload.type].unshift(...payload.data)

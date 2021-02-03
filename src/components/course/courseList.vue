@@ -36,15 +36,13 @@ export default {
   },
   methods: {
     loadCourses(reverse) {
-      this.finished = true
-      console.log(123);
+      console.log('loaded courses')
       this.$store.dispatch("course_base/search",{
         index:1,
         size:10,
         condition:{},
         isUnshift: reverse
       }).then(res=>{
-        this.finished = false
         if(res<10) this.finished = true;
         this.loading = false
         this.refreshing = false;
@@ -54,6 +52,9 @@ export default {
     onRefresh() {
       this.loadCourses(true);
     }
+  },
+  created(){
+    this.$store.commit('course_base/pullSearchResult')
   }
 };
 </script>
