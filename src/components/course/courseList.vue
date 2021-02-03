@@ -7,12 +7,13 @@
       :error.sync="error"
       error-text="请求失败，点击重新加载"
       @load="loadCourses"
+      offset="300"
     >
-      <van-row v-for="(row,index) in renderList" :key="index">
+      <van-row v-for="(row, index) in list" :key="index">
         <van-col span="12" v-for="course in row" :key="course.id">
-          <course-card>
-            {{course}}  
-          </course-card> 
+          <course-card :course="course" >
+    
+          </course-card>
         </van-col>
       </van-row>
     </van-list>
@@ -35,40 +36,23 @@ export default {
   },
   methods: {
     loadCourses(reverse) {
-      console.log(this.courses.length);
-      let additional = this.generate(10)
-      this.refreshing = false
-      if (additional.length<10){
-        this.finished = true
-      }
-      this.loading = false
-      if (reverse) {
-        this.courses.unshift(...additional)
-      }else {
-        this.courses.push(...additional)
-      }
+      this.finished = true
+      console.log(123);
+      this.$store.dispatch("course_base/search",{
+        index:1,
+        size:10,
+        condition:{},
+        isUnshift: reverse
+      }).then(res=>{
+        this.finished = false
+        if(res<10) this.finished = true;
+        this.loading = false
+        this.refreshing = false;
+        this.list = this.$store.getters['course_base/renderList']("undefined")
+      })
     },
     onRefresh() {
-      this.loadCourses(true)
-    },
-    generate(size){
-      let re = []
-      for(let i = 0; i<size;i++){
-        re.push({
-          id: i
-        })
-      }
-      return re
-    }
-  },
-  computed:{
-    renderList(){
-      let rows = []
-      this.courses.forEach((course,index)=>{
-        if(index%2 == 1) return
-        rows.push([this.courses[index],this.courses[index+1]])
-      })
-      return rows
+      this.loadCourses(true);
     }
   }
 };
@@ -77,8 +61,11 @@ export default {
 <style>
 .van-pull-refresh {
   height: calc(100vh - 151px);
-    overflow: scroll;
-    -webkit-user-select: none;
-    user-select: none;
+  overflow: scroll;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.van-list {
+  height: calc(100vh - 151px);
 }
 </style>

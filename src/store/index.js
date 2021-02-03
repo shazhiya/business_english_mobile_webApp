@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './user'
+import course_base from "./course/course.base";
 import security from './security'
 import post from './util'
 import createPersistedState from "vuex-persistedstate"
@@ -13,7 +14,7 @@ export default new Vuex.Store({
     signUp: false
   },
   modules: {
-    user,security
+    user,security,course_base
   },
   mutations:{
     changeSignUp(state,flag){
