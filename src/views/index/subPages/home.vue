@@ -1,5 +1,5 @@
 <template>
-    <div v-hammer:swipe="swipeup">
+    <div id="opeScope">
         <van-tabs animated swipeable :before-change="beforeChange" style="height:100%" >
             <van-tab v-for="tag in tags" :title="tag.title" :key="tag.title">
                 <course-list :type="tag.title"/>
@@ -10,7 +10,6 @@
 
 <script>
 import courseList from "component/course/courseList";
-
 export default {
     components: {courseList},
     data() {
@@ -52,18 +51,30 @@ export default {
             // todo
             console.log(name);
             return true;
-        },
-        swipe(obj){
-            if (obj.additionalEvent=="panup"){
-                this.$store.commit("optional/setHomeTopBarHeight",'0px')
-            }
-            if (obj.additionalEvent == "pandown"){
-                this.$store.commit("optional/setHomeTopBarHeight",'57px')
-            }
         }
     },
     created() {
         this.$store.commit('course_base/pushSearchResult')
+    },
+    mounted() {
+        let opeScope = document.querySelector("#opeScope")
+        let startY = 0
+        opeScope.addEventListener('touchstart',(event)=>{
+            startY = event.changedTouches[0].pageY
+        })
+
+        opeScope.addEventListener('touchend',(event)=>{
+            let endY = event.changedTouches[0].pageY
+            let move = endY - startY
+
+            if (Math.abs(move)<100) return
+            if (move<0){ // forward down
+                this.$store.commit('optional/setHomeTopBarHeight','-57px')
+            }else{ // forward up
+                this.$store.commit('optional/setHomeTopBarHeight','0px')
+            }
+
+        })
     }
 };
 </script>

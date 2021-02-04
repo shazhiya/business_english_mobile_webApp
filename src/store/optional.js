@@ -1,7 +1,8 @@
 export default {
     namespaced: true,
     state: {
-        homeTopBarHeight: 0
+        // this is really margin-top...
+        homeTopBarHeight: '-57px'
     },
     mutations: {
         setHomeTopBarHeight(state,height){

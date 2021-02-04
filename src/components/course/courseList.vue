@@ -66,13 +66,11 @@ export default {
 
 <style>
 .van-pull-refresh {
-    height: calc(100vh - 151px);
+    height: calc(100vh - 94px);
     overflow: scroll;
     -webkit-user-select: none;
     user-select: none;
 }
 
-.van-list {
-    height: calc(100vh - 151px);
-}
+
 </style>

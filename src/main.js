@@ -10,7 +10,6 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 import 'vant/lib/icon/local.css';
 
-import { VueHammer } from 'vue2-hammer'
 
 import baseCard from "component/card/baseCard";
 import flexContainer from "component/card/flexContainer";
@@ -25,10 +24,6 @@ Vue.component("flexContainer", flexContainer)
 
 Vue.use(Vant)
 
-Vue.use(VueHammer)
-VueHammer.config.swipe = {
-    threshold: 200
-};
 new Vue({
     router: Router,
     store,

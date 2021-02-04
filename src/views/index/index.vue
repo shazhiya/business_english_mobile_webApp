@@ -41,7 +41,7 @@ export default {
 }
 
 .main {
-    max-height: calc(100vh - 107px);
+    max-height: calc(100vh - 50px);
     overflow: scroll;
 }
 </style>
