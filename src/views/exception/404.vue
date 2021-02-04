@@ -1,18 +1,16 @@
 <template>
-  <div>
-      <p>{{$route.params.path}}</p>
-      <p>404 not found!</p>
-  </div>
+    <div>
+        <p>{{ $route.params.path }}</p>
+        <p>404 not found!</p>
+    </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style scoped>
-div{
+div {
     color: red;
     font-size: 44px;
 }

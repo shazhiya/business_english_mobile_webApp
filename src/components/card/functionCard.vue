@@ -1,21 +1,19 @@
 <template>
-  <div style="width:100%; display:inline-block;">
-      <el-card class="card">
-          <div slot="header">
-              
-          </div>
-      </el-card>
-  </div>
+    <div style="width:100%; display:inline-block;">
+        <el-card class="card">
+            <div slot="header">
+
+            </div>
+        </el-card>
+    </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style scoped>
-.card{
+.card {
     width: 100%;
     display: inline-block;
     height: 150px;
@@ -25,7 +23,7 @@ export default {
     position: relative;
 }
 
-.card::after{
+.card::after {
     content: "";
     position: absolute;
     left: 60%;

@@ -1,26 +1,27 @@
 <template>
-  <div class="flex">
-      <card v-for="course in courseList" :key="course.curriculumId" :course="course" :show='show'>
-        
-      </card>
-  </div>
+    <div class="flex">
+        <card v-for="course in courseList" :key="course.curriculumId" :course="course" :show='show'>
+
+        </card>
+    </div>
 </template>
 
 <script>
 import card from './courseCard'
+
 export default {
-    props:['show'],
-    components:{
+    props: ['show'],
+    components: {
         card
     },
     // props:['courseList'],
-    created(){
-        this.back.post('curriculum/all',{})
-            .then(res=>{
+    created() {
+        this.back.post('curriculum/all', {})
+            .then(res => {
                 this.courseList = res.data
             })
     },
-    data(){
+    data() {
         return {
             courseList: []
         }
@@ -29,7 +30,7 @@ export default {
 </script>
 
 <style scoped>
-.flex{
+.flex {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

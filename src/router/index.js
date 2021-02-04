@@ -6,8 +6,8 @@ import {beforeEach} from './guards'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-  routes,
-  mode: 'hash'
+    routes,
+    mode: 'hash'
 })
 
 

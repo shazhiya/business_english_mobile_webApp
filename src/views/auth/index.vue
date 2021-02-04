@@ -1,10 +1,10 @@
 <template>
-  <router-view name="auth"/>
+    <router-view name="auth"/>
 </template>
 
 <script>
 export default {
-  name: "index"
+    name: "index"
 }
 </script>
 

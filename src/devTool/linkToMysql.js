@@ -2,7 +2,7 @@ let mysql = require('mysql')
 let path = require("path");
 let fs = require("fs");
 
-function getFiles(dirPath){
+function getFiles(dirPath) {
     return fs.readdirSync(dirPath)
 }
 
@@ -14,15 +14,15 @@ let connection = mysql.createConnection({
     database: 'business_english',
 })
 
-!function addCurriculum(){
+!function addCurriculum() {
     let dir = 'E:\\files\\courseCover'
     let insert = 'insert into curriculum(curriculum_cover,curriculum_description,curriculum_name) value(?,?,?)'
     connection.connect()
-    getFiles(dir).forEach((fileName,index)=>{
-        connection.query(insert,["courseCover\\"+fileName,"this is a curriculum for business English online!","course_"+index],(err,res)=>{
-            if (err){
+    getFiles(dir).forEach((fileName, index) => {
+        connection.query(insert, ["courseCover\\" + fileName, "this is a curriculum for business English online!", "course_" + index], (err, res) => {
+            if (err) {
                 console.log(err)
-            }else{
+            } else {
                 console.log(res)
             }
         })

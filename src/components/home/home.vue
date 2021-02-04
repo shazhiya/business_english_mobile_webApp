@@ -1,20 +1,21 @@
 <template>
-  <div>
-      <func></func>
-  </div>
+    <div>
+        <func></func>
+    </div>
 </template>
 
 <script>
 import func from '../courseManager/allCourse'
+
 export default {
-    components:{
+    components: {
         func
     }
 }
 </script>
 
 <style scoped>
-div{
+div {
     margin-top: 30px;
 }
 </style>

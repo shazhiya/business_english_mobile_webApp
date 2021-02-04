@@ -2,34 +2,34 @@ const routes = [
     {
         path: '/auth',
         components: {
-            root: ()=> import("view/auth/index")
+            root: () => import("view/auth/index")
         },
         children: [
             {
                 name: "login",
                 path: "login",
-                components:{
-                    auth: ()=> import("view/auth/login")
+                components: {
+                    auth: () => import("view/auth/login")
                 }
             },
             {
                 name: 'register',
                 path: 'register',
-                components:{
-                    auth:  ()=> import('view/auth/register')
+                components: {
+                    auth: () => import('view/auth/register')
                 }
             }
         ]
     },
     {
         path: '/exception',
-        component: ()=>import('view/exception/index'),
+        component: () => import('view/exception/index'),
         children: [
             {
                 name: "notFound",
                 path: "notFound",
                 components: {
-                    exception: ()=> import("view/exception/404")
+                    exception: () => import("view/exception/404")
                 }
             }
         ]
@@ -38,61 +38,68 @@ const routes = [
         name: "test",
         path: "/test",
         components: {
-            root: ()=> import("component/detail/iconText")
+            root: () => import("component/detail/iconText")
         }
 
     },
     {
         path: '/index',
-        components:{
-            root:  ()=> import('view/index/index')
+        components: {
+            root: () => import('view/index/index'),
+            main: () => import('view/index/subPages/home')
         },
-        children:[
+        children: [
             {
-                name:'index',
-                path:'',
+                name: 'index',
+                path: '',
+                redirect: 'home'
+            },
+            {
+                name: 'home',
+                path: 'home',
                 components: {
-                    main: ()=> import('view/index/subPages/home')
+                    topBar:()=> import('view/index/subPages/homeTopBar'),
+                    main: () => import('view/index/subPages/home')
                 }
             },
             {
-                name:'userManager',
+                name: 'userManager',
                 path: 'usermanager',
-                components:{
+                components: {
                     main: () => import('component/userManager/userManager'),
                 }
             },
             {
                 path: 'mine',
-                components:{
-                    main: () =>import('component/mine/index'),
+                components: {
+                    main: () => import('component/mine/index'),
                 },
-                children:[{
+                children: [{
                     name: 'mine',
                     path: '',
-                    components:{
-                        mine: ()=> import('component/mine/home')
+                    components: {
+                        mine: () => import('component/mine/home')
                     }
-                },{
-                    name:'edit',
-                    path:'edit',
-                    components:{
-                        mine: ()=>import('component/mine/edit')
+                }, {
+                    name: 'edit',
+                    path: 'edit',
+                    components: {
+                        mine: () => import('component/mine/edit')
                     }
                 }]
             },
             {
-                path:'courseManager',
-                name:'courseManager',
-                components:{
-                    main: ()=>import('component/courseManager')
+                path: 'courseManager',
+                name: 'courseManager',
+                components: {
+                    main: () => import('component/courseManager')
                 }
             },
             {
                 name: "study",
-                path:'study',
-                components:{
-                    main: ()=> import('component/study')
+                path: 'study',
+                components: {
+                    main: () => import('component/study')
                 }
             }
         ]

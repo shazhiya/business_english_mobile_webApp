@@ -1,49 +1,50 @@
 <template>
-  <div :class="['iconText',{active:checked}]" :style="{fontSize}">
-    <div :class="iconClass"></div>
-    <div>{{text}}</div>
-  </div>
+    <div :class="['iconText',{active:checked}]" :style="{fontSize}">
+        <div :class="iconClass"></div>
+        <div>{{ text }}</div>
+    </div>
 </template>
 
 <script>
 export default {
-  name: "iconText",
-  props: {
-    iconClass: {
-      type: String,
-      default: "el-icon-user"
+    name: "iconText",
+    props: {
+        iconClass: {
+            type: String,
+            default: "el-icon-user"
+        },
+        text: {
+            type: String,
+            default: "default"
+        },
+        fontSize: {
+            type: String,
+            default: "20px"
+        }
     },
-    text: {
-      type: String,
-      default: "default"
+    data() {
+        return {
+            checked: false
+        }
     },
-    fontSize: {
-      type: String,
-      default: "20px"
+    methods: {
+        active() {
+            this.checked = true
+        },
+        unActive() {
+            this.checked = false
+        }
     }
-  },
-  data(){
-    return {
-      checked:false
-    }
-  },
-  methods:{
-    active(){
-      this.checked = true
-    },
-    unActive(){
-      this.checked = false
-    }
-  }
 }
 </script>
 
 <style scoped>
-.iconText{
-  margin: auto;
-  text-align: center;
+.iconText {
+    margin: auto;
+    text-align: center;
 }
-.active{
-  color: red;
+
+.active {
+    color: red;
 }
 </style>

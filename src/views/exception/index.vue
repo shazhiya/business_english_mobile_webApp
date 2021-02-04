@@ -1,10 +1,10 @@
 <template>
-  <router-view name="exception"/>
+    <router-view name="exception"/>
 </template>
 
 <script>
 export default {
-  name: "index"
+    name: "index"
 }
 </script>
 
