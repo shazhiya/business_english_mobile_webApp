@@ -1,12 +1,14 @@
 <template>
     <card :width="'90%'" :iStyle="sty" style="margin: auto">
         <!-- image  -->
-        <van-image
-            width="100%"
-            height="100"
-            :src="src + course.curriculumCover"
-            fit="cover"
-        />
+        <div style="border-radius: 5px; overflow: hidden">
+            <van-image
+                width="100%"
+                height="100"
+                :src="src + course.curriculumCover"
+                fit="cover"
+            />
+        </div>
         <!-- title text -->
         <div class="van-multi-ellipsis--l2 height">
             {{ course.curriculumName }}
@@ -25,16 +27,14 @@
             </van-tag>
             <!-- operation menu -->
             <van-icon
-                name="setting"
-                @click="show = true"
-                style="float: right"
+                name="eye-o"
+                @click="$store.commit('updateActionSheet',{show:true})"
+                style="float: right;"
                 size="25"
+                color="gray"
             />
         </div>
-        <!-- action sheet -->
-        <van-action-sheet v-model="show" title="标题">
-            <div class="content">内容</div>
-        </van-action-sheet>
+
     </card>
 </template>
 
@@ -44,8 +44,7 @@ export default {
         return {
             sty: {
                 marginTop: "5px",
-            },
-            show: false,
+            }
         };
     },
     props: ["course"],

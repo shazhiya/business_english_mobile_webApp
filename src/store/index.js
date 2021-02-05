@@ -13,7 +13,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        signUp: false
+        signUp: false,
+        actionSheet:{
+            show: false
+        }
     },
     modules: {
         user, security, course_base, optional
@@ -21,6 +24,9 @@ export default new Vuex.Store({
     mutations: {
         changeSignUp(state, flag) {
             state.signUp = flag
+        },
+        updateActionSheet(state,payload){
+            state.actionSheet = payload
         }
     },
     actions: {

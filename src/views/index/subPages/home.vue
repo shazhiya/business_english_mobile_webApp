@@ -5,6 +5,10 @@
                 <course-list :type="tag.title"/>
             </van-tab>
         </van-tabs>
+        <!-- action sheet -->
+        <van-action-sheet v-model="actionSheetShow" title="标题">
+            <div class="content">内容</div>
+        </van-action-sheet>
     </div>
 </template>
 
@@ -53,6 +57,16 @@ export default {
             return true;
         }
     },
+    computed:{
+        actionSheetShow:{
+          get(){
+              return this.$store.state.actionSheet.show
+          },
+          set(newV){
+              this.$store.commit('updateActionSheet',{show:newV})
+          }
+        }
+    },
     created() {
         this.$store.commit('course_base/pushSearchResult')
     },
@@ -68,9 +82,9 @@ export default {
             let move = endY - startY
 
             if (Math.abs(move)<100) return
-            if (move<0){ // forward down
+            if (move<0){ // forward up
                 this.$store.commit('optional/setHomeTopBarHeight','-57px')
-            }else{ // forward up
+            }else{ // forward down
                 this.$store.commit('optional/setHomeTopBarHeight','0px')
             }
 

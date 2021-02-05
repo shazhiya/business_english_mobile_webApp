@@ -63,16 +63,9 @@ const routes = [
                 }
             },
             {
-                name: 'userManager',
-                path: 'usermanager',
-                components: {
-                    main: () => import('component/userManager/userManager'),
-                }
-            },
-            {
                 path: 'mine',
                 components: {
-                    main: () => import('component/mine/index'),
+                    main: () => import('view/index/subPages/mine'),
                 },
                 children: [{
                     name: 'mine',
@@ -87,6 +80,13 @@ const routes = [
                         mine: () => import('component/mine/edit')
                     }
                 }]
+            },
+            {
+                name: 'userManager',
+                path: 'usermanager',
+                components: {
+                    main: () => import('component/userManager/userManager'),
+                }
             },
             {
                 path: 'courseManager',

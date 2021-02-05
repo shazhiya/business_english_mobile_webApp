@@ -1,8 +1,6 @@
 <template>
-    <div :style="{width:width}">
-        <div :style="Object.assign({minHeight},iStyle)" class="baseCard">
-            <slot></slot>
-        </div>
+    <div :style="Object.assign({minHeight,width},iStyle)" class="baseCard">
+        <slot></slot>
     </div>
 </template>
 
@@ -31,7 +29,7 @@ export default {
 
 <style>
 .baseCard {
-    border: 1px solid #EBEEF5;
+    border: 1px solid #ebeef5;
     background-color: #FFF;
     width: calc(100% - 2px);
     color: #303133;
