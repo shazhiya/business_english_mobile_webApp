@@ -1,5 +1,5 @@
 <template>
-    <card :width="'90%'" :iStyle="sty" style="margin: auto">
+    <card :width="'90%'" :iStyle="sty" style="margin: 10px auto 0">
         <!-- image  -->
         <div style="border-radius: 5px; overflow: hidden">
             <van-image

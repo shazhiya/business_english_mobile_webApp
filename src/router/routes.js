@@ -23,10 +23,12 @@ const routes = [
     },
     {
         path: '/exception',
-        component: () => import('view/exception/index'),
+        components: {
+            root: () => import('view/exception/index')
+        },
         children: [
             {
-                name: "notFound",
+                name: "404",
                 path: "notFound",
                 components: {
                     exception: () => import("view/exception/404")
@@ -58,7 +60,7 @@ const routes = [
                 name: 'home',
                 path: 'home',
                 components: {
-                    topBar:()=> import('view/index/subPages/homeTopBar'),
+                    topBar: () => import('view/index/subPages/homeTopBar'),
                     main: () => import('view/index/subPages/home')
                 }
             },
@@ -80,6 +82,13 @@ const routes = [
                         mine: () => import('component/mine/edit')
                     }
                 }]
+            },
+            {
+                name: 'message',
+                path: 'message',
+                components: {
+                    main: () => import('view/index/subPages/message')
+                }
             },
             {
                 name: 'userManager',

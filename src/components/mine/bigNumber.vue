@@ -1,7 +1,7 @@
 <template>
     <div class="center">
-        <p></p>
-        <p></p>
+        <p :style="{fontSize: number.size}">{{number.value}}</p>
+        <p :style="{fontSize: name.size}">{{name.value}}</p>
     </div>
 </template>
 
@@ -10,8 +10,20 @@ export default {
     name: "bigNumber",
     props:{
         number: {
-            num: 0,
-            size: ''
+            default(){
+                return {
+                    value: 0,
+                    size: '24px'
+                }
+            }
+        },
+        name: {
+            default() {
+                return {
+                    value: 'default',
+                    size: '18px'
+                }
+            }
         }
     }
 }
@@ -20,5 +32,8 @@ export default {
 <style scoped>
 .center{
     text-align: center;
+}
+div p{
+    margin: 0;
 }
 </style>
