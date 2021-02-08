@@ -18,18 +18,17 @@
                             <p class="van-ellipsis">kissshot acerolaorion heartunderblade</p>
                         </van-col>
                         <van-col>
-                            <van-badge :content="200" max="99" />
+                            <van-badge :content="200" max="99"/>
                         </van-col>
                     </van-row>
-
                     <span slot="right">
-                <van-button type="danger" style="height: 100%; margin-right: 5px" :loading="false">
-                    关闭
-                </van-button >
-                <van-button type="warning" style="height: 100%" :loading="false">
-                    已读
-                </van-button>
-            </span>
+                        <van-button type="danger" style="height: 100%; margin-right: 5px" :loading="false">
+                            关闭
+                        </van-button>
+                        <van-button type="warning" style="height: 100%" :loading="false">
+                            已读
+                        </van-button>
+                    </span>
                 </van-swipe-cell>
             </van-cell-group>
         </transition>
@@ -40,7 +39,7 @@
 export default {
     name: "session",
     props: ["delay"],
-    data(){
+    data() {
         return {
             v: false
         }
@@ -49,24 +48,27 @@ export default {
         close({position, instance}) {
             instance.close()
             if (position === 'right') {
-                this.$emit('remove',this)
+                this.$emit('remove', this)
             }
         },
-        click(){
+        click() {
             this.$emit('click')
         }
     },
     mounted() {
-        setTimeout(()=>{this.v = true},this.delay)
+        setTimeout(() => {
+            this.v = true
+        }, this.delay)
     }
 }
 </script>
 
 <style scoped>
-p{
+p {
     margin: 8px 0;
 }
-.bold{
+
+.bold {
     font-weight: bolder;
     font-style: italic;
 }

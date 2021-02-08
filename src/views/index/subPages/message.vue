@@ -1,13 +1,13 @@
 <template>
     <div>
-        <van-nav-bar title="list" fixed placeholder>
+        <van-nav-bar title="消息列表" fixed placeholder>
             <div slot="right">
                 <van-icon name="search" size="18"/>
             </div>
         </van-nav-bar>
 
         <van-cell-group>
-            <van-cell title="我的班级" :to="{name:'dis',params:{title: 'test'}}" is-link></van-cell>
+            <van-cell title="我的班级" :to="{name:'contacts',params:{title: 'myClasses'}}" is-link></van-cell>
             <van-cell title="我的班级" is-link></van-cell>
             <van-cell title="我的班级" is-link></van-cell>
         </van-cell-group>

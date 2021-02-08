@@ -1,6 +1,6 @@
 <template>
     <div>
-        <van-nav-bar title="ichijo hotaru" @click-left="$router.go(-1)" placeholder fixed left-text="返回" left-arrow>
+        <van-nav-bar title="ichijo hotaru" @click-left="$router.go(-1)" @click-right="$router.push({name:'userSpace'})" placeholder fixed left-text="返回" left-arrow>
             <template #right>
                 <van-icon name="friends-o" size="24" />
             </template>
@@ -56,7 +56,6 @@ export default {
         },
         sendMess(){
             // todo
-            this.histories.push(555)
             setTimeout(()=>{
                 let dom = this.$refs['main'].$el
                 dom.scrollTop = dom.scrollHeight
@@ -66,7 +65,6 @@ export default {
     mounted(){
         setTimeout(()=>{
             let dom = this.$refs['main'].$el
-            console.log(dom)
             dom.scrollTop = dom.scrollHeight
         },0)
     }

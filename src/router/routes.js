@@ -121,10 +121,17 @@ const routes = [
         }
     },
     {
-        path: '/mess/:title',
-        name: 'dis',
+        path: '/contacts/:type',
+        name: 'contacts',
         components: {
-            root: () => import('component/message/NavbarAddList')
+            root: () => import('component/message/contacts')
+        }
+    },
+    {
+        name: 'userSpace',
+        path: 'userSpace/:userName',
+        components: {
+            root: ()=> import('component/user/userSpace')
         }
     }
 ]
