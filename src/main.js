@@ -6,6 +6,7 @@ import store from './store'
 import elementUi from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 
+
 import Vant from 'vant';
 import 'vant/lib/index.css';
 import 'vant/lib/icon/local.css';

@@ -112,6 +112,20 @@ const routes = [
                 }
             }
         ]
+    },
+    {
+        path: '/chatPanel',
+        name: 'chatPanel',
+        components: {
+            root: () => import('component/message/chatPanel')
+        }
+    },
+    {
+        path: '/mess/:title',
+        name: 'dis',
+        components: {
+            root: () => import('component/message/NavbarAddList')
+        }
     }
 ]
 
