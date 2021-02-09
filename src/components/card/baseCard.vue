@@ -1,5 +1,5 @@
 <template>
-    <div :style="Object.assign({minHeight,width},iStyle)" class="baseCard">
+    <div @click="click" :style="Object.assign({minHeight,width},iStyle)" class="baseCard">
         <slot></slot>
     </div>
 </template>
@@ -22,6 +22,11 @@ export default {
                 return {}
             },
             type: Object
+        }
+    },
+    methods:{
+        click(){
+            this.$emit('click')
         }
     }
 }

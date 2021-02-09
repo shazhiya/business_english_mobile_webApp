@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="12">
                 <p>EDIT</p>
-                <p style="font-size: 10; color: gray">编辑资料</p>
+                <p style="font-size: 10px; color: gray">编辑资料</p>
             </el-col>
             <el-col :span="12">
                 <el-button style="float: right" type="primary" @click="save"

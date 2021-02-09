@@ -3,6 +3,7 @@
         <card
             width="95%"
             class="topCard"
+            @click="$router.push({name:'userSpace',params:{userName:'ichijo hotaru'}})"
         >
             <van-row>
                 <van-col span="6" class="avatar">
@@ -30,6 +31,12 @@
         </card>
 
         <card width="95%" style="margin-top: 10px">
+            <van-cell-group title="通用">
+                <van-cell title="编辑个人信息" :to="{name:'editProfile'}" :is-link="true"/>
+            </van-cell-group>
+        </card>
+
+        <card width="95%" style="margin-top: 10px">
             <van-cell-group title="i am a title">
                 <van-cell v-for="i in 5" :key="i" title="单元格" value="内容" :is-link="true"/>
             </van-cell-group>
@@ -43,7 +50,7 @@
 
 
 <!--        <van-button style="margin: 10px auto auto;width:95%" round type="primary" block>主要按钮</van-button>-->
-        <van-button style="margin: 10px auto auto;width:95%" round type="danger" block>登出</van-button>
+        <van-button style="margin: 10px auto 10px;width:95%" round type="danger" block>登出</van-button>
 
 
     </div>

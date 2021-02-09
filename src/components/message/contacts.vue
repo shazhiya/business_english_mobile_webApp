@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import navbarAddList from "component/card/navbarAddList";
+import commonNav from "component/card/navbar";
 import contactorInfo from "component/message/contactorInfo";
 export default {
     name: "contacts",
     components:{
-        nal: navbarAddList,
+        nal: commonNav,
         contactorInfo
     },
     data(){

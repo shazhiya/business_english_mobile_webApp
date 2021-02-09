@@ -75,12 +75,6 @@ const routes = [
                     components: {
                         mine: () => import('component/mine/home')
                     }
-                }, {
-                    name: 'edit',
-                    path: 'edit',
-                    components: {
-                        mine: () => import('component/mine/edit')
-                    }
                 }]
             },
             {
@@ -88,27 +82,6 @@ const routes = [
                 path: 'message',
                 components: {
                     main: () => import('view/index/subPages/message')
-                }
-            },
-            {
-                name: 'userManager',
-                path: 'usermanager',
-                components: {
-                    main: () => import('component/userManager/userManager'),
-                }
-            },
-            {
-                path: 'courseManager',
-                name: 'courseManager',
-                components: {
-                    main: () => import('component/courseManager')
-                }
-            },
-            {
-                name: "study",
-                path: 'study',
-                components: {
-                    main: () => import('component/study')
                 }
             }
         ]
@@ -129,10 +102,46 @@ const routes = [
     },
     {
         name: 'userSpace',
-        path: 'userSpace/:userName',
+        path: '/userSpace/:userName',
         components: {
             root: ()=> import('component/user/userSpace')
         }
+    },
+    {
+        name: 'editProfile',
+        path: '/mine/editProfile',
+        components: {
+            root: ()=> import('component/user/editProfile')
+        }
+    },
+    {
+        path: '/admin',
+        components: {
+            root: () => import('component/courseManager/index')
+        },
+        children: [
+            {
+                name: 'userManager',
+                path: 'userManager',
+                components: {
+                    main: () => import('component/userManager/userManager'),
+                }
+            },
+            {
+                path: 'courseManager',
+                name: 'courseManager',
+                components: {
+                    main: () => import('component/courseManager')
+                }
+            },
+            {
+                name: "study",
+                path: 'study',
+                components: {
+                    main: () => import('component/study')
+                }
+            }
+        ]
     }
 ]
 

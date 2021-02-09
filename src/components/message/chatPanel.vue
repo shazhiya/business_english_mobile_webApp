@@ -1,6 +1,6 @@
 <template>
     <div>
-        <van-nav-bar title="ichijo hotaru" @click-left="$router.go(-1)" @click-right="$router.push({name:'userSpace'})" placeholder fixed left-text="返回" left-arrow>
+        <van-nav-bar title="ichijo hotaru" @click-left="$router.go(-1)" @click-right="$router.push({name:'userSpace',params:{userName:'ichijo hotaru'}})" placeholder fixed left-text="返回" left-arrow>
             <template #right>
                 <van-icon name="friends-o" size="24" />
             </template>
