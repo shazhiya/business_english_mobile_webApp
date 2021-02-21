@@ -40,7 +40,7 @@ const routes = [
         name: "test",
         path: "/test",
         components: {
-            root: () => import("component/detail/iconText")
+            root: () => import("component/player/video.player")
         }
 
     },
@@ -82,6 +82,13 @@ const routes = [
                 path: 'message',
                 components: {
                     main: () => import('view/index/subPages/message')
+                }
+            },
+            {
+                name: 'study',
+                path: 'study',
+                components: {
+                    main: () => import('view/index/subPages/study')
                 }
             }
         ]
@@ -129,16 +136,35 @@ const routes = [
             },
             {
                 path: 'courseManager',
-                name: 'courseManager',
+                name: 'courseManager-admin',
                 components: {
                     main: () => import('component/courseManager')
                 }
             },
             {
-                name: "study",
+                name: "study-pc",
                 path: 'study',
                 components: {
-                    main: () => import('component/study')
+                    main: () => import('component/study/index.pc')
+                }
+            }
+        ]
+    },
+    {
+        path: '/courseManager',
+        components: {
+            root: () =>import('view/courseManager')
+        },
+        children: [
+            {
+                name: 'courseManager',
+                path: 'index'
+            },{
+                name: 'publishCourse',
+                path: 'publishCourse',
+                components:{
+                    root: () =>import('view/courseManager'),
+                    main: () => import('view/courseManager/subpage/publishCourse')
                 }
             }
         ]

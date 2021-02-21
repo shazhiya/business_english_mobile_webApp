@@ -77,7 +77,7 @@ export default {
             startY = event.changedTouches[0].pageY
         })
 
-        opeScope.addEventListener('touchend',(event)=>{
+        opeScope.addEventListener('touchmove',(event)=>{
             let endY = event.changedTouches[0].pageY
             let move = endY - startY
 
@@ -87,7 +87,7 @@ export default {
             }else{ // forward down
                 this.$store.commit('optional/setHomeTopBarHeight','0px')
             }
-
+            startY = endY
         })
     }
 };

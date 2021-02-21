@@ -37,7 +37,8 @@
         </card>
 
         <card width="95%" style="margin-top: 10px">
-            <van-cell-group title="i am a title">
+            <van-cell-group title="教师">
+                <van-cell title="发布课程" is-link :to="{name:'publishCourse'}"/>
                 <van-cell v-for="i in 5" :key="i" title="单元格" value="内容" :is-link="true"/>
             </van-cell-group>
         </card>

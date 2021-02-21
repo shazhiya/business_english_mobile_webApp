@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import chapter from './chapter'
+import chapter from './chapter.pc'
 
 export default {
     components: {
