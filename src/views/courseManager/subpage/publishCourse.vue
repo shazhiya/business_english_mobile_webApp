@@ -34,8 +34,18 @@
                 </van-cell-group>
             </card>
             <van-divider content-position="right">chapters</van-divider>
-            <chapter v-for="(chapter ,index) in course.chapters" :key="index" :chapter="chapter" :del-chapter="removeChapter"/>
-            <van-button type="primary" class="button" @click="addChapter">添加章节</van-button>
+            <chapter ref="chapter" v-for="(chapter ,index) in course.chapters" :key="index" :chapter="chapter" :del-chapter="removeChapter" :add-current-size="addCurrentSize" />
+            <van-button color="purple" class="button" round @click="addChapter" size="mini">添加章节</van-button>
+            <van-button type="primary" class="button" @click="publishCourse">发布课程</van-button>
+            <van-dialog v-model="showUploadProgress" show-cancel-button>
+                <van-circle
+                    v-model="currentRate"
+                    :rate="rate"
+                    :color="gradientColor"
+                    :text="'已上传:'+rate+'%'"
+                    style="margin: auto; display: block"
+                />
+            </van-dialog>
         </template>
     </navbar>
 </template>
@@ -57,6 +67,14 @@ export default {
                     userName: 'creator'
                 },
                 chapters: []
+            },
+            showUploadProgress: false,
+            totalSize: 0,
+            currentSize: 0,
+            currentRate: 0,
+            gradientColor: {
+                '0%': '#3fecff',
+                '100%': '#6149f6',
             }
         }
     },
@@ -89,6 +107,23 @@ export default {
                     }
                 }
             }).catch(()=>{})
+        },
+        publishCourse(){
+            let chapters = this.$refs['chapter']
+            if (chapters){
+                chapters.forEach(chapter=>{
+                    let upload = chapter.$refs['upload'].$refs['upload-inner']
+                    let willUploadFiles = upload.fileList
+                    if (willUploadFiles) willUploadFiles.forEach(file=>{
+                        this.totalSize += file.size
+                    })
+                    chapter.uploadFiles()
+                })
+            }
+            this.showUploadProgress = true
+        },
+        addCurrentSize(addition){
+            this.currentSize += addition
         }
     },
     computed:{
@@ -101,6 +136,9 @@ export default {
                 user:this.course.user,
                 chapters: this.course.chapters
             }
+        },
+        rate(){
+            return Number(this.currentSize / this.totalSize * 100).toFixed(1)
         }
     }
 }

@@ -26,12 +26,8 @@
                 <van-button color="aqua" slot="trigger" style="width: 80%" round size="mini">
                     添加课件
                 </van-button>
-<!--                <van-button type="primary" style="width: 100%" :loading="false" @click="uploadFiles">-->
-<!--                    upload test-->
-<!--                </van-button>-->
             </el-upload>
         </van-cell-group>
-
     </card>
 </template>
 
@@ -41,7 +37,7 @@ import fileMd5Encode from "@/network/fileMd5Encode";
 import post from "@/store/util";
 export default {
     name: "chapter",
-    props:['chapter','delChapter'],
+    props:['chapter','delChapter','addCurrentSize'],
     data() {
         return {}
     },
@@ -61,9 +57,6 @@ export default {
         deleteChapter() {
             this.delChapter(this.chapter)
         },
-        addCourseware(courseware){
-            this.chapter.coursewares.push(courseware)
-        },
         beforeUploadHandler(file) {
             return fileMd5Encode(file).then(md5=>{
                 return post('file/validateMd5',{md5},res=>{
@@ -82,7 +75,10 @@ export default {
         removeHandler() {
         },
         requestHandler({file}) {
-            fileSliceUpload(file,{}).then(res=>{
+            fileSliceUpload(file,{},obj=>{
+                let size = obj.chunkSize
+                this.addCurrentSize(size)
+            }).then(res=>{
                 console.log(res)
             })
         },
