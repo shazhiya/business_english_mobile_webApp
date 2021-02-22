@@ -6,8 +6,12 @@
         <van-cell-group :title="codeAndName">
             <van-cell-group>
                 <van-row gutter="10">
-                    <van-col span="24"><van-field v-model="chapter.chapterCode" label="章节单元"/></van-col>
-                    <van-col span="24"><van-field v-model="chapter.chapterName" label="章节名"/></van-col>
+                    <van-col span="24">
+                        <van-field v-model="chapter.chapterCode" label="章节单元"/>
+                    </van-col>
+                    <van-col span="24">
+                        <van-field v-model="chapter.chapterName" label="章节名"/>
+                    </van-col>
                 </van-row>
                 <van-field v-model="chapter.chapterDescription" label="章节描述" type="textarea" rows="1" auto/>
             </van-cell-group>
@@ -33,11 +37,11 @@
 
 <script>
 import fileSliceUpload from "@/network/fileSliceUpload";
-import fileMd5Encode from "@/network/fileMd5Encode";
-import post from "@/store/util";
+// import fileMd5Encode from "@/network/fileMd5Encode";
+// import post from "@/store/util";
 export default {
     name: "chapter",
-    props:['chapter','delChapter','addCurrentSize'],
+    props: ['chapter', 'delChapter', 'addCurrentSize'],
     data() {
         return {}
     },
@@ -45,9 +49,9 @@ export default {
         codeAndName() {
             let name = this.chapter.chapterName
             let code = this.chapter.chapterCode
-            return (code?code:'??') + ' -- ' + (name ? name : '新建章节')
+            return (code ? code : '??') + ' -- ' + (name ? name : '新建章节')
         },
-        coursewares(){
+        coursewares() {
             return this.chapter.coursewares.map(ware => {
                 return {name: ware.coursewareName}
             })
@@ -57,33 +61,64 @@ export default {
         deleteChapter() {
             this.delChapter(this.chapter)
         },
+        // eslint-disable-next-line no-unused-vars
         beforeUploadHandler(file) {
-            return fileMd5Encode(file).then(md5=>{
-                return post('file/validateMd5',{md5},res=>{
-                    return res.data
-                })
-            }).then(exist=>{
-                return new Promise((resolve, reject) => {
-                    if (exist) resolve(exist)
-                    else {
-                        this.fileList.push({name: file.name})
-                        reject(exist)
-                    }
-                })
-            })
+            // return fileMd5Encode(file).then(md5=>{
+            //     file.md5 = md5
+            //     return post('file/validateMd5',{md5},res=>{
+            //         file.exist = res.data
+            //         return res.data
+            //     })
+            // })
         },
-        removeHandler() {
+        removeHandler(file) {
+            this.chapter.coursewares.forEach(courseware => {
+                if (courseware.coursewareName === file.name) this.$delete(this.chapter.coursewares, this.chapter.coursewares.indexOf(courseware))
+            })
         },
         requestHandler({file}) {
-            fileSliceUpload(file,{},obj=>{
+            // if (file.exist){
+            //     this.$toast({
+            //         message:'文件 ' + file.name + '上传完成',
+            //         position: 'top'
+            //     })
+            //     this.addCurrentSize(file.size)
+            //     this.chapter.coursewares.push({
+            //         coursewareName: file.name,
+            //         coursewarePath: path,
+            //         fragmentSize: 2*1024*1024,
+            //         totalSize: file.size,
+            //         fragmentNbr: Math.ceil(file.size/(2*1024*1024)),
+            //         filetype:this.getFileType(file),
+            //         md5: file.md5
+            //     })
+            // }
+            fileSliceUpload(file, {}, obj => {
                 let size = obj.chunkSize
                 this.addCurrentSize(size)
-            }).then(res=>{
-                console.log(res)
+            }).then(res => {
+                let path = res[0].data.replace('.part.0', '')
+                this.chapter.coursewares.push({
+                    coursewareName: file.name,
+                    coursewarePath: path,
+                    fragmentSize: 2 * 1024 * 1024,
+                    totalSize: file.size,
+                    fragmentNbr: Math.ceil(file.size / (2 * 1024 * 1024)),
+                    filetype: this.getFileType(file),
+                    md5: file.md5
+                })
+                this.$toast({
+                    message: '文件 ' + file.name + '上传完成',
+                    position: 'top'
+                })
             })
         },
-        uploadFiles(){
+        uploadFiles() {
             this.$refs.upload.submit()
+        },
+        getFileType(file) {
+            let name = file.name
+            return name.split('.').reverse()[0]
         }
     }
 }

@@ -10,6 +10,8 @@ export default function(file,options,fragmentCallback){
         promiseList.push(uploadFile(currentFile,'cover',options).then(res=>{
             fragmentCallback({chunkSize:currentFile.size})
             return res
+        }).catch(()=>{
+            currentSlice = totalSlice
         }))
     }
     return Promise.all(promiseList)

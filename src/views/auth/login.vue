@@ -7,14 +7,13 @@
                         :src="headIco"
                         :fit="'fill'"
                         style="border-radius: 50px"
-                    ></el-image>
+                    />
                 </div>
             </el-col>
         </el-row>
         <el-row type="flex" justify="center" style="margin-top: 25px">
             <el-col :xs="20" :md="10">
-                <el-input placeholder="username" v-model="username" clearable>
-                </el-input>
+                <el-input placeholder="username" v-model="username" @blur="findHeadIcon" clearable/>
             </el-col>
         </el-row>
         <el-row type="flex" justify="center" style="margin-top: 25px">
@@ -32,10 +31,10 @@
             <el-col :xs="20" :md="10">
                 <el-row>
                     <el-col :span="6" :push="2">
-                        <el-checkbox>remember me</el-checkbox>
+                        <el-checkbox v-model="rememberPass">记住密码</el-checkbox>
                     </el-col>
                     <el-col :offset="12" :span="6" :pull="2">
-                        <el-link :underline="false">forget?</el-link>
+                        <el-link :underline="false" style="font-size: 12px">忘记密码?</el-link>
                     </el-col>
                 </el-row>
             </el-col>
@@ -47,7 +46,7 @@
                         <el-button :round="true" @click="login">登录</el-button>
                     </el-col>
                     <el-col :span="8" :offset="1">
-                        <el-button :round="true" @click="register">注册</el-button>
+                        <el-button :round="true" @click="gotoRegister">注册</el-button>
                     </el-col>
                 </el-row>
             </el-col>
@@ -56,22 +55,35 @@
 </template>
 
 <script>
+import post from "@/store/util";
 export default {
     data() {
         return {
             username: this.$route.params.username != undefined ? this.$route.params.username : 'shazhi',
             password: this.$route.params.password != undefined ? this.$route.params.password : '123456',
-            headIco: require('asset/ico.jpg')
+            headIco: this.src + 'headIco/default.jpg',
+            rememberPass: window.localStorage.getItem("remember")
         }
+    },
+    mounted() {
+        // if (window.localStorage.getItem("remember")){
+        //     this.login()
+        // }
     },
     methods: {
         login() {
             this.$store
                 .dispatch('login', {username: this.username, password: this.password})
                 .then(result => {
-                    console.log(result);
                     if (result) {
                         this.$message({message: 'login successfully', type: 'success'})
+                        if (this.rememberPass) {
+                            window.localStorage.setItem('userAccount',{username: this.username, password: this.password})
+                            window.localStorage.setItem('remember',true)
+                        }else{
+                            window.localStorage.removeItem('remember')
+                            window.localStorage.removeItem('userAccount')
+                        }
                         Promise.all([this.$store.dispatch("user/security/querySecuritiesByUsername", {userName: this.$store.state.user.username}), this.$store.dispatch("user/getInfo", this.$store.state.user.username)])
                             .then(() => {
                                 this.$router.push({name: 'index'})
@@ -82,16 +94,21 @@ export default {
                     })
                 })
         },
-        register() {
-            this.$store
-                .dispatch('register', {username: this.username, password: this.password})
-                .then(code => {
-                    if (code == 1) {
-                        this.$message({message: 'register successfully', type: 'success'})
-                    } else {
-                        this.$message({message: 'register fail', type: 'error'})
-                    }
-                })
+        findHeadIcon(){
+            post("user/queryHeadIconByUsername",{
+                userName: this.username
+            },res=>{
+                console.log(res.data)
+                if (res.data.userHeadico) {
+                    this.headIco = this.src+res.data.userHeadico
+                }
+            }).catch((err)=>{
+                console.log(err)
+                this.headIco = this.src + 'headIco/default.jpg'
+            })
+        },
+        gotoRegister() {
+            this.$router.push({name:'register'})
         }
     }
 }

@@ -36,14 +36,14 @@
             <van-divider content-position="right">chapters</van-divider>
             <chapter ref="chapter" v-for="(chapter ,index) in course.chapters" :key="index" :chapter="chapter" :del-chapter="removeChapter" :add-current-size="addCurrentSize" />
             <van-button color="purple" class="button" round @click="addChapter" size="mini">添加章节</van-button>
-            <van-button type="primary" class="button" @click="publishCourse">发布课程</van-button>
-            <van-dialog v-model="showUploadProgress" show-cancel-button>
+            <van-button type="primary" class="button" @click="uploadFiles">发布课程</van-button>
+            <van-dialog v-model="showUploadProgress" show-cancel-button confirm-button-text="完成发布" :show-confirm-button="showConfirmButton" cancel-button-text="继续编辑" :before-close="publishCourse">
                 <van-circle
                     v-model="currentRate"
                     :rate="rate"
                     :color="gradientColor"
-                    :text="'已上传:'+rate+'%'"
-                    style="margin: auto; display: block"
+                    :text="totalSize!==1?'已上传:'+rate+'%':'当前无文件可上传'"
+                    style="margin: 10px auto; display: block"
                 />
             </van-dialog>
         </template>
@@ -69,6 +69,7 @@ export default {
                 chapters: []
             },
             showUploadProgress: false,
+            showConfirmButton: false,
             totalSize: 0,
             currentSize: 0,
             currentRate: 0,
@@ -108,22 +109,37 @@ export default {
                 }
             }).catch(()=>{})
         },
-        publishCourse(){
+        uploadFiles(){
             let chapters = this.$refs['chapter']
+            this.totalSize = 0
+            this.currentSize = 0
             if (chapters){
                 chapters.forEach(chapter=>{
                     let upload = chapter.$refs['upload'].$refs['upload-inner']
                     let willUploadFiles = upload.fileList
                     if (willUploadFiles) willUploadFiles.forEach(file=>{
-                        this.totalSize += file.size
+                        if (file.size)
+                            this.totalSize += file.size
                     })
                     chapter.uploadFiles()
                 })
+            }
+            if (this.totalSize==0&&this.currentSize==0){
+                this.currentSize = 1
+                this.totalSize = 1
+                this.showConfirmButton = true
             }
             this.showUploadProgress = true
         },
         addCurrentSize(addition){
             this.currentSize += addition
+        },
+        publishCourse(action,done){
+            if (action == 'confirm'){
+                setTimeout(done,3000)
+                return
+            }
+            done()
         }
     },
     computed:{
@@ -139,6 +155,11 @@ export default {
         },
         rate(){
             return Number(this.currentSize / this.totalSize * 100).toFixed(1)
+        }
+    },
+    watch:{
+        rate(newV){
+            this.showConfirmButton = (newV==100)
         }
     }
 }

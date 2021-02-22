@@ -14,6 +14,15 @@ let connection = mysql.createConnection({
     database: 'business_english',
 })
 
+let resultProcessor = (err, res) => {
+    if (err) {
+        console.log(err)
+    } else {
+        console.log(res)
+    }
+}
+
+/* // course
 !function addCurriculum() {
     let dir = 'E:\\files\\courseCover'
     let insert = 'insert into curriculum(curriculum_cover,curriculum_description,curriculum_name) value(?,?,?)'
@@ -29,7 +38,20 @@ let connection = mysql.createConnection({
     })
     connection.end()
 }();
+*/
 
+// user
+!function addUser(){
+    connection.connect()
+    let headIconPath = 'E:\\files\\headIco'
+    let insert = 'insert into user (user_name,password,user_headico) value (?,?,?)'
+    getFiles(headIconPath).forEach((fileName,index)=>{
+        connection.query(insert,[`shazhi_${index}`,'123456','headIco/'+fileName],resultProcessor)
+    })
+    connection.end()
+}();
+
+// assign role
 
 
 
