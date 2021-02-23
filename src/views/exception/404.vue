@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p>{{$route.params.path}}</p>
         <p>404 not found!</p>
     </div>
 </template>

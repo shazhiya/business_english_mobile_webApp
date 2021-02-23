@@ -34,10 +34,13 @@
                 </van-cell-group>
             </card>
             <van-divider content-position="right">chapters</van-divider>
-            <chapter ref="chapter" v-for="(chapter ,index) in course.chapters" :key="index" :chapter="chapter" :del-chapter="removeChapter" :add-current-size="addCurrentSize" />
+            <chapter ref="chapter" v-for="(chapter ,index) in course.chapters" :key="index" :chapter="chapter"
+                     :del-chapter="removeChapter" :add-current-size="addCurrentSize"/>
             <van-button color="purple" class="button" round @click="addChapter" size="mini">添加章节</van-button>
             <van-button type="primary" class="button" @click="uploadFiles">发布课程</van-button>
-            <van-dialog v-model="showUploadProgress" show-cancel-button confirm-button-text="完成发布" :show-confirm-button="showConfirmButton" cancel-button-text="继续编辑" :before-close="publishCourse">
+            <van-dialog v-model="showUploadProgress" show-cancel-button confirm-button-text="完成发布"
+                        :show-confirm-button="showConfirmButton" cancel-button-text="继续编辑"
+                        :before-close="publishCourse">
                 <van-circle
                     v-model="currentRate"
                     :rate="rate"
@@ -53,17 +56,19 @@
 <script>
 import navbar from "component/card/navbar";
 import chapter from "component/courseManager/chapter";
+import post from "@/store/util";
+
 export default {
     name: "publishCourse",
-    components: {navbar,chapter},
+    components: {navbar, chapter},
     data() {
         return {
-            course:{
-                curriculumId:null,
+            course: {
+                curriculumId: null,
                 curriculumCover: [],
                 curriculumDescription: '',
-                curriculumName: 'curriculumName',
-                user:{
+                curriculumName: '',
+                user: {
                     userName: 'creator'
                 },
                 chapters: []
@@ -82,84 +87,105 @@ export default {
     methods: {
         afterRead() {
         },
-        addChapter(){
+        addChapter() {
             this.course.chapters.push({
-                chapterName:'',
-                chapterCode:'',
-                chapterDescription:'',
-                curriculum:{},
-                coursewares:[]
+                chapterName: '',
+                chapterCode: '',
+                chapterDescription: '',
+                curriculum: {},
+                coursewares: []
             })
         },
-        removeChapter(chapter){
+        removeChapter(chapter) {
             let index = this.course.chapters.indexOf(chapter)
             // this.course.chapters.slice(index,1)
-            this.$delete(this.course.chapters,index)
+            this.$delete(this.course.chapters, index)
         },
         saveTemporarily() {
             this.$dialog.confirm({
-                message:'确认暂存未编辑完成课程？',
+                message: '确认暂存未编辑完成课程？',
                 theme: 'round-button',
-                beforeClose(action,done){
-                    if (action == 'confirm'){
-                        setTimeout(done,3000)
-                    }else {
-                        done()
+                beforeClose(action, done) {
+                    if (action === 'confirm') {
+                        this.createOrSaveCurriculum("saveTemporarily").then(res => {
+                            if (res.data) {
+                                this.$notify({message: '保存成功', type: 'success'})
+                                done()
+                            } else {
+                                this.$notify({message: '服务器异常', type: 'danger'})
+                            }
+                        })
+                        return
                     }
+                    done()
+
                 }
-            }).catch(()=>{})
+            }).catch(() => {
+            })
         },
-        uploadFiles(){
+        uploadFiles() {
             let chapters = this.$refs['chapter']
             this.totalSize = 0
             this.currentSize = 0
-            if (chapters){
-                chapters.forEach(chapter=>{
+            if (chapters) {
+                chapters.forEach(chapter => {
                     let upload = chapter.$refs['upload'].$refs['upload-inner']
                     let willUploadFiles = upload.fileList
-                    if (willUploadFiles) willUploadFiles.forEach(file=>{
+                    if (willUploadFiles) willUploadFiles.forEach(file => {
                         if (file.size)
                             this.totalSize += file.size
                     })
                     chapter.uploadFiles()
                 })
             }
-            if (this.totalSize==0&&this.currentSize==0){
+            if (this.totalSize == 0 && this.currentSize == 0) {
                 this.currentSize = 1
                 this.totalSize = 1
                 this.showConfirmButton = true
             }
             this.showUploadProgress = true
         },
-        addCurrentSize(addition){
+        addCurrentSize(addition) {
             this.currentSize += addition
         },
-        publishCourse(action,done){
-            if (action == 'confirm'){
-                setTimeout(done,3000)
+        publishCourse(action, done) {
+            if (action === 'confirm') {
+                this.createOrSaveCurriculum("audited")
+                    .then(res => {
+                        if (res.data) {
+                            this.$notify({message: '创建成功', type: 'success'})
+                            done()
+                        } else {
+                            this.$notify({message: '服务器异常', type: 'danger'})
+                        }
+                    })
                 return
             }
             done()
+        },
+        createOrSaveCurriculum(type) {
+            return post(`curriculum/create/${type}`, this.curriculum, res => {
+                return res
+            })
         }
     },
-    computed:{
-        curriculum(){
+    computed: {
+        curriculum() {
             return {
                 curriculumId: this.course.curriculumId,
                 curriculumCover: this.course.curriculumCover[0],
                 curriculumDescription: this.course.curriculumDescription,
                 curriculumName: this.course.curriculumName,
-                user:this.course.user,
                 chapters: this.course.chapters
             }
         },
-        rate(){
+        rate() {
             return Number(this.currentSize / this.totalSize * 100).toFixed(1)
         }
     },
-    watch:{
-        rate(newV){
-            this.showConfirmButton = (newV==100)
+    watch: {
+        rate(newV) {
+            this.showConfirmButton = (newV == 100)
         }
     }
 }

@@ -8,7 +8,7 @@ function post(url, data, successCallback, stringify) {
         .then(successCallback)
         .catch(err => {
             window.console.log(err)
-            return err
+            throw err
         })
 }
 

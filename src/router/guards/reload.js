@@ -1,5 +1,9 @@
 import router from '../index'
 
 export default function (to, from) {
-    if (to.name == from.name) router.go(0)
+    if (to.name === from.name) {
+        router.go(0)
+        return true
+    }
+    return false
 }

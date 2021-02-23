@@ -18,6 +18,13 @@ const routes = [
                 components: {
                     auth: () => import('view/auth/register')
                 }
+            },
+            {
+                name: 'resetPassword',
+                path: 'resetPassword',
+                components: {
+                    auth: () => import('view/auth/resetPassword')
+                }
             }
         ]
     },

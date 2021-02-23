@@ -34,7 +34,7 @@
                         <el-checkbox v-model="rememberPass">记住密码</el-checkbox>
                     </el-col>
                     <el-col :offset="12" :span="6" :pull="2">
-                        <el-link :underline="false" style="font-size: 12px">忘记密码?</el-link>
+                        <el-link :underline="false" @click="resetPassword" style="font-size: 12px">忘记密码?</el-link>
                     </el-col>
                 </el-row>
             </el-col>
@@ -59,16 +59,11 @@ import post from "@/store/util";
 export default {
     data() {
         return {
-            username: this.$route.params.username != undefined ? this.$route.params.username : 'shazhi',
-            password: this.$route.params.password != undefined ? this.$route.params.password : '123456',
+            username: this.$route.params.username !== undefined ? this.$route.params.username : 'shazhi',
+            password: this.$route.params.password !== undefined ? this.$route.params.password : '123456',
             headIco: this.src + 'headIco/default.jpg',
             rememberPass: window.localStorage.getItem("remember")
         }
-    },
-    mounted() {
-        // if (window.localStorage.getItem("remember")){
-        //     this.login()
-        // }
     },
     methods: {
         login() {
@@ -76,21 +71,18 @@ export default {
                 .dispatch('login', {username: this.username, password: this.password})
                 .then(result => {
                     if (result) {
-                        this.$message({message: 'login successfully', type: 'success'})
+                        this.$notify({message: '登录成功', type: 'success'})
                         if (this.rememberPass) {
-                            window.localStorage.setItem('userAccount',{username: this.username, password: this.password})
+                            window.localStorage.setItem('userAccount',JSON.stringify({username: this.username, password: this.password}))
                             window.localStorage.setItem('remember',true)
                         }else{
                             window.localStorage.removeItem('remember')
                             window.localStorage.removeItem('userAccount')
                         }
-                        Promise.all([this.$store.dispatch("user/security/querySecuritiesByUsername", {userName: this.$store.state.user.username}), this.$store.dispatch("user/getInfo", this.$store.state.user.username)])
-                            .then(() => {
-                                this.$router.push({name: 'index'})
-                            })
-                    } else this.$message({
-                        message: 'login faid',
-                        type: 'error'
+                        this.$router.push({name: 'index'})
+                    } else this.$notify({
+                        message: '账户或密码错误',
+                        type: 'danger'
                     })
                 })
         },
@@ -109,6 +101,9 @@ export default {
         },
         gotoRegister() {
             this.$router.push({name:'register'})
+        },
+        resetPassword(){
+            this.$router.push({name: 'resetPassword'})
         }
     }
 }
