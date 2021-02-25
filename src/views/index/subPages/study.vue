@@ -27,9 +27,14 @@
             <van-empty
                 description="空空如也"
                 image="https://img01.yzcdn.cn/vant/custom-empty-image.png"
+                v-if="false"
             >
                 <van-button round type="danger" class="bottom-button">去寻找课程</van-button>
             </van-empty>
+            <my-course-item></my-course-item>
+            <my-course-item></my-course-item>
+            <my-course-item></my-course-item>
+            <my-course-item></my-course-item>
         </van-cell-group>
 
         <van-cell-group title="待办事项">
@@ -41,11 +46,11 @@
 
 <script>
 import bigNumber from "component/mine/bigNumber";
-
+import myCourseItem from "component/course/myCourseItem";
 export default {
     name: "study",
     components: {
-        bigNumber
+        bigNumber,myCourseItem
     }
 }
 </script>
