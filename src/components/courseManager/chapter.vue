@@ -27,8 +27,8 @@
                 :auto-upload="false"
                 :http-request="requestHandler"
             >
-                <van-button color="aqua" slot="trigger" style="width: 80%" round size="mini">
-                    添加课件
+                <van-button color="#FFFFFF" slot="trigger" style="width: 80%" round size="mini">
+                  <van-icon name="add-o" color="black" size="14px" >  添加课件</van-icon>
                 </van-button>
             </el-upload>
         </van-cell-group>

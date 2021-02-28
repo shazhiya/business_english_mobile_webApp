@@ -23,6 +23,13 @@
             </van-row>
         </card>
 
+      <van-cell-group title="我的班级">
+        <clazz-item />
+        <clazz-item />
+        <clazz-item />
+        <clazz-item />
+      </van-cell-group>
+
         <van-cell-group title="我的课程">
             <van-empty
                 description="空空如也"
@@ -47,10 +54,11 @@
 <script>
 import bigNumber from "component/mine/bigNumber";
 import myCourseItem from "component/course/myCourseItem";
+import clazzItem from "component/clazz/clazzItem";
 export default {
     name: "study",
     components: {
-        bigNumber,myCourseItem
+        bigNumber,myCourseItem,clazzItem
     }
 }
 </script>

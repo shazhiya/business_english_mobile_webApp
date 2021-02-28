@@ -1,7 +1,7 @@
 <template>
     <div class="center">
-        <p :style="{fontSize: number.size}">{{number.value}}</p>
-        <p :style="{fontSize: name.size}">{{name.value}}</p>
+        <p :style="{fontSize: number.size,color:number.color}">{{number.value}}</p>
+        <p :style="{fontSize: name.size,color:name.color}">{{name.value}}</p>
     </div>
 </template>
 
@@ -13,7 +13,8 @@ export default {
             default(){
                 return {
                     value: 0,
-                    size: '24px'
+                    size: '24px',
+                    color: 'black'
                 }
             }
         },
@@ -21,7 +22,8 @@ export default {
             default() {
                 return {
                     value: 'default',
-                    size: '18px'
+                    size: '18px',
+                    color: 'black'
                 }
             }
         }

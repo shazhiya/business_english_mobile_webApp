@@ -1,6 +1,7 @@
 <template>
     <card
         style="width: 95%; margin:10px auto;"
+        @click="$router.push({name:'courseDetail'})"
     >
         <van-row gutter="30">
             <van-col span="6">

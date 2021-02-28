@@ -170,8 +170,36 @@ const routes = [
                 name: 'publishCourse',
                 path: 'publishCourse',
                 components:{
-                    root: () =>import('view/courseManager'),
                     main: () => import('view/courseManager/subpage/publishCourse')
+                }
+            },
+            {
+                name: 'courseDetail',
+                path: 'courseDetail',
+                components:{
+                    main: ()=> import('view/courseManager/subpage/courseDetail')
+                }
+            }
+        ]
+    },
+    {
+        path: '/communication',
+        components: {
+            root: ()=> import('view/communication')
+        },
+        children:[
+            {
+                name: 'allComment',
+                path: 'allComment',
+                components:{
+                    main:()=>import('component/communication/allComment')
+                }
+            },
+            {
+                name: 'commentDetail',
+                path: 'commentDetail',
+                components: {
+                    main:()=> import('component/communication/commentDetail')
                 }
             }
         ]
