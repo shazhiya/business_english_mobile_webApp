@@ -240,6 +240,20 @@ const routes = [
                 }
             }
         ]
+    },{
+        path: '/task',
+        components: {
+            root: ()=> import('view/task')
+        },
+        children:[
+            {
+                name: 'assignTask',
+                path: 'assignTask',
+                components:{
+                    main:()=>import('component/task/assignTask')
+                }
+            }
+        ]
     }
 ]
 

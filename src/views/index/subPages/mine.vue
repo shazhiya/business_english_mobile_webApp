@@ -20,6 +20,7 @@
             <van-cell-group title="教师">
                 <van-cell title="发布课程" is-link :to="{name:'publishCourse'}"/>
                 <van-cell title="创建班级" is-link :to="{name:'createClazz'}"/>
+                <van-cell title="布置课程" is-link :to="{name:'assignTask'}"/>
                 <van-cell v-for="i in 5" :key="i" title="单元格" value="内容" :is-link="true"/>
             </van-cell-group>
         </card>
