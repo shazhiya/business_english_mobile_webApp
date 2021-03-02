@@ -1,10 +1,10 @@
 <template>
-    <div></div>
+    <router-view name="main"></router-view>
 </template>
 
 <script>
 export default {
-    name: "index.vue"
+    name: "index"
 }
 </script>
 

@@ -20,7 +20,7 @@
                     阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸阿爸
                 </div>
             </van-col>
-            <van-col span="3" offset="1">
+            <van-col span="3" offset="1" v-if="showToolbar">
                 <div style="display: flex; height: 84px; flex-direction: column; justify-content: space-around" >
                     <div><van-icon name="orders-o" size="20"/></div>
                     <div><van-icon name="chart-trending-o" size="20" /></div>
@@ -33,7 +33,12 @@
 
 <script>
 export default {
-    name: "myCourseItem"
+    name: "myCourseItem",
+    props: {
+        showToolbar: {
+            default: true
+        }
+    }
 }
 </script>
 

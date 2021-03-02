@@ -203,6 +203,43 @@ const routes = [
                 }
             }
         ]
+    },
+    {
+        path: '/organization',
+        components: {
+            root: () => import("view/organization"),
+        },
+        children: [
+            {
+                name: 'clazzDetail',
+                path: 'clazzDetail',
+                components: {
+                    main: ()=>import("component/clazz/clazzDetail")
+                }
+            },
+            {
+                name: 'createClazz',
+                path: 'createClazz',
+                components: {
+                    main: () => import('component/clazz/createClazz')
+                }
+            }
+        ]
+    },
+    {
+        path: '/study',
+        components: {
+            root: ()=>import('view/study')
+        },
+        children: [
+            {
+                name: 'learning',
+                path: 'learning',
+                components:{
+                    main: ()=>import('component/study/learning')
+                }
+            }
+        ]
     }
 ]
 

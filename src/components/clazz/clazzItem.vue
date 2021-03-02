@@ -1,5 +1,5 @@
 <template>
-  <card style="width: 95%; margin:10px auto;">
+  <card style="width: 95%; margin:10px auto;" @click="$router.push({name: 'clazzDetail'})">
     <div class="container">
       <van-row>
         <van-col span="3" offset="1">
