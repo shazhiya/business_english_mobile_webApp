@@ -1,5 +1,5 @@
 <template>
-  <navbar title="布置作业">
+  <navbar title="布置作业" style="padding-bottom: 40px">
     <van-cell-group title="课程">
       <myCourseItem :show-toolbar="false"></myCourseItem>
     </van-cell-group>
@@ -31,6 +31,9 @@
         />
       </van-popup>
       <van-divider content-position="right">题目</van-divider>
+      <question></question>
+      <question></question>
+      <question></question>
       <van-button style="background: none; color: black" :loading="false" size="mini" class="addQuestion" round>
         添加题目
       </van-button>
@@ -39,16 +42,21 @@
       </van-button>
     </van-cell-group>
 
+    <van-button type="primary" :loading="false" class="button">
+      发布作业
+    </van-button>
+
   </navbar>
 </template>
 
 <script>
 import navbar from "component/card/navbar";
 import myCourseItem from "component/course/myCourseItem";
+import question from "component/task/question";
 export default {
   name: "assignTask",
   components:{
-    navbar,myCourseItem
+    navbar,myCourseItem,question
   },
   data() {
     return {
