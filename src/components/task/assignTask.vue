@@ -31,10 +31,8 @@
         />
       </van-popup>
       <van-divider content-position="right">题目</van-divider>
-      <question></question>
-      <question></question>
-      <question></question>
-      <van-button style="background: none; color: black" :loading="false" size="mini" class="addQuestion" round>
+      <question v-for="(question,index) in task.questions" :question="question" :key="index" :editable="true" @delete="deleteQuestion"></question>
+      <van-button style="background: none; color: black" :loading="false" size="mini" class="addQuestion" round @click="addQuestion">
         添加题目
       </van-button>
       <van-button style="background: none; color: black" :loading="false" size="mini" class="addQuestion" round>
@@ -65,6 +63,15 @@ export default {
       minDate: new Date(2020, 0, 1),
       maxDate: new Date(2025, 10, 1),
       currentDate: new Date(),
+      task:{
+        id: null,
+        endTime: '',
+        title: '',
+        chapterId: '',
+        questions: [],
+        clazzId:'',
+        courseId:''
+      }
     };
   },
   methods: {
@@ -72,6 +79,40 @@ export default {
       this.value = time.toString();
       this.showPicker = false;
     },
+    addQuestion(){
+      this.task.questions.push({
+        id: null,
+        answer:'',
+        serial: '',
+        description: '',
+        options: [
+          {
+            optionText: '',
+            optionAlpha: 'A'
+          },
+          {
+            optionText: '',
+            optionAlpha: 'B'
+          },
+          {
+            optionText: '',
+            optionAlpha: 'C'
+          },
+          {
+            optionText: '',
+            optionAlpha: 'D'
+          }
+        ]
+      })
+      this.sortQuestionSerial()
+    },
+    sortQuestionSerial(){
+      this.task.questions.forEach((question,index)=>question.serial = index+1)
+    },
+    deleteQuestion(question){
+      this.$delete(this.task.questions,this.task.questions.indexOf(question))
+      this.sortQuestionSerial()
+    }
   }
 }
 </script>
