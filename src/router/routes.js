@@ -223,6 +223,13 @@ const routes = [
                 components: {
                     main: () => import('component/clazz/createClazz')
                 }
+            },
+            {
+                name: 'applyOrganization',
+                path: 'applyOrganization',
+                components: {
+                    main: ()=>import('view/organization/applyOrganization')
+                }
             }
         ]
     },
@@ -237,6 +244,20 @@ const routes = [
                 path: 'learning',
                 components:{
                     main: ()=>import('component/study/learning')
+                }
+            },
+            {
+                name: 'notePads',
+                path: 'notePads',
+                components:{
+                    main: ()=>import('component/study/notePads')
+                }
+            },
+            {
+                name: 'noteItems',
+                path: 'noteItems',
+                components: {
+                    main :()=>import('component/study/noteItems')
                 }
             }
         ]

@@ -13,6 +13,8 @@
         <card width="95%" style="margin-top: 10px">
             <van-cell-group title="通用">
                 <van-cell title="编辑个人信息" :to="{name:'editProfile'}" :is-link="true"/>
+                <van-cell title="我的笔记" :to="{name:'notePads'}" :is-link="true"/>
+                <van-cell title="申请创办组织" :to="{name:'applyOrganization'}" :is-link="true"/>
             </van-cell-group>
         </card>
 
