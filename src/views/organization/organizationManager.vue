@@ -2,17 +2,17 @@
     <navbar title="组织管理">
             <van-cell-group title="待审批">
                 <cc>
-                    <van-cell v-for="or in organizations.audit" :key="or.organizationId" :title="or.organizationName" is-link :to="{name:'organizationDetail',params:{type:'audit',id:or.organizationId}}"></van-cell>
+                    <van-cell v-for="or in organizations.audit" :key="or.organizationId" :title="or.organizationName" is-link :to="{name:'organizationDetail',query:{type:'audit',id:or.organizationId}}"></van-cell>
                 </cc>
             </van-cell-group>
             <van-cell-group title="运作中组织">
                 <cc>
-                    <van-cell v-for="or in organizations.common" :key="or.organizationId" :title="or.organizationName" is-link :to="{name:'organizationDetail',params:{type:'freeze',id:or.organizationId}}"></van-cell>
+                    <van-cell v-for="or in organizations.common" :key="or.organizationId" :title="or.organizationName" is-link :to="{name:'organizationDetail',query:{type:'freeze',id:or.organizationId}}"></van-cell>
                 </cc>
             </van-cell-group>
             <van-cell-group title="被冻结组织">
                 <cc>
-                    <van-cell v-for="or in organizations.freeze" :key="or.organizationId" :title="or.organizationName" is-link :to="{name:'organizationDetail',params:{type:'',id:or.organizationId}}"></van-cell>
+                    <van-cell v-for="or in organizations.freeze" :key="or.organizationId" :title="or.organizationName" is-link :to="{name:'organizationDetail',query:{type:'',id:or.organizationId}}"></van-cell>
                 </cc>
             </van-cell-group>
     </navbar>

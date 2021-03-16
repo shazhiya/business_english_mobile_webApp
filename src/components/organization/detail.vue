@@ -28,10 +28,10 @@
             </van-cell-group>
 
             <div v-if="type==='audit'">
-                <van-button type="primary" style="width: 95%; margin: auto; display: block;">
+                <van-button type="primary" @click="auditOrganization('有效')" style="width: 95%; margin: auto; display: block;">
                     审核通过
                 </van-button>
-                <van-button type="danger" style="width: 95%; margin:10px auto; display: block;">
+                <van-button type="danger" @click="auditOrganization('无效')" style="width: 95%; margin:10px auto; display: block;">
                     审核不通过
                 </van-button>
             </div>
@@ -55,9 +55,17 @@ export default {
     components:{userSmallCard},
     data(){
         return {
-            type: this.$route.params.type|| 'display',
-            organizationId: this.$route.params.id,
+            type: this.$route.params.type||this.$route.query.type|| 'display',
+            organizationId: this.$route.query.id,
             organization: undefined
+        }
+    },
+    methods:{
+        auditOrganization(status){
+            post('organization/audit',{organizationId: this.organization.organizationId,status},res=>{
+                this.$notify({type:'success',message:res.data.msg})
+                this.$router.go(-1)
+            })
         }
     },
     created() {
