@@ -230,6 +230,20 @@ const routes = [
                 components: {
                     main: ()=>import('view/organization/applyOrganization')
                 }
+            },
+            {
+                name: 'organizationManager',
+                path: 'organizationManager',
+                components: {
+                    main: () => import('view/organization/organizationManager')
+                }
+            },
+            {
+                name: 'organizationDetail',
+                path: 'organizationDetail',
+                components: {
+                    main: () => import('component/organization/detail')
+                }
             }
         ]
     },

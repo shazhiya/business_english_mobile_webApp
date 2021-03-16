@@ -1,7 +1,7 @@
 export default {
     namespaced: true,
     state: {
-        // this is really margin-top...
+        // this is real margin-top...
         homeTopBarHeight: '-57px'
     },
     mutations: {

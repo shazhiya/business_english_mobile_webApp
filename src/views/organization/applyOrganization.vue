@@ -8,15 +8,16 @@
       <van-cell-group title="创办组织">
         <van-form>
           <van-field label="组织名" placeholder="组织名" v-model="organization.organizationName"></van-field>
+          <van-field label="联系电话" placeholder="联系电话" v-model="organization.phone"></van-field>
           <van-field label="相关简介" placeholder="相关简介" type="textarea" autosize rows="2" v-model="organization.organizationDescription"></van-field>
           <van-field name="uploader" label="认证资料">
             <template #input>
-              <van-uploader v-model="organization.data" result-type="file" show-upload :after-read="uploadImg"/>
+              <van-uploader v-model="organization.data" result-type="file" show-upload :after-read="uploadImg" upload-icon="back-top"/>
             </template>
           </van-field>
         </van-form>
       </van-cell-group>
-      <van-button type="primary" round style="width: 100%; margin: 10px auto" @click="apply">
+      <van-button type="primary" round style="width: 90%; display:block; margin: 10px auto" @click="apply">
         确认提交
       </van-button>
     </template>
@@ -39,6 +40,7 @@ export default {
       organization:{
         organizationName: '',
         organizationDescription:'',
+        phone: '',
         data: []
       }
     }
@@ -62,6 +64,7 @@ export default {
             type: 'success',
             message: '申请已提交，请等待工作人员审核。'
           })
+          this.$router.go(-1)
         }
       })
     }

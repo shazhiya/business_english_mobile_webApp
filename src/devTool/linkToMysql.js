@@ -43,10 +43,10 @@ let resultProcessor = (err, res) => {
 // user
 !function addUser(){
     connection.connect()
-    let headIconPath = 'E:\\files\\headIco'
-    let insert = 'insert into user (user_name,password,user_headico) value (?,?,?)'
+    let headIconPath = 'E:\\files\\headIcon'
+    let insert = 'insert into user (user_name,password,user_headicon) value (?,?,?)'
     getFiles(headIconPath).forEach((fileName,index)=>{
-        connection.query(insert,[`shazhi_${index}`,'123456','headIco/'+fileName],resultProcessor)
+        connection.query(insert,[`shazhi_${index}`,'123456','headIcon/'+fileName],resultProcessor)
     })
     connection.end()
 }();

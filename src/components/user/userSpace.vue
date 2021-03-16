@@ -1,41 +1,22 @@
 <template>
-    <div>
-        <common-nav :title="$route.params.userName + '的空间'" @right="showSheet=true" style="padding-bottom: 10px">
+    <div v-if="userInfo" style="height: 100%; position: relative">
+        <common-nav :title="userInfo.userName + '的空间'" @right="showSheet=false" style="padding-bottom: 10px">
             <template #default>
-                <user-small-card/>
+                <user-small-card :user="userInfo"/>
                 <card v-if="isPublic" width="95%" style="margin-top: 10px">
                     <van-cell-group title="基本信息">
-                        <van-cell title="真实姓名" value="刹枝"/>
-                        <van-cell title="电子邮箱" value="2691032513@qq.com"/>
-                        <van-cell title="出生日期" value="2016/1/1"/>
-                        <van-cell title="性别" value="van"/>
+                        <van-cell title="昵称" :value="userInfo.userName"/>
+                        <van-cell title="简介" :value="userInfo.userIntro"/>
+                        <van-cell title="注册时间" :value="userInfo.userRegisterdate"/>
                     </van-cell-group>
                 </card>
 
-                <card v-if="isPublic" width="95%" style="margin-top: 10px">
-                    <van-cell-group title="基本信息">
-                        <van-cell title="真实姓名" value="刹枝"/>
-                        <van-cell title="电子邮箱" value="2691032513@qq.com"/>
-                        <van-cell title="出生日期" value="2016/1/1"/>
-                        <van-cell title="性别" value="van"/>
+                <cc>
+                    <van-cell-group title="联系方式">
+                        <van-cell title="电子邮箱" :value="userInfo.userEmail"/>
+                        <van-cell title="移动电话" :value="userInfo.userTelephone"/>
                     </van-cell-group>
-                </card>
-
-
-                <card v-else width="95%" style="margin-top: 10px">
-                    <p style="text-align: center;">
-                        <span><van-icon name="warning-o" color="red" size="22px"/></span>
-                        该用户未公开个人信息
-                    </p>
-                </card>
-
-                <van-button type="primary" :loading="false" round class="button">
-                    发起会话
-                </van-button>
-
-                <van-button :type="isContact?'danger':'primary'" :loading="false" round class="button">
-                    {{ isContact ? '移除联系人' : '添加到联系人' }}
-                </van-button>
+                </cc>
 
             </template>
 
@@ -44,6 +25,15 @@
             </div>
         </common-nav>
 
+        <div style="position: absolute; bottom: 0; width: 100%; padding-bottom: 15px">
+            <van-button type="primary" :loading="false" round class="button">
+                发起会话
+            </van-button>
+
+<!--            <van-button :type="isContact?'danger':'primary'" :loading="false" round class="button">
+                {{ isContact ? '移除联系人' : '添加到联系人' }}
+            </van-button>-->
+        </div>
         <van-action-sheet v-model="showSheet" :actions="actions"  close-on-click-action/>
     </div>
 </template>
@@ -51,6 +41,7 @@
 <script>
 import commonNav from "component/card/navbar";
 import userSmallCard from "component/user/userSmallCard";
+import post from "@/store/util";
 export default {
     name: "userSpace",
     components: {
@@ -64,9 +55,15 @@ export default {
                 {name: '禁用选项', disabled: true},
                 {name: '加载选项', loading: true}
             ],
+            userInfo:undefined,
             isPublic: this.$route.params.showDefault ? this.$route.params.showDefault : true,
             isContact: this.$route.params.showDefault ? this.$route.params.showDefault : true,
         }
+    },
+    mounted() {
+        post('user/getProfileByUsername',{userName: this.$route.params.userName},res=>{
+            this.userInfo = res.data
+        })
     }
 }
 </script>

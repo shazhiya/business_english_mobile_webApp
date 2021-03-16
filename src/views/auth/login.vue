@@ -56,53 +56,62 @@
 
 <script>
 import post from "@/store/util";
+
 export default {
     data() {
         return {
             username: this.$route.params.username !== undefined ? this.$route.params.username : 'shazhi',
             password: this.$route.params.password !== undefined ? this.$route.params.password : '123456',
-            headIco: this.src + 'headIco/default.jpg',
+            headIco: this.src + 'headIcon/default.jpg',
             rememberPass: window.localStorage.getItem("remember")
         }
     },
     methods: {
         login() {
-            this.$store
-                .dispatch('login', {username: this.username, password: this.password})
+            this.$store.dispatch('login', {username: this.username, password: this.password})
                 .then(result => {
                     if (result) {
                         this.$notify({message: '登录成功', type: 'success'})
                         if (this.rememberPass) {
-                            window.localStorage.setItem('userAccount',JSON.stringify({username: this.username, password: this.password}))
-                            window.localStorage.setItem('remember',true)
-                        }else{
+                            window.localStorage.setItem('userAccount', JSON.stringify({
+                                username: this.username,
+                                password: this.password
+                            }))
+                            window.localStorage.setItem('remember', true)
+                        } else {
                             window.localStorage.removeItem('remember')
                             window.localStorage.removeItem('userAccount')
                         }
-                        this.$router.push({name: 'index'})
                     } else this.$notify({
                         message: '账户或密码错误',
                         type: 'danger'
                     })
                 })
+                .then(() => {
+                    this.$store.commit('updateMyself',{userName: this.username})
+                    return this.$store.dispatch('loadMyself')
+                })
+                .then(() => {
+                    this.$router.push({name: 'index'})
+                })
         },
-        findHeadIcon(){
-            post("user/queryHeadIconByUsername",{
+        findHeadIcon() {
+            post("user/queryHeadIconByUsername", {
                 userName: this.username
-            },res=>{
+            }, res => {
                 console.log(res.data)
-                if (res.data.userHeadico) {
-                    this.headIco = this.src+res.data.userHeadico
+                if (res.data.userHeadicon) {
+                    this.headIco = this.src + res.data.userHeadicon
                 }
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err)
-                this.headIco = this.src + 'headIco/default.jpg'
+                this.headIco = this.src + 'headIcon/default.jpg'
             })
         },
         gotoRegister() {
-            this.$router.push({name:'register'})
+            this.$router.push({name: 'register'})
         },
-        resetPassword(){
+        resetPassword() {
             this.$router.push({name: 'resetPassword'})
         }
     }

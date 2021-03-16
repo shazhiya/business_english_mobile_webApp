@@ -6,7 +6,7 @@
                     width="48"
                     height="48"
                     radius="12"
-                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                    :src="src + $store.getters.myself.userHeadicon"
                     style="margin: 5px 0 0 5px"
                 />
             </van-col>

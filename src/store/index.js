@@ -16,7 +16,8 @@ export default new Vuex.Store({
         signUp: false,
         actionSheet:{
             show: false
-        }
+        },
+        myself:{}
     },
     modules: {
         user, security, course_base, optional
@@ -27,14 +28,16 @@ export default new Vuex.Store({
         },
         updateActionSheet(state,payload){
             state.actionSheet = payload
+        },
+        updateMyself(state,payload){
+            state.myself = payload
         }
     },
     actions: {
         login({commit}, data) {
             return post('login', data, res => {
-                if (res.data != 'success') return false
+                if (res.data !== 'success') return false
                 commit('changeSignUp', true)
-                commit('user/updateUserName', data, {root: true})
                 return true
             }, true)
         },
@@ -42,7 +45,18 @@ export default new Vuex.Store({
             return post('register', data, res => {
                 return res.data
             })
+        },
+        loadMyself({commit,state}){
+            return post('user/getProfileByUsername', state.myself, res => {
+                commit('updateMyself', res.data)
+            })
+        }
+    },
+    getters:{
+        myself:(state)=>{
+            return state.myself
         }
     },
     plugins: [createPersistedState({storage: window.sessionStorage})]
+
 })

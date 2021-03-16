@@ -18,13 +18,17 @@ import 'vant/lib/icon/local.css';
 import 'video.js/dist/video-js.css'
 
 import baseCard from "component/card/baseCard";
+import commonCard from "component/card/commonCard";
 import flexContainer from "component/card/flexContainer";
+import navbar from "component/card/navbar";
 
 Vue.config.productionTip = false
 Vue.prototype.back = back
 Vue.prototype.src = 'http://localhost:9090/'
 
 Vue.component("card", baseCard)
+Vue.component("cc", commonCard)
+Vue.component("navbar", navbar)
 Vue.component("flexContainer", flexContainer)
 Vue.use(Vant)
 

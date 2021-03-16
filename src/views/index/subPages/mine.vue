@@ -1,6 +1,6 @@
 <template>
     <div>
-        <user-small-card class="topCard"/>
+        <user-small-card class="topCard" :user="$store.getters.myself"/>
 
         <card width="95%" style="margin-top: 10px">
             <van-row>
@@ -15,6 +15,12 @@
                 <van-cell title="编辑个人信息" :to="{name:'editProfile'}" :is-link="true"/>
                 <van-cell title="我的笔记" :to="{name:'notePads'}" :is-link="true"/>
                 <van-cell title="申请创办组织" :to="{name:'applyOrganization'}" :is-link="true"/>
+            </van-cell-group>
+        </card>
+
+        <card width="95%" style="margin-top: 10px">
+            <van-cell-group title="管理员">
+                <van-cell title="组织管理" is-link :to="{name:'organizationManager'}"/>
             </van-cell-group>
         </card>
 
