@@ -1,5 +1,5 @@
 <template>
-    <navbar title="组织管理">
+    <navbar title="组织管理" style="padding-bottom: 20px">
             <van-cell-group title="待审批">
                 <cc>
                     <van-cell v-for="or in organizations.audit" :key="or.organizationId" :title="or.organizationName" is-link :to="{name:'organizationDetail',query:{type:'audit',id:or.organizationId}}"></van-cell>
@@ -12,7 +12,7 @@
             </van-cell-group>
             <van-cell-group title="被冻结组织">
                 <cc>
-                    <van-cell v-for="or in organizations.freeze" :key="or.organizationId" :title="or.organizationName" is-link :to="{name:'organizationDetail',query:{type:'',id:or.organizationId}}"></van-cell>
+                    <van-cell v-for="or in organizations.freeze" :key="or.organizationId" :title="or.organizationName" is-link :to="{name:'organizationDetail',query:{type:'restore',id:or.organizationId}}"></van-cell>
                 </cc>
             </van-cell-group>
     </navbar>

@@ -5,7 +5,7 @@
         @click="$router.push({name:'userSpace',params:{userName:user.userName}})"
     >
         <van-row>
-            <van-col span="6" class="avatar" style="margin-top: 0">
+              <van-col span="6" class="avatar" style="margin-top: 0">
                 <van-image
                     width="64"
                     height="64"
@@ -13,10 +13,10 @@
                     :src="src + user.userHeadicon||''"
                     style="margin: 5px 0 0 5px"
                 />
-            </van-col>
-            <van-col span="16">
-                <p class="username">{{user.userName}}</p>
-                <p class="desc van-multi-ellipsis--l2">
+              </van-col>
+            <van-col span="15" offset="1">
+                <p class="username van-ellipsis">{{user.userName}}</p>
+                <p class="desc van-ellipsis">
                     {{user.userIntro}}
                 </p>
             </van-col>
@@ -45,7 +45,7 @@ export default {
 }
 
 .avatar {
-    margin-top: 5px;
+    /*margin-top: 5px;*/
 }
 
 .desc {

@@ -16,7 +16,7 @@
                                 shape="square"
                                 :size="64"
                                 :fit="'contain'"
-                                :src="src + info.userHeadico"
+                                :src="src + info.userHeadicon"
                             ></el-avatar>
                         </div>
                     </el-col>
@@ -52,6 +52,10 @@ export default {
 </script>
 
 <style scoped>
+p{
+    margin: 0;
+    padding: 0;
+}
 .card {
     width: 200px;
     display: inline-block;

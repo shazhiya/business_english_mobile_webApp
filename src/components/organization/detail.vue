@@ -6,7 +6,7 @@
 
         <template #default>
             <van-cell-group title="组织创建者">
-                <userSmallCard :user="organization.creator"/>
+                <userSmallCard :user="getCreator"/>
             </van-cell-group>
             <van-cell-group title="基本信息">
                 <cc>
@@ -37,8 +37,14 @@
             </div>
 
             <div v-if="type==='freeze'">
-                <van-button type="danger" style="width: 95%; margin:10px auto; display: block;">
-                    冻结该组织
+                <van-button type="danger" @click="auditOrganization('冻结')" style="width: 95%; margin:10px auto; display: block;">
+                    暂停组织运作
+                </van-button>
+            </div>
+
+            <div v-if="type==='restore'">
+                <van-button type="primary" @click="auditOrganization('有效')" style="width: 95%; margin:10px auto; display: block;">
+                    恢复组织运作
                 </van-button>
             </div>
 
@@ -73,6 +79,13 @@ export default {
             this.organization = res.data[0]
             this.organization.data = this.organization.data.split(';')
         })
+    },
+    computed:{
+      getCreator(){
+        return this?.organization.uros.find(uro=>{
+          return uro.role.roleName === this.organization.organizationName + '-创建者'
+        }).user
+      }
     }
 }
 </script>

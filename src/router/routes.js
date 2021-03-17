@@ -131,7 +131,7 @@ const routes = [
     {
         path: '/admin',
         components: {
-            root: () => import('component/courseManager/index')
+            root: () => import('view/admin')
         },
         children: [
             {

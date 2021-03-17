@@ -16,7 +16,7 @@
                     shape="square"
                     :size="32"
                     :fit="'contain'"
-                    :src="src + $store.state.user.userInfo.userHeadico"
+                    :src="src + $store.state.myself.userHeadicon"
                     v-popover:popover
                 ></el-avatar>
             </el-col>
@@ -46,7 +46,7 @@
         </el-drawer>
 
         <el-popover ref="popover" placement="bottom" width="300" trigger="click">
-            <show :info='$store.state.user.userInfo'>
+            <show :info='$store.state.myself'>
                 <div slot="funcs">
                     <el-button type="primary" @click="$router.push({name:'login'})">登出</el-button>
                     <el-button type="primary">消息通知</el-button>

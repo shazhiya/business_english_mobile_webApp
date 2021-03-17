@@ -5,12 +5,13 @@ import back from './network'
 import store from './store'
 
 // element ui
-import {Button,Upload,Input,Row,Col,Image, Link,Checkbox} from 'element-ui'
+// import {Button,Upload,Input,Row,Col,Image, Link,Checkbox} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 
-[Button,Upload,Input,Row,Col,Image, Link,Checkbox].forEach(component=>Vue.use(component))
+// [Button,Upload,Input,Row,Col,Image, Link,Checkbox].forEach(component=>Vue.use(component))
 
-
+import elem from 'element-ui'
+Vue.use(elem)
 
 import Vant from 'vant';
 import 'vant/lib/index.css';

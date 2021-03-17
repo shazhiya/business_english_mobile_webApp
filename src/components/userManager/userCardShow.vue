@@ -7,7 +7,7 @@
                         shape="square"
                         :size="64"
                         :fit="'contain'"
-                        :src="src + info.userHeadico"
+                        :src="src + info.userHeadicon"
                     ></el-avatar>
                 </div>
             </el-col>

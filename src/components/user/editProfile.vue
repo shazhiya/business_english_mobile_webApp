@@ -8,38 +8,24 @@
                             头像
                         </van-col>
                         <van-col span="16">
-                            <van-uploader v-model="fileList" max-count="1" :after-read="afterRead"/>
+                            <van-uploader type="file" v-model="fileList" max-count="1" :after-read="afterRead"/>
                         </van-col>
                     </van-row>
                 </card>
 
                 <card width="95%" style="margin-top: 10px; padding-top: 20px">
                     <van-cell-group title="基本信息">
-                        <!-- 输入任意文本 -->
-                        <van-field v-model="text" label="文本"/>
-                        <!-- 输入手机号，调起手机号键盘 -->
-                        <van-field v-model="tel" type="tel" label="手机号"/>
-                        <!-- 允许输入正整数，调起纯数字键盘 -->
-                        <van-field v-model="digit" type="digit" label="整数"/>
-                        <!-- 允许输入数字，调起带符号的纯数字键盘 -->
-                        <van-field v-model="number" type="number" label="数字"/>
-                        <!-- 输入密码 -->
-                        <van-field v-model="password" type="password" label="密码"/>
+                        <van-cell title="昵称" :value="$store.getters.myself.userName"></van-cell>
+                        <van-cell title="注册日期" :value="$store.getters.myself.userRegisterdate"></van-cell>
+                        <van-field v-model="userIntro" label="简介" type="textarea" autosize/>
                     </van-cell-group>
                 </card>
 
                 <card width="95%" style="margin-top: 10px; padding-top: 20px">
-                    <van-cell-group title="基本信息">
+                    <van-cell-group title="联系方式">
                         <!-- 输入任意文本 -->
-                        <van-field v-model="text" label="文本"/>
-                        <!-- 输入手机号，调起手机号键盘 -->
-                        <van-field v-model="tel" type="tel" label="手机号"/>
-                        <!-- 允许输入正整数，调起纯数字键盘 -->
-                        <van-field v-model="digit" type="digit" label="整数"/>
-                        <!-- 允许输入数字，调起带符号的纯数字键盘 -->
-                        <van-field v-model="number" type="number" label="数字"/>
-                        <!-- 输入密码 -->
-                        <van-field v-model="password" type="password" label="密码"/>
+                        <van-cell title="邮件" :value="$store.getters.myself.userEmail"></van-cell>
+                        <van-field v-model="userTelephone" type="tel" label="手机号"/>
                     </van-cell-group>
                 </card>
 
@@ -50,7 +36,7 @@
             </template>
         </navbar>
 
-        <van-button type="primary" :loading="false" class="button">
+        <van-button type="primary" :loading="false" class="button" @click="updateUser">
             修改保存
         </van-button>
     </div>
@@ -58,7 +44,8 @@
 
 <script>
 import navbar from "component/card/navbar";
-
+import uploadFile from "@/network/uploadFile";
+import post from "@/store/util";
 export default {
     name: "editProfile",
     components: {
@@ -66,18 +53,26 @@ export default {
     },
     data() {
         return {
-            fileList: [],
-            tel: '',
-            text: '',
-            digit: '',
-            number: '',
-            password: '',
+            fileList: [{
+                url: this.src + this.$store.getters.myself.userHeadicon,
+                status: 'done',
+            }],
+            userTelephone: this.$store.getters.myself.userTelephone,
+            userIntro: this.$store.getters.myself.userIntro,
         }
     },
     methods: {
-        afterRead(file,detail) {
-            console.log(file)
-            console.log(detail)
+        afterRead(file) {
+            uploadFile(file.file,'headIcon').then(res=>{
+                this.fileList[0].url = this.src + res.data.msg
+            })
+        },
+        updateUser(){
+            post('user/update',{userId: this.$store.getters.myself.userId,userIntro:this.userIntro,userTelephone:this.userTelephone,userHeadicon: this.fileList[0].url.replace(this.src,'')},()=>{
+                this.$notify({type:'success',message:'修改成功'})
+                this.$store.dispatch('loadMyself')
+                this.$router.go(-1)
+            })
         }
     }
 }
