@@ -244,6 +244,13 @@ const routes = [
                 components: {
                     main: () => import('component/organization/detail')
                 }
+            },
+            {
+                name: 'recruit',
+                path: 'recruit',
+                components: {
+                    main: ()=>import('component/organization/recruit')
+                }
             }
         ]
     },

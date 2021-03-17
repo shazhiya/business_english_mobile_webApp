@@ -17,12 +17,21 @@
           <van-cell title="申请创办组织" :to="{name:'applyOrganization'}" :is-link="true"/>
         </van-cell-group>
       </card>
-      <card width="95%" style="margin-top: 10px" v-for="organ in myOrgans" :key="organ.organizationId">
-        <van-cell-group :title="organ.organizationName">
+      <card width="95%" style="margin-top: 10px;position: relative;" v-for="organ in myOrgans" :key="organ.organizationId">
+        <van-cell-group :title="organ.organizationName" style="">
           <van-cell title="发布课程" is-link :to="{name:'publishCourse'}"/>
           <van-cell title="创建班级" is-link :to="{name:'createClazz'}"/>
           <van-cell title="布置课程" is-link :to="{name:'assignTask'}"/>
+          <van-cell title="招贤纳士" is-link :to="{name:'recruit'}"/>
         </van-cell-group>
+        <div style="position: absolute; top: 5px; right: 5px">
+          <van-tag type="primary">
+            教师
+          </van-tag>
+          <van-tag type="primary">
+            教师
+          </van-tag>
+        </div>
       </card>
 
       <card width="95%" style="margin-top: 10px">
