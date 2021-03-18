@@ -27,7 +27,10 @@ export default {
             active: this.$route.name
         }
     },
-    methods: {}
+    methods: {},
+    mounted() {
+        this.$store.dispatch('loadALlSecurity')
+    }
 }
 </script>
 

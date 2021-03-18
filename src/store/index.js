@@ -17,7 +17,8 @@ export default new Vuex.Store({
         actionSheet:{
             show: false
         },
-        myself:{}
+        myself:{},
+        allSecurity: []
     },
     modules: {
         user, security, course_base, optional
@@ -31,6 +32,9 @@ export default new Vuex.Store({
         },
         updateMyself(state,payload){
             state.myself = payload
+        },
+        updateALlSecurity(state,payload){
+            state.allSecurity = payload
         }
     },
     actions: {
@@ -49,6 +53,11 @@ export default new Vuex.Store({
         loadMyself({commit,state}){
             return post('user/getProfileByUsername', state.myself, res => {
                 commit('updateMyself', res.data)
+            })
+        },
+        loadALlSecurity({commit}){
+            return post('security/allSecurity',{},res=>{
+                commit('updateALlSecurity',res.data)
             })
         }
     },

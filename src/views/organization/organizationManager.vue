@@ -20,7 +20,7 @@
 
 <script>
 import navbar from "component/card/navbar";
-import post from "@/store/util";
+import resolvedPost from "@/store/ResovePost";
 
 export default {
     name: "auditOrganization",
@@ -46,8 +46,9 @@ export default {
                 common: [],
                 freeze: []
             }
-            post('organization/load',{},res=>{
-                res.data.forEach(organ=>{
+            resolvedPost('organization/load',{},res=>{
+                console.log(res)
+                res.forEach(organ=>{
                     if (organ.status === '待审核') this.organizations.audit.push(organ)
                     if (organ.status === '有效') this.organizations.common.push(organ)
                     if (organ.status === '冻结') this.organizations.freeze.push(organ)

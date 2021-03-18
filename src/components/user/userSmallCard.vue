@@ -10,7 +10,7 @@
                     width="64"
                     height="64"
                     radius="12"
-                    :src="src + user.userHeadicon||''"
+                    :src="src + user.userHeadicon"
                     style="margin: 5px 0 0 5px"
                 />
               </van-col>

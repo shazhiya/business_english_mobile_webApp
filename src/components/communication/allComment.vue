@@ -67,7 +67,7 @@ export default {
         }
       }, 1000);
     },
-    sendComment(data){
+    sendComment(/*data*/){
 
     }
   },

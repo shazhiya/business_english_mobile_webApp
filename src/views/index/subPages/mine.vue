@@ -21,8 +21,8 @@
         <van-cell-group :title="organ.organizationName" style="">
           <van-cell title="发布课程" is-link :to="{name:'publishCourse'}"/>
           <van-cell title="创建班级" is-link :to="{name:'createClazz'}"/>
-          <van-cell title="布置课程" is-link :to="{name:'assignTask'}"/>
-          <van-cell title="招贤纳士" is-link :to="{name:'recruit'}"/>
+          <van-cell title="布置作业" is-link :to="{name:'assignTask'}"/>
+          <van-cell title="招贤纳士" is-link :to="{name:'recruit',params:{organizationId: organ.organizationId}}"/>
         </van-cell-group>
         <div style="position: absolute; top: 5px; right: 5px">
           <van-tag type="primary">
@@ -53,7 +53,7 @@
 <script>
 import userSmallCard from "component/user/userSmallCard";
 import bigNumber from "component/mine/bigNumber";
-import post from "@/store/util";
+import resolvedPost from "@/store/ResovePost";
 export default {
     name: "mine",
     data() {
@@ -63,7 +63,7 @@ export default {
     },
     components:{bigNumber,userSmallCard},
     mounted() {
-      post('organization/load',{
+        resolvedPost('organization/load',{
         uros:[{
           user:{
             userId: this.$store.getters.myself.userId
@@ -71,7 +71,7 @@ export default {
         }],
         status: '有效'
       },res=>{
-        this.myOrgans = res.data
+        this.myOrgans = res
       })
     }
 }

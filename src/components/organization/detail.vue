@@ -56,6 +56,7 @@
 <script>
 import userSmallCard from "component/user/userSmallCard";
 import post from "@/store/util";
+import resolvedPost from "@/store/ResovePost";
 export default {
     name: "detail",
     components:{userSmallCard},
@@ -75,14 +76,14 @@ export default {
         }
     },
     created() {
-        post('organization/load',{organizationId: this.organizationId},res=>{
-            this.organization = res.data[0]
+        resolvedPost('organization/load',{organizationId: this.organizationId},res=>{
+            this.organization = res[0]
             this.organization.data = this.organization.data.split(';')
         })
     },
     computed:{
       getCreator(){
-        return this?.organization.uros.find(uro=>{
+        return this?.organization?.uros?.find(uro=>{
           return uro.role.roleName === this.organization.organizationName + '-创建者'
         }).user
       }
