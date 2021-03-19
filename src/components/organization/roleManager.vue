@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navbar title="招贤纳士">
+        <navbar title="权限管理" style="padding: 15px 0">
             <template #right><p></p></template>
             <template #default>
                 <van-cell-group title="角色权限管理">

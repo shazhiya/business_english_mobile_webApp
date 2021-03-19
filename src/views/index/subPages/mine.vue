@@ -22,7 +22,8 @@
           <van-cell title="发布课程" is-link :to="{name:'publishCourse'}"/>
           <van-cell title="创建班级" is-link :to="{name:'createClazz'}"/>
           <van-cell title="布置作业" is-link :to="{name:'assignTask'}"/>
-          <van-cell title="招贤纳士" is-link :to="{name:'recruit',params:{organizationId: organ.organizationId}}"/>
+          <van-cell title="权限管理" is-link :to="{name:'roleManager',params:{organizationId: organ.organizationId}}"/>
+          <van-cell title="成员管理" is-link :to="{name:'memberManager',query:{organizationId: organ.organizationId}}"/>
         </van-cell-group>
         <div style="position: absolute; top: 5px; right: 5px">
           <van-tag type="primary">

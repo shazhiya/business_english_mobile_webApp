@@ -7,6 +7,7 @@ import optional from "@/store/optional";
 import security from './security'
 import post from './util'
 import createPersistedState from "vuex-persistedstate"
+import resolvedPost from "@/store/ResovePost";
 
 
 Vue.use(Vuex)
@@ -18,7 +19,8 @@ export default new Vuex.Store({
             show: false
         },
         myself:{},
-        allSecurity: []
+        allSecurity: [],
+        messages:[]
     },
     modules: {
         user, security, course_base, optional
@@ -35,6 +37,9 @@ export default new Vuex.Store({
         },
         updateALlSecurity(state,payload){
             state.allSecurity = payload
+        },
+        loadMessage(state,payload){
+            state.messages = payload
         }
     },
     actions: {
@@ -59,6 +64,13 @@ export default new Vuex.Store({
             return post('security/allSecurity',{},res=>{
                 commit('updateALlSecurity',res.data)
             })
+        },
+        loadMessages({commit},options){
+            return resolvedPost('message/load',options||{status:'未读'})
+                .then(data=>{
+                    commit('loadMessage',data)
+                    return data
+                })
         }
     },
     getters:{

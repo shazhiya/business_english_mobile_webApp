@@ -246,10 +246,17 @@ const routes = [
                 }
             },
             {
-                name: 'recruit',
-                path: 'recruit',
+                name: 'roleManager',
+                path: 'roleManager',
                 components: {
-                    main: ()=>import('component/organization/recruit')
+                    main: ()=>import('component/organization/roleManager')
+                }
+            },
+            {
+                name: 'memberManager',
+                path: 'memberManager',
+                components: {
+                    main: ()=>import('component/organization/memberManager')
                 }
             }
         ]
