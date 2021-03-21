@@ -7,7 +7,7 @@ import optional from "@/store/optional";
 import security from './security'
 import post from './util'
 import createPersistedState from "vuex-persistedstate"
-import resolvedPost from "@/store/ResovePost";
+import {Resolver} from "fastjson_ref_resolver";
 
 
 Vue.use(Vuex)
@@ -40,6 +40,11 @@ export default new Vuex.Store({
         },
         loadMessage(state,payload){
             state.messages = payload
+        },
+        reset(state){
+            // todo
+            state.signUp=false
+            state = {}
         }
     },
     actions: {
@@ -66,17 +71,18 @@ export default new Vuex.Store({
             })
         },
         loadMessages({commit},options){
-            return resolvedPost('message/load',options||{status:'未读'})
-                .then(data=>{
-                    commit('loadMessage',data)
-                    return data
+            return post('message/load',options||{status:'未读'})
+                .then(res=>{
+                    commit('loadMessage',JSON.stringify(res.data))
+                    return new Resolver(res.data).resolve()
                 })
         }
     },
     getters:{
         myself:(state)=>{
             return state.myself
-        }
+        },
+        messages:state =>new Resolver(JSON.parse(state.messages)).resolve()
     },
     plugins: [createPersistedState({storage: window.sessionStorage})]
 

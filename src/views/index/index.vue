@@ -30,6 +30,7 @@ export default {
     methods: {},
     mounted() {
         this.$store.dispatch('loadALlSecurity')
+        this.$store.dispatch('loadMessages',{status:'未读',targetUser:{userId:this.$store.getters.myself.userId}})
     }
 }
 </script>

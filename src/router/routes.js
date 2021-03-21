@@ -115,6 +115,22 @@ const routes = [
         }
     },
     {
+        name:'message',
+        path: '/message',
+        components: {
+            root: () => import('view/message')
+        },
+        children:[
+            {
+                name: 'notifyManager',
+                path:'notifyManager',
+                components:{
+                    main:()=>import('component/message/notifyManager')
+                }
+            }
+        ]
+    },
+    {
         name: 'userSpace',
         path: '/userSpace/:userName',
         components: {
@@ -289,7 +305,8 @@ const routes = [
                 }
             }
         ]
-    },{
+    },
+    {
         path: '/task',
         components: {
             root: ()=> import('view/task')

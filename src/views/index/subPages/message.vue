@@ -8,8 +8,11 @@
 
         <van-cell-group>
             <van-cell title="我的班级" :to="{name:'contacts',params:{title: 'myClasses'}}" is-link></van-cell>
-            <van-cell title="我的班级" is-link></van-cell>
-            <van-cell title="我的班级" is-link></van-cell>
+            <van-cell title="消息通知" :to="{name:'notifyManager'}" is-link>
+                <van-badge :content="notifies.length"></van-badge>
+            </van-cell>
+
+            <van-cell title="我的联系人" is-link></van-cell>
         </van-cell-group>
 
         <card
@@ -28,7 +31,11 @@ import session from "component/message/session";
 
 export default {
     name: "message",
-
+    data(){
+        return {
+            notifyTypes:["organization invite"]
+        }
+    },
     methods: {
         remove(child) {
             console.log(child.$el)
@@ -40,6 +47,11 @@ export default {
     },
     components: {
         session
+    },
+    computed:{
+        notifies(){
+            return this.$store.getters.messages.filter(msg=>this.notifyTypes.some(notifyType=>msg.type===notifyType))
+        }
     }
 }
 </script>

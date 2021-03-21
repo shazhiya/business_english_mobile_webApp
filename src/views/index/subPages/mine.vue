@@ -45,7 +45,7 @@
       </card>
 
 <!--        <van-button style="margin: 10px auto auto;width:95%" round type="primary" block>主要按钮</van-button>-->
-        <van-button style="margin: 10px auto 10px;width:95%" round type="danger" block>登出</van-button>
+        <van-button style="margin: 10px auto 10px;width:95%" round type="danger" block @click="logout">登出</van-button>
 
 
     </div>
@@ -74,6 +74,12 @@ export default {
       },res=>{
         this.myOrgans = res
       })
+    },
+    methods:{
+        logout(){
+            this.$router.push({name:'login'})
+            this.$store.commit('reset')
+        }
     }
 }
 </script>

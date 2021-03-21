@@ -31,11 +31,9 @@
                     @confirm="invite"
         >
             <van-field label="昵称" placeholder="请输入昵称后搜索" v-model="userName"/>
-            <div style="position: relative">
-                <div style="position: absolute; top: 10px; right: 20px">
-                    <userSmallCard v-for="u in invited" :key="u.userId" :user="u"></userSmallCard>
-                    <van-icon name="delete-o"></van-icon>
-                </div>
+            <div style="height: 79px;padding: 10px 0; overflow: hidden">
+                <userSmallCard  :user="searchResult" v-if="searchResult.userId"></userSmallCard>
+                <van-empty v-else image="https://img01.yzcdn.cn/vant/custom-empty-image.png" image-size="78"/>
             </div>
         </van-dialog>
     </div>
@@ -64,7 +62,7 @@ export default {
             this.debounce()
         },
         invite() {
-            if (this.memberUros.some(uro=>uro.user.userId===this.searchResult.userId)){
+            if (this.memberUros.some(uro=>uro.user?.userId===this.searchResult.userId)){
                 this.$notify({message:"该用户已存在在组织中"})
                 return
             }
@@ -85,7 +83,7 @@ export default {
         }
     },
     mounted() {
-        this.debounce = _.debounce(this.loadUserInfo , 1000)
+        this.debounce = _.debounce(this.loadUserInfo , 100)
         this.loadMember()
     },
     watch: {

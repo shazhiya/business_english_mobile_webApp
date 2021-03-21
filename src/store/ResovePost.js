@@ -8,8 +8,7 @@ export default function resolvedPost(url, data, successCallback, stringify) {
     return back
         .post(url, data)
         .then(res => {
-            res.data = new Resolver(res.data).resolve()
-            return res.data
+            return new Resolver(res.data).resolve()
         }).then(res => {
             if (successCallback) return successCallback(res)
             else return res
