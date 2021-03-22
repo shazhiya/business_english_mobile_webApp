@@ -1,26 +1,28 @@
 <template>
     <div class="container">
-        <van-row>
+        <van-row @click="$router.push({name:'userSpace',params:{userName:contactor.userName}})">
             <van-col span="3" offset="2">
                 <van-image
-                    width="36"
-                    height="36"
+                    width="48"
+                    height="48"
                     radius="12"
-                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                    :src="src + contactor.userHeadicon"
                     style="margin: 0;"
                 />
             </van-col>
-            <van-col span="16">
-                <p class="van-ellipsis bold">ichijo hotaru</p>
-                <p class="van-ellipsis">kissshot acerolaorion heartunderblade</p>
+            <van-col span="16" offset="3">
+                <p class="van-ellipsis bold">{{contactor.userName}}</p>
+                <p class="van-ellipsis">{{contactor.userIntro}}</p>
             </van-col>
         </van-row>
+        <van-divider></van-divider>
     </div>
 </template>
 
 <script>
 export default {
-    name: "contactorInfo"
+    name: "contactorInfo",
+    props:['contactor']
 }
 </script>
 

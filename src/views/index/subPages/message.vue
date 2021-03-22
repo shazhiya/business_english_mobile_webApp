@@ -9,10 +9,9 @@
         <van-cell-group>
             <van-cell title="我的班级" :to="{name:'contacts',params:{title: 'myClasses'}}" is-link></van-cell>
             <van-cell title="消息通知" :to="{name:'notifyManager'}" is-link>
-                <van-badge :content="notifies.length"></van-badge>
+                <van-badge v-if="notifies.length" :content="notifies.length"></van-badge>
             </van-cell>
-
-            <van-cell title="我的联系人" is-link></van-cell>
+            <van-cell title="我的联系人" :to="{name:'contacts'}" is-link></van-cell>
         </van-cell-group>
 
         <card

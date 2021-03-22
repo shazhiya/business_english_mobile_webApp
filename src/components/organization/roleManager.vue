@@ -36,7 +36,11 @@
 
                 <van-cell-group title="成员角色分配配">
                     <cc>
-                        
+                        <van-cell v-for="uro in members" :key="uro.user.userId" :title="uro.user.userName" @click="currentUser=uro.user.userId,selectRole=true">
+                            <template #default>
+                                <van-tag :color="uro.role.tagColor||'green'" v-if="uro.role">{{uro.role.roleName}}</van-tag>
+                            </template>
+                        </van-cell>
                     </cc>
                 </van-cell-group>
 
@@ -52,6 +56,15 @@
                 @select="clickSecurity"
                 @open="open"
                 @close="close"
+        />
+
+        <van-action-sheet
+            v-model="selectRole"
+            :actions="aroles"
+            cancel-text="取消"
+            close-on-popstate
+            description="分配角色"
+            @select="clickRole"
         />
 
         <van-dialog
@@ -76,19 +89,23 @@ export default {
     data() {
         return {
             organization: {
-                organizationId: this.$route.params.organizationId || 1
+                organizationId: this.$route.query.organizationId || 1
             },
             selectSecurity: false,
+            selectRole: false,
             addRole: false,
             roleName: '',
             tagColor: '',
             currentRole: '',
+            currentUser: '',
             securities: this.$store.state.allSecurity.map(sec => {
                 return {
                     name: sec.securityName,
                     securityId: sec.securityId
                 }
-            })
+            }),
+            aroles: [],
+            members:[]
         }
     },
     methods: {
@@ -101,6 +118,12 @@ export default {
         },
         openAddRole() {
             this.addRole = true
+        },
+        clickRole(action){
+            post('organization/assignRole',{user:{userId: this.currentUser},organization:{organizationId:this.organization.organizationId},role:{roleId:action.role.roleId}},()=>{
+                this.$notify({message:"操作成功",type:'success'})
+                this.loadTheOrganization()
+            })
         },
         createRole(action, done) {
             if (action === 'confirm') {
@@ -124,10 +147,17 @@ export default {
             resolvedPost('organization/load', {organizationId: this.organization.organizationId, status: '有效'})
                 .then(res => {
                     this.organization = res[0]
+                    this.aroles = this.organization?.uros.filter(uro=>!uro.user).map(uro=>{
+                        return {
+                            name: uro.role.roleName,
+                            role: uro.role
+                        }
+                    })
+                    this.members = this.organization?.uros.filter(uro=>uro.user&&uro.status!=="拒绝")
                 })
         },
         open() {
-            let has = this.organization.uros.find(uro => uro.role.roleId === this.currentRole).role.securities
+            let has = this.organization.uros.find(uro => uro.role?.roleId === this.currentRole).role.securities
             this.securities.forEach(security => {
                 if (has.some(h => h.securityId === security.securityId)) this.$set(security, 'color', 'red')
                 else this.$set(security, 'color', undefined)

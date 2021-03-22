@@ -8,6 +8,7 @@ import security from './security'
 import post from './util'
 import createPersistedState from "vuex-persistedstate"
 import {Resolver} from "fastjson_ref_resolver";
+import resolvedPost from "@/store/ResovePost";
 
 
 Vue.use(Vuex)
@@ -20,7 +21,8 @@ export default new Vuex.Store({
         },
         myself:{},
         allSecurity: [],
-        messages:[]
+        messages:[],
+        contactors:[]
     },
     modules: {
         user, security, course_base, optional
@@ -40,6 +42,9 @@ export default new Vuex.Store({
         },
         loadMessage(state,payload){
             state.messages = payload
+        },
+        updateContactors(state,payload){
+            state.contactors = payload
         },
         reset(state){
             // todo
@@ -76,13 +81,21 @@ export default new Vuex.Store({
                     commit('loadMessage',JSON.stringify(res.data))
                     return new Resolver(res.data).resolve()
                 })
+        },
+        loadContactors({commit,state}){
+            post('message/contactors',{self:state.myself})
+                .then(res=>{
+                    commit('updateContactors',JSON.stringify(res.data))
+                    return res.data
+                })
         }
     },
     getters:{
         myself:(state)=>{
             return state.myself
         },
-        messages:state =>new Resolver(JSON.parse(state.messages)).resolve()
+        messages:state =>new Resolver(JSON.parse(state.messages)).resolve(),
+        contactors: state => new Resolver(JSON.parse(state.contactors)).resolve()
     },
     plugins: [createPersistedState({storage: window.sessionStorage})]
 

@@ -108,14 +108,6 @@ const routes = [
         }
     },
     {
-        path: '/contacts/:type',
-        name: 'contacts',
-        components: {
-            root: () => import('component/message/contacts')
-        }
-    },
-    {
-        name:'message',
         path: '/message',
         components: {
             root: () => import('view/message')
@@ -127,7 +119,14 @@ const routes = [
                 components:{
                     main:()=>import('component/message/notifyManager')
                 }
-            }
+            },
+            {
+                path: 'contactors',
+                name: 'contacts',
+                components: {
+                    main: () => import('component/message/contacts')
+                }
+            },
         ]
     },
     {

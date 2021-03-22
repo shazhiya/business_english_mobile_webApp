@@ -4,8 +4,8 @@
             {{content||''}}
         </div>
         <div style="margin: 15px 0" v-if="hide||true">
-            <van-button style="width: 40%;float: left;margin: 0 5%" round type="danger" size="mini">{{rejectText||'拒绝'}}</van-button>
-            <van-button style="width: 40%;float: right;margin:0 5%" round type="primary" size="mini">{{okText||'接受'}}</van-button>
+            <van-button @click="reject" style="width: 40%;float: left;margin: 0 5%" round type="danger" size="mini">{{rejectText||'拒绝'}}</van-button>
+            <van-button @click="ok" style="width: 40%;float: right;margin:0 5%" round type="primary" size="mini">{{okText||'接受'}}</van-button>
         </div>
         <van-divider></van-divider>
     </div>
@@ -14,13 +14,13 @@
 <script>
 export default {
     name: "agreePanel",
-    props: ['content','okText','rejectText','hide'],
+    props: ['content','okText','rejectText','hide','all'],
     methods:{
         ok(){
-            this.$emit('ok')
+            this.$emit('ok',this.all,true)
         },
         reject(){
-            this.$emit('reject')
+            this.$emit('reject',this.all,false)
         }
     }
 }
