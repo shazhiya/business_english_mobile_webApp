@@ -1,14 +1,13 @@
 <template>
     <div>
-        <van-nav-bar title="ichijo hotaru" @click-left="$router.go(-1)" @click-right="$router.push({name:'userSpace',params:{userName:'ichijo hotaru'}})" placeholder fixed left-text="返回" left-arrow>
+        <van-nav-bar :title="$route.query.userName" @click-left="$router.go(-1)" @click-right="$router.push({name:'userSpace',params:{userName:'ichijo hotaru'}})" placeholder fixed left-text="返回" left-arrow>
             <template #right>
                 <van-icon name="friends-o" size="24" />
             </template>
         </van-nav-bar>
         <div class="main" >
             <van-pull-refresh ref="main" v-model="loading" @refresh="loadMess">
-                <one-message v-for="item in histories" :direction="item%2==0?'left':'right'" :display-time="item==3" :key="item">
-                    {{item}}
+                <one-message v-for="(mess,index) in histories" :direction="mess.sendUser.userId===this.$store.getters.myself.userId?'left':'right'" :display-time="false" :key="index">
                 </one-message>
             </van-pull-refresh>
         </div>
@@ -30,6 +29,8 @@
 
 <script>
 import oneMessage from "component/message/oneMessage";
+import resolvedPost from "@/store/ResovePost";
+import post from "@/store/util";
 export default {
     name: "chatPanel",
     data(){
@@ -38,7 +39,7 @@ export default {
             maxlength: 50,
             loading: false,
             finished: false,
-            histories: [1,2,3,4,56,6]
+            histories: [],
         }
     },
     components:{
@@ -51,11 +52,14 @@ export default {
     },
     methods: {
         loadMess(){
-            this.histories.push(1,2,3,4,5,6)
             this.loading = false
         },
         sendMess(){
-            // todo
+            post('message/send',{
+                sendUser:{userId: this.$store.getters.myself.userId},
+                targetUser:{userId: this.$route.query.uid},
+                status: '未读'
+            })
             setTimeout(()=>{
                 let dom = this.$refs['main'].$el
                 dom.scrollTop = dom.scrollHeight
@@ -63,10 +67,18 @@ export default {
         }
     },
     mounted(){
-        setTimeout(()=>{
-            let dom = this.$refs['main'].$el
-            dom.scrollTop = dom.scrollHeight
-        },0)
+        resolvedPost('message/history',{
+            targetUser:{userId: this.$store.getters.myself.userId},
+            sendUser:{userId: this.$route.query.uid},
+            status: '未读',
+            messageSendtime: new Date()
+        }).then(data=>{
+            this.histories = data
+            setTimeout(()=>{
+                let dom = this.$refs['main'].$el
+                dom.scrollTop = dom.scrollHeight
+            },0)
+        })
     }
 }
 </script>

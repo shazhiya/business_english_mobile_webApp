@@ -8,7 +8,6 @@ import security from './security'
 import post from './util'
 import createPersistedState from "vuex-persistedstate"
 import {Resolver} from "fastjson_ref_resolver";
-import resolvedPost from "@/store/ResovePost";
 
 
 Vue.use(Vuex)

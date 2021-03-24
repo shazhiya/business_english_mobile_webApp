@@ -17,7 +17,6 @@
                         <van-cell title="移动电话" :value="userInfo.userTelephone"/>
                     </van-cell-group>
                 </cc>
-
             </template>
 
             <div slot="right">
@@ -26,7 +25,7 @@
         </common-nav>
 
         <div style="position: absolute; bottom: 0; width: 100%; padding-bottom: 15px">
-            <van-button type="primary" :loading="false" round class="button" v-if="$store.getters.myself.userName !== $route.params.userName">
+            <van-button @click="openChat" type="primary" :loading="false" round class="button" v-if="$store.getters.myself.userName !== $route.params.userName">
                 发起会话
             </van-button>
 
@@ -82,6 +81,15 @@ export default {
                     this.$store.dispatch('loadContactors')
                 })
             }
+        },
+        openChat(){
+            this.$router.push({
+                name: 'chatPanel',
+                query:{
+                    uid:this.userInfo.userId,
+                    userName: this.userInfo.userName
+                }
+            })
         }
     }
 }
