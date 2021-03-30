@@ -87,6 +87,17 @@ export default new Vuex.Store({
                     commit('updateContactors',JSON.stringify(res.data))
                     return res.data
                 })
+        },
+        pushSession({state},payload){
+            let map = JSON.parse(window.localStorage.getItem('sessions'))
+            if (!map) {
+                map = {}
+            }
+            if (!map[state.myself.userId]){
+                map[state.myself.userId] = []
+            }
+            map[state.myself.userId].push(payload)
+            window.localStorage.setItem('sessions',JSON.stringify(map))
         }
     },
     getters:{
@@ -94,7 +105,10 @@ export default new Vuex.Store({
             return state.myself
         },
         messages:state =>new Resolver(JSON.parse(state.messages)).resolve(),
-        contactors: state => new Resolver(JSON.parse(state.contactors)).resolve()
+        contactors: state => new Resolver(JSON.parse(state.contactors)).resolve(),
+        getSessions(state){
+            return JSON.parse(window.localStorage.getItem('sessions'))?.[state.myself.userId]
+        }
     },
     plugins: [createPersistedState({storage: window.sessionStorage})]
 

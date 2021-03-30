@@ -90,6 +90,10 @@ export default {
                     userName: this.userInfo.userName
                 }
             })
+            this.$store.dispatch('pushSession',{
+                userId:this.userInfo.userId,
+                userName: this.userInfo.userName
+            })
         }
     }
 }

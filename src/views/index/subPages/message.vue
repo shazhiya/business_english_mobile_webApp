@@ -20,8 +20,6 @@
         >
             <session v-for="i in 10" :key="i" :delay="i*150" @remove="remove" @click="openChatPanel"/>
         </card>
-
-
     </div>
 </template>
 
@@ -37,7 +35,6 @@ export default {
     },
     methods: {
         remove(child) {
-            console.log(child.$el)
             child.$el.remove()
         },
         openChatPanel(info) {
@@ -51,6 +48,18 @@ export default {
         notifies(){
             return this.$store.getters.messages.filter(msg=>this.notifyTypes.some(notifyType=>msg.type===notifyType))
         }
+    },
+    mounted() {
+        let sessions =  this.$store.getters.messages.reduce((goal,curr)=>{
+            if (!goal.some(opposite=>opposite.userId===curr.sendUser.userId)){
+                goal.push({
+                    userId: curr.sendUser.userId,
+                    messages:[]
+                })
+            }
+            goal.find(opposite=>opposite.userId===curr.userId).messages.push(curr)
+        },[])
+
     }
 }
 </script>
