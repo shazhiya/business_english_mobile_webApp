@@ -96,7 +96,13 @@ export default new Vuex.Store({
             if (!map[state.myself.userId]){
                 map[state.myself.userId] = []
             }
-            map[state.myself.userId].push(payload)
+            if(!map[state.myself.userId].some(opposite=>opposite.userName===payload.userName))
+                map[state.myself.userId].push(payload)
+            window.localStorage.setItem('sessions',JSON.stringify(map))
+        },
+        popSession({state},payload){
+            let map = JSON.parse(window.localStorage.getItem('sessions'))
+            map[state.myself.userId].splice(map[state.myself.userId].indexOf(payload),1)
             window.localStorage.setItem('sessions',JSON.stringify(map))
         }
     },

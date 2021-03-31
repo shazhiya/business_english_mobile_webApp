@@ -1,31 +1,33 @@
 <template>
     <div @click="click">
         <transition name="van-slide-left">
-            <van-cell-group v-show="v">
-                <van-swipe-cell :right-width="130" :before-close="close">
+            <van-cell-group v-show="session.opposite!=undefined" v-if="session.opposite!=undefined">
+                <van-swipe-cell :right-width="130">
                     <van-row>
                         <van-col span="6">
                             <van-image
                                 width="48"
                                 height="48"
                                 radius="12"
-                                src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                                :src="src+session.opposite.userHeadicon"
                                 style="margin: 5px 0 0 5px"
                             />
                         </van-col>
                         <van-col span="16">
-                            <p class="van-ellipsis bold">ichijo hotaru</p>
-                            <p class="van-ellipsis">kissshot acerolaorion heartunderblade</p>
+                            <p class="van-ellipsis bold">{{ session.opposite.userName }}</p>
+                            <p class="van-ellipsis">
+                                {{ (session.opposite.userId===session.messages[0].userId? session.opposite.userName + ": ":"") + session.messages[0].messageContent }}
+                            </p>
                         </van-col>
-                        <van-col>
-                            <van-badge :content="200" max="99"/>
+                        <van-col v-if="session.isNew">
+                            <van-badge :content="session.messages.length" max="99"/>
                         </van-col>
                     </van-row>
                     <span slot="right">
-                        <van-button type="danger" style="height: 100%; margin-right: 5px" :loading="false">
+                        <van-button type="danger" style="height: 100%; margin-right: 5px" :loading="false" @click="closeSession">
                             关闭
                         </van-button>
-                        <van-button type="warning" style="height: 100%" :loading="false">
+                        <van-button type="warning" style="height: 100%" :loading="false" @click="readMark">
                             已读
                         </van-button>
                     </span>
@@ -36,9 +38,11 @@
 </template>
 
 <script>
+import post from "@/store/util";
+
 export default {
     name: "session",
-    props: ["delay"],
+    props: ["delay","session"],
     data() {
         return {
             v: false
@@ -53,6 +57,26 @@ export default {
         },
         click() {
             this.$emit('click')
+        },
+        readMark(){
+            post('message/markRead',{
+                sendUser:{userId:this.$store.getters.myself.userId},
+                targetUser:{userId:this.session.opposite.userId},
+                messageSendTime: new Date().getTime()
+            },()=>{
+                this.session.isNew = false
+                this.$store.dispatch('pushSession',{
+                    userName: this.session.opposite.userName,
+                    userId: this.session.opposite.userId
+                })
+            })
+        },
+        closeSession(){
+            this.readMark()
+            this.$store.dispatch('popSession',{
+                userName: this.session.opposite.userName,
+                userId: this.session.opposite.userId
+            })
         }
     },
     mounted() {

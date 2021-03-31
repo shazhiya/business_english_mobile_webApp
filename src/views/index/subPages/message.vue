@@ -14,23 +14,24 @@
             <van-cell title="我的联系人" :to="{name:'contacts'}" is-link></van-cell>
         </van-cell-group>
 
-        <card
-            width="95%"
-            style="margin: 10px auto"
-        >
-            <session v-for="i in 10" :key="i" :delay="i*150" @remove="remove" @click="openChatPanel"/>
-        </card>
+        <van-cell-group title="会话列表">
+            <cc>
+                <session v-for="(session, i) in sessions" :key="session.userId" :delay="i*150" :session="session" @remove="remove" @click="openChatPanel"/>
+            </cc>
+        </van-cell-group>
     </div>
 </template>
 
 <script>
 import session from "component/message/session";
+import resolvedPost from "@/store/ResovePost";
 
 export default {
     name: "message",
     data(){
         return {
-            notifyTypes:["organization invite"]
+            notifyTypes:["organization invite"],
+            sessions: []
         }
     },
     methods: {
@@ -54,12 +55,34 @@ export default {
             if (!goal.some(opposite=>opposite.userId===curr.sendUser.userId)){
                 goal.push({
                     userId: curr.sendUser.userId,
-                    messages:[]
+                    messages:[],
+                    opposite: curr.sendUser,
+                    isNew: true
                 })
+                return goal
             }
-            goal.find(opposite=>opposite.userId===curr.userId).messages.push(curr)
+            goal.find(opposite=>opposite.userId===curr.sendUser.userId).messages.push(curr)
         },[])
-
+        sessions.push(...this.$store.getters.getSessions.filter(se=>{
+            if (!sessions.some(sess => sess.userId === se.userId)) {
+                resolvedPost('message/history',{
+                    sendUser:{
+                        userId: this.$store.getters.myself.userId,
+                    },
+                    targetUser:{
+                        userId: se.userId
+                    },
+                    messageSendTime: new Date().getTime()
+                }).then(res=>{
+                    se.messages = res
+                    this.$set(se,'messages',res)
+                    this.$set(se,'opposite',res[0].sendUser.userId===se.userId?res.sendUser:res[0].targetUser)
+                })
+                return true
+            }
+            return false
+        }))
+        this.sessions = sessions
     }
 }
 </script>

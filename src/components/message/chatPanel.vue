@@ -39,9 +39,11 @@ export default {
             maxlength: 50,
             loading: false,
             finished: false,
-            histories: [],
+            histories: this.session.messages,
+            opposite: this.session.opposite
         }
     },
+    props:["session"],
     components:{
         oneMessage
     },
@@ -51,6 +53,12 @@ export default {
         }
     },
     methods: {
+        pushSession(){
+            this.$store.dispatch('pushSession',{
+                userName: this.$route.query.userName,
+                userId: this.$route.query.uid
+            })
+        },
         loadMess(){
             this.loading = false
         },
@@ -59,6 +67,8 @@ export default {
                 sendUser:{userId: this.$store.getters.myself.userId},
                 targetUser:{userId: this.$route.query.uid},
                 status: '未读'
+            },()=>{
+                this.pushSession()
             })
             setTimeout(()=>{
                 let dom = this.$refs['main'].$el
