@@ -110,10 +110,13 @@ export default new Vuex.Store({
         myself:(state)=>{
             return state.myself
         },
-        messages:state =>new Resolver(JSON.parse(state.messages)).resolve(),
+        messages:state =>{
+            if (state.messages.length===0) return state.messages
+            return new Resolver(JSON.parse(state.messages)).resolve()
+        },
         contactors: state => new Resolver(JSON.parse(state.contactors)).resolve(),
         getSessions(state){
-            return JSON.parse(window.localStorage.getItem('sessions'))?.[state.myself.userId]
+            return JSON.parse(window.localStorage.getItem('sessions'))?.[state.myself.userId]||[]
         }
     },
     plugins: [createPersistedState({storage: window.sessionStorage})]

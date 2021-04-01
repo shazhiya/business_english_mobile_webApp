@@ -8,14 +8,12 @@
             height="48"
             fit="cover"
             radius="12"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            :src="src+message.sendUser.userHeadicon"
             style="margin: 10px;"
             :class="direction==='left'?'floatLeft':'floatRight'"
         />
         <div class="chatBox" :class="direction==='left'?'floatLeft leftMess':'floatRight rightMess'">
-            kissshot acerolaorion heartunderblade
-            kissshot acerolaorion heartunderblade
-            kissshot acerolaorion heartunderbladexx
+            {{message.messageContent}}
         </div>
         <div style="clear: both"/>
     </div>
@@ -32,15 +30,13 @@ export default {
         displayTime:{
             type:Boolean,
             default: false
+        },
+        message:{
+            type:Object
         }
     },
     data(){
         return {
-            alongShow: true,
-            bubble: {
-                show: true,
-                value: "kissshot acerolaorion heartunderblade"
-            }
         }
     }
 }
@@ -61,7 +57,7 @@ export default {
 .chatBox{
     position: relative;
     margin:12px;
-    padding:5px 8px;
+    padding:10px 10px;
     word-break: break-all;
     background: #ffffff;
     border: 1px solid #989898;

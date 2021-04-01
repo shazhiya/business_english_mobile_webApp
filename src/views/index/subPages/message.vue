@@ -16,7 +16,7 @@
 
         <van-cell-group title="会话列表">
             <cc>
-                <session v-for="(session, i) in sessions" :key="session.userId" :delay="i*150" :session="session" @remove="remove" @click="openChatPanel"/>
+                <session v-for="(session, i) in sessions" :key="session.userId" :delay="i*150" :session="session" @remove="remove" @click="openChatPanel(session.opposite)"/>
             </cc>
         </van-cell-group>
     </div>
@@ -39,10 +39,10 @@ export default {
             child.$el.remove()
         },
         openChatPanel(info) {
-            this.$router.push({name: 'chatPanel', params: info})
+            this.$router.push({name: 'chatPanel', query: {uid:info.userId,userName:info.userName}})
         },
         loadSessionPanel(){
-            let sessions =  this.$store.getters.messages.reduce((goal,mess)=>{
+            let sessions =  this.$store.getters.messages.filter(mess=>mess.type=='普通消息').reduce((goal,mess)=>{
                 if (!goal.some(opposite=>opposite.userId===mess.sendUser.userId)){
                     goal.push({
                         userId: mess.sendUser.userId,
