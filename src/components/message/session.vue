@@ -16,7 +16,7 @@
                         <van-col span="16">
                             <p class="van-ellipsis bold">{{ session.opposite.userName }}</p>
                             <p class="van-ellipsis">
-                                {{ (session.opposite.userId===session.messages[0].userId? session.opposite.userName + ": ":"") + session.messages[0].messageContent }}
+                                {{lastMessage}}
                             </p>
                         </van-col>
                         <van-col v-if="session.isNew">
@@ -60,8 +60,8 @@ export default {
         },
         readMark(){
             post('message/markRead',{
-                sendUser:{userId:this.$store.getters.myself.userId},
-                targetUser:{userId:this.session.opposite.userId},
+                sendUser:{userId:this.session.opposite.userId},
+                targetUser:{userId:this.$store.getters.myself.userId},
                 messageSendTime: new Date().getTime()
             },()=>{
                 this.session.isNew = false
@@ -69,6 +69,7 @@ export default {
                     userName: this.session.opposite.userName,
                     userId: this.session.opposite.userId
                 })
+                this.$store.dispatch('loadMessages')
             })
         },
         closeSession(){
@@ -83,6 +84,11 @@ export default {
         setTimeout(() => {
             this.v = true
         }, this.delay)
+    },
+    computed:{
+        lastMessage(){
+            return  /*(this.session.opposite.userId===this.session.messages[0]?.sendUser.userId? this.session.opposite?.userName + ": ":"") +*/ this.session.messages[0]?.messageContent
+        }
     }
 }
 </script>

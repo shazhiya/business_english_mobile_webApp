@@ -40,6 +40,40 @@ export default {
         },
         openChatPanel(info) {
             this.$router.push({name: 'chatPanel', params: info})
+        },
+        loadSessionPanel(){
+            let sessions =  this.$store.getters.messages.reduce((goal,mess)=>{
+                if (!goal.some(opposite=>opposite.userId===mess.sendUser.userId)){
+                    goal.push({
+                        userId: mess.sendUser.userId,
+                        messages:[],
+                        opposite: mess.sendUser,
+                        isNew: true
+                    })
+                }
+                goal.find(opposite=>opposite.userId===mess.sendUser.userId).messages.push(mess)
+                return goal
+            },[])
+            sessions.push(...this.$store.getters.getSessions.filter(lcs=>{
+                if (!sessions.some(ns => ns.userId === lcs.userId)) {
+                    resolvedPost('message/history',{
+                        sendUser:{
+                            userId: this.$store.getters.myself.userId,
+                        },
+                        targetUser:{
+                            userId: lcs.userId
+                        },
+                        messageSendTime: new Date().getTime()
+                    }).then(res=>{
+                        lcs.messages = res
+                        this.$set(lcs,'messages',res)
+                        this.$set(lcs,'opposite',res[0].sendUser.userId===lcs.userId?res[0].sendUser:res[0].targetUser)
+                    })
+                    return true
+                }
+                return false
+            }))
+            this.sessions = sessions
         }
     },
     components: {
@@ -51,38 +85,7 @@ export default {
         }
     },
     mounted() {
-        let sessions =  this.$store.getters.messages.reduce((goal,curr)=>{
-            if (!goal.some(opposite=>opposite.userId===curr.sendUser.userId)){
-                goal.push({
-                    userId: curr.sendUser.userId,
-                    messages:[],
-                    opposite: curr.sendUser,
-                    isNew: true
-                })
-                return goal
-            }
-            goal.find(opposite=>opposite.userId===curr.sendUser.userId).messages.push(curr)
-        },[])
-        sessions.push(...this.$store.getters.getSessions.filter(se=>{
-            if (!sessions.some(sess => sess.userId === se.userId)) {
-                resolvedPost('message/history',{
-                    sendUser:{
-                        userId: this.$store.getters.myself.userId,
-                    },
-                    targetUser:{
-                        userId: se.userId
-                    },
-                    messageSendTime: new Date().getTime()
-                }).then(res=>{
-                    se.messages = res
-                    this.$set(se,'messages',res)
-                    this.$set(se,'opposite',res[0].sendUser.userId===se.userId?res.sendUser:res[0].targetUser)
-                })
-                return true
-            }
-            return false
-        }))
-        this.sessions = sessions
+        this.loadSessionPanel()
     }
 }
 </script>
