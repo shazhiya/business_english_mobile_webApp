@@ -55,6 +55,7 @@ export default {
 }
 
 .chatBox{
+    min-height: 20px;
     position: relative;
     margin:12px;
     padding:10px 10px;

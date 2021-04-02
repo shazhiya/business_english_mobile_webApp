@@ -21,7 +21,8 @@ export default new Vuex.Store({
         myself:{},
         allSecurity: [],
         messages:[],
-        contactors:[]
+        contactors:[],
+        sessions:[]
     },
     modules: {
         user, security, course_base, optional
@@ -49,6 +50,9 @@ export default new Vuex.Store({
             // todo
             state.signUp=false
             state = {}
+        },
+        updateSessions(state,payload){
+            state.sessions = payload
         }
     },
     actions: {
@@ -88,7 +92,7 @@ export default new Vuex.Store({
                     return res.data
                 })
         },
-        pushSession({state},payload){
+        pushSession({state,commit},payload){
             let map = JSON.parse(window.localStorage.getItem('sessions'))
             if (!map) {
                 map = {}
@@ -98,11 +102,14 @@ export default new Vuex.Store({
             }
             if(!map[state.myself.userId].some(opposite=>opposite.userName===payload.userName))
                 map[state.myself.userId].push(payload)
+            commit('updateSessions',map[state.myself.userId])
             window.localStorage.setItem('sessions',JSON.stringify(map))
         },
-        popSession({state},payload){
+        popSession({state,commit},payload){
             let map = JSON.parse(window.localStorage.getItem('sessions'))
-            map[state.myself.userId].splice(map[state.myself.userId].indexOf(payload),1)
+            if (payload)
+                map[state.myself.userId].splice(map[state.myself.userId].indexOf(payload),1)
+            commit('updateSessions',map[state.myself.userId])
             window.localStorage.setItem('sessions',JSON.stringify(map))
         }
     },
@@ -116,7 +123,7 @@ export default new Vuex.Store({
         },
         contactors: state => new Resolver(JSON.parse(state.contactors)).resolve(),
         getSessions(state){
-            return JSON.parse(window.localStorage.getItem('sessions'))?.[state.myself.userId]||[]
+            return state.sessions||[]
         }
     },
     plugins: [createPersistedState({storage: window.sessionStorage})]

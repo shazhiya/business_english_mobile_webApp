@@ -69,7 +69,10 @@ export default {
                     userName: this.session.opposite.userName,
                     userId: this.session.opposite.userId
                 })
-                this.$store.dispatch('loadMessages')
+                this.$store.dispatch('loadMessages',{
+                    targetUser:{userId: this.$store.getters.myself.userId},
+                    status: '未读'
+                })
             })
         },
         closeSession(){
