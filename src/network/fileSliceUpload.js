@@ -7,7 +7,7 @@ export default function(file,options,fragmentCallback){
     let promiseList = []
     for (;currentSlice<totalSlice; currentSlice++){
         let currentFile = new File([blobSlice.call(file,chunkSize * currentSlice,chunkSize*(currentSlice+1))],file.name+`.part.${currentSlice}`,{type:'slice'})
-        promiseList.push(uploadFile(currentFile,'cover',options).then(res=>{
+        promiseList.push(uploadFile(currentFile,'courseware',options).then(res=>{
             fragmentCallback({chunkSize:currentFile.size})
             return res
         }).catch(()=>{

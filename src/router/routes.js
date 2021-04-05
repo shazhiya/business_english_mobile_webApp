@@ -180,8 +180,12 @@ const routes = [
         children: [
             {
                 name: 'courseManager',
-                path: 'index'
-            },{
+                path: 'courseManager',
+                components: {
+                    main: ()=> import('view/courseManager/subpage/courseManager')
+                }
+            },
+            {
                 name: 'publishCourse',
                 path: 'publishCourse',
                 components:{

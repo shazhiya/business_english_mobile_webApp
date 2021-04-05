@@ -49,7 +49,7 @@
 
 <script>
 import navbar from "component/card/navbar";
-import myCourseItem from "component/course/myCourseItem";
+import myCourseItem from "component/course/courseItem";
 import question from "component/task/question";
 export default {
   name: "assignTask",

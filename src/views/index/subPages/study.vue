@@ -53,7 +53,7 @@
 
 <script>
 import bigNumber from "component/mine/bigNumber";
-import myCourseItem from "component/course/myCourseItem";
+import myCourseItem from "component/course/courseItem";
 import clazzItem from "component/clazz/clazzItem";
 export default {
     name: "study",

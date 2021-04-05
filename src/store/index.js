@@ -88,6 +88,7 @@ export default new Vuex.Store({
         loadContactors({commit,state}){
             post('message/contactors',{self:state.myself})
                 .then(res=>{
+                    // todo debug
                     commit('updateContactors',JSON.stringify(res.data))
                     return res.data
                 })
@@ -108,7 +109,7 @@ export default new Vuex.Store({
         popSession({state,commit},payload){
             let map = JSON.parse(window.localStorage.getItem('sessions'))
             if (payload)
-                map[state.myself.userId].splice(map[state.myself.userId].indexOf(payload),1)
+                map[state.myself.userId]?.splice(map[state.myself.userId].indexOf(payload),1)
             commit('updateSessions',map[state.myself.userId])
             window.localStorage.setItem('sessions',JSON.stringify(map))
         }

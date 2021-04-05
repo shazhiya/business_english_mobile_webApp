@@ -52,7 +52,7 @@
 
 <script>
 import navbar from "component/card/navbar";
-import myCourseItem from "component/course/myCourseItem";
+import myCourseItem from "component/course/courseItem";
 export default {
     components: {navbar,myCourseItem},
     data() {

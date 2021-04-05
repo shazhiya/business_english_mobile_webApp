@@ -1,24 +1,24 @@
 <template>
     <div class="flex">
-        <card v-for="course in courseList" :key="course.curriculumId" :course="course" :show='show'>
-
-        </card>
+        <card v-for="course in courseList" :key="course.curriculumId" :course="course" :show='show'/>
     </div>
 </template>
 
 <script>
 import card from './courseCard'
+import resolvedPost from "@/store/ResovePost";
 
 export default {
-    props: ['show'],
+    props: ['show','type','organizationId'],
     components: {
         card
     },
-    // props:['courseList'],
     created() {
-        this.back.post('curriculum/all', {})
+       resolvedPost('curriculum/load', {organization:{organizationId:this.organizationId}})
             .then(res => {
-                this.courseList = res.data
+                this.courseList = res.filter(cu=>cu.curriculumStatus!=='dispose')
+                if (this.type)
+                    this.courseList =  this.courseList.filter(cu=>cu.curriculumStatus === this.type)
             })
     },
     data() {

@@ -30,7 +30,7 @@
                         type="textarea"
                         label="课程描述"
                     />
-                    <van-field v-model="course.user.userName" :readonly="true" label="创建人"/>
+                    <van-field v-model="course.creator.userName" :readonly="true" label="创建人"/>
                 </van-cell-group>
             </card>
             <van-divider content-position="right">chapters</van-divider>
@@ -57,6 +57,7 @@
 import navbar from "component/card/navbar";
 import chapter from "component/courseManager/chapter";
 import post from "@/store/util";
+import uploadFile from "@/network/uploadFile";
 
 export default {
     name: "publishCourse",
@@ -68,8 +69,8 @@ export default {
                 curriculumCover: [],
                 curriculumDescription: '',
                 curriculumName: '',
-                user: {
-                    userName: 'creator'
+                creator: {
+                    userName: this.$store.getters.myself.userName
                 },
                 chapters: []
             },
@@ -85,7 +86,11 @@ export default {
         }
     },
     methods: {
-        afterRead() {
+        afterRead(file) {
+            uploadFile(file.file,'courseCover',{})
+                .then(res=>{
+                    this.course.curriculumCover[0].url = res.data.msg
+                })
         },
         addChapter() {
             this.course.chapters.push({
@@ -102,23 +107,24 @@ export default {
             this.$delete(this.course.chapters, index)
         },
         saveTemporarily() {
+            let _that = this
             this.$dialog.confirm({
                 message: '确认暂存未编辑完成课程？',
                 theme: 'round-button',
                 beforeClose(action, done) {
                     if (action === 'confirm') {
-                        this.createOrSaveCurriculum("saveTemporarily").then(res => {
-                            if (res.data) {
-                                this.$notify({message: '保存成功', type: 'success'})
-                                done()
-                            } else {
-                                this.$notify({message: '服务器异常', type: 'danger'})
-                            }
+                        _that.createOrSaveCurriculum("saveTemporarily")
+                            .then(res => {
+                                if (res.data) {
+                                    this.$notify({message: '保存成功', type: 'success'})
+                                    done()
+                                } else {
+                                    this.$notify({message: '服务器异常', type: 'danger'})
+                                }
                         })
                         return
                     }
                     done()
-
                 }
             }).catch(() => {
             })
@@ -173,10 +179,16 @@ export default {
         curriculum() {
             return {
                 curriculumId: this.course.curriculumId,
-                curriculumCover: this.course.curriculumCover[0],
+                curriculumCover: this.course.curriculumCover[0].url.replace(this.src,''),
                 curriculumDescription: this.course.curriculumDescription,
                 curriculumName: this.course.curriculumName,
-                chapters: this.course.chapters
+                chapters: this.course.chapters,
+                creator:{
+                    userId: this.$store.getters.myself.userId
+                },
+                organization:{
+                    organizationId: this.$route.query.organizationId
+                }
             }
         },
         rate() {
@@ -186,6 +198,22 @@ export default {
     watch: {
         rate(newV) {
             this.showConfirmButton = (newV == 100)
+        }
+    },
+    beforeMount() {
+        if (Object.keys(this.$route.params).length){
+            this.course = this.$route.params
+            this.course.creator={userId: this.course.creator.userId,userName:this.course.creator.userName}
+            this.course.orgaization={organizationId:this.course.organization.organizationId}
+            this.course.chapters.forEach(chapter=>{
+                chapter.curriculum = null;
+                chapter.coursewares.forEach(courseware=>{
+                    courseware.chapter = null
+                })
+            })
+            this.course.curriculumCover = [{
+                url: this.src + this.course.curriculumCover
+            }]
         }
     }
 }

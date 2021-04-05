@@ -1,23 +1,23 @@
 <template>
     <el-collapse-item>
-        <div slot="title">
+        <div slot="title" style="width: 100%">
             <input
                 placeholder="chapter code"
                 v-model="chapter.chapterCode"
-                style="width: 30%"
+                style="width: 15%"
                 @click.stop=""
             />
             <span>*</span>
             <input
                 placeholder="chapter name"
                 v-model="chapter.chaptername"
-                style="width: 30%"
+                style="width: 15%"
                 @click.stop=""
             />
             <el-button
                 icon="el-icon-delete"
                 type="warning"
-                style="width: 15%; margin-left: 20%"
+                style="width: 6%; float: right; margin-top: 3px; margin-right: 30px"
                 @click="delMe"
             ></el-button>
         </div>

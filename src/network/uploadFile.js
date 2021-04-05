@@ -4,7 +4,7 @@ function upload(file, type, options) {
     let param = new FormData()
     param.append('file', file)
     if (options){
-        options.keys().forEach(key=>{
+        Object.keys(options).forEach(key=>{
             param.append(key,options[key])
         })
     }
