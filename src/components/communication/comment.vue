@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 10px">
     <van-row gutter="10">
-      <van-col span="3" offset="1">
+      <van-col span="3" offset="">
         <van-image
           width="48"
           height="48"
@@ -9,12 +9,12 @@
           radius="48px"
         />
       </van-col>
-      <van-col span="19">
-        <p style="margin: 0; font-weight: bold; font-size: 18px; float: left; width: 150px; overflow: hidden" class="van-ellipsis">
+      <van-col span="19" offset="1">
+        <p style="margin: 0; font-weight: bold; font-size: 18px; float: left; width: 50%; overflow: hidden" class="van-ellipsis">
           ichijo hotaru
           <van-tag type="primary" :mark="false" :plain="false">tag</van-tag>
         </p>
-        <p style="margin: 0; float: right">
+        <p style="margin: 0; float: right;overflow: hidden;width: 50%;" class="van-ellipsis">
           2021/12/21 20:20:13
         </p>
         <p style="margin-top: 25px; color: gray; clear: both">

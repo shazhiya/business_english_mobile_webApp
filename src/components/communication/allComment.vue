@@ -1,36 +1,29 @@
 <template>
-  <div>
-    <navbar title="所有评论">
-      <template #right>
-        <p></p>
-      </template>
-
-      <template #default class="height">
-        <van-list
-            v-model="loading"
-            :finished="finished"
-            finished-text="没有更多了"
-            @load="onLoad"
-        >
-          <comment v-for="i in list" :key="i" style="padding-bottom: 10px"/>
-        </van-list>
-      </template>
-
-    </navbar>
-
-    <van-tabbar>
-        <van-field
-            v-model="mess"
-            center
-            clearable
-            placeholder="在此输写下评论"
-            :maxlength="maxlength"
-        >
-          <template #button>
-            <van-button size="small" type="primary" @click="sendComment()">({{inputLen+'/'+maxlength}})发送</van-button>
-          </template>
-        </van-field>
-    </van-tabbar>
+  <div style="position:relative;">
+        <div class="height">
+            <van-list
+                    v-model="loading"
+                    :finished="finished"
+                    finished-text="没有更多了"
+                    @load="onLoad"
+            >
+                <comment v-for="i in list" :key="i" style="padding-bottom: 10px"/>
+            </van-list>
+        </div>
+        <div style="position: absolute; width: 100%;">
+            <van-field
+                    v-model="mess"
+                    center
+                    clearable
+                    placeholder="在此输写下评论"
+                    :maxlength="maxlength"
+                    style="padding-left: 30px"
+            >
+                <template #button>
+                    <van-button size="small" type="primary" @click="sendComment()">({{inputLen+'/'+maxlength}})发送</van-button>
+                </template>
+            </van-field>
+        </div>
   </div>
 </template>
 
@@ -81,6 +74,7 @@ export default {
 
 <style scoped>
 .height{
-  height: calc(100vh - 96px);
+  height: calc(100vh - 149px);
+  overflow: scroll;
 }
 </style>

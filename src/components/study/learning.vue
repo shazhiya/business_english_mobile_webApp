@@ -18,7 +18,7 @@
 
                         </audio>
                     </div>
-                    <div v-if="currentWareType==='img' && currentCoursewareId" style="height: 100%; width: 100%; border-radius: 5px">
+                    <div v-if="currentWareType==='img'" style="height: 100%; width: 100%; border-radius: 5px">
                         <van-image width="100%" height="100%"
                                    :src="currentSourceUrl"
                                    fit="cover"
@@ -53,26 +53,7 @@
             <van-tabs v-model="active" swipeable>
                 <van-tab title="评论">
                    <div class="remainHeight">
-                       <p>1</p>
-                       <p>2</p>
-                       <p>3</p>
-                       <p>4</p>
-                       <p>5</p>
-                       <p>6</p>
-                       <p>7</p>
-                       <p>8</p>
-                       <p>9</p>
-                       <p>10</p>
-                       <p>11</p>
-                       <p>12</p>
-                       <p>13</p>
-                       <p>14</p>
-                       <p>15</p>
-                       <p>16</p>
-                       <p>17</p>
-                       <p>18</p>
-                       <p>19</p>
-                       <p>20</p>
+                       <allComment></allComment>
                    </div>
                 </van-tab>
                 <van-tab title="探讨">
@@ -100,10 +81,11 @@
 import navbar from "component/card/navbar";
 import coursewareItem from './coursewareItem'
 import taskItem from "component/task/taskItem";
+import allComment from "component/communication/allComment";
 import resolvedPost from "@/store/ResovePost";
 export default {
     components: {
-        navbar,coursewareItem,taskItem
+        navbar,coursewareItem,taskItem,allComment
     },
     data(){
         return {
@@ -115,7 +97,8 @@ export default {
             classId: this.$route.query.classId||0,
             curriculum:{},
             currentChapter:{},
-            currentCourseware:{}
+            currentCourseware:{},
+            sourceSrc: ''
         }
     },
     methods:{
@@ -128,6 +111,7 @@ export default {
         },
         changeCourseware(ware){
             this.currentCourseware = this.currentChapter.coursewares?.find(wa=>wa.coursewareId==ware.coursewareId)||{}
+            this.sourceSrc = this.src + 'file/inline/download/'+ ware.coursewareId
         },
         display(wareItem){
             this.currentCourseware = wareItem
@@ -149,10 +133,7 @@ export default {
             return this.currentCourseware?.coursewareName?.split('.')[0]
         },
         currentSourceUrl(){
-            return this.src + 'file/inline/download/'+ this.currentCourseware.ware?.coursewareId
-        },
-        currentCoursewareId(){
-            return this.currentCourseware.ware?.coursewareId
+            return this.sourceSrc
         }
     },
     beforeMount() {
