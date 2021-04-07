@@ -7,24 +7,24 @@
 
             <template #default>
                 <card style="width: 96%; margin-top: 5px; height: 250px; position: relative">
-                    <video v-if="currentWareType==='video'" width="98%" height="98%" controls style="margin: 1%; border-radius: 6px">
-                        <source src="" type="">
+                    <video v-if="currentWareType==='video'" :src="currentSourceUrl" width="98%" height="98%" controls style="margin: 1%; border-radius: 6px">
+<!--                        <source :src="currentSourceUrl">-->
                     </video>
                     <div v-if="currentWareType==='audio'" style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center">
                         <h2 style="text-align: center; width: 75%; height: 62px" class="van-multi-ellipsis--l2">
                             {{coursewareName}}
                         </h2>
-                        <audio controls style="margin: auto; display: block;">
-                            <source src="" type="">
+                        <audio controls style="margin: auto; display: block;" :src="currentSourceUrl">
+
                         </audio>
                     </div>
-                    <div v-if="currentWareType==='img'" style="height: 100%; width: 100%; border-radius: 5px">
+                    <div v-if="currentWareType==='img' && currentCoursewareId" style="height: 100%; width: 100%; border-radius: 5px">
                         <van-image width="100%" height="100%"
-                                   :src="src+'headIcon/default.jpg'"
+                                   :src="currentSourceUrl"
                                    fit="cover"
                                    @click="showImg=true"
                         />
-                        <van-image-preview v-model="showImg" :images="[src+'headIcon/default.jpg']" :show-index="false"></van-image-preview>
+                        <van-image-preview v-model="showImg" :images="[currentSourceUrl]" :show-index="false"></van-image-preview>
                     </div>
 
                     <div style="position: absolute; bottom: 4px; width: 100%">
@@ -147,6 +147,12 @@ export default {
         },
         coursewareName(){
             return this.currentCourseware?.coursewareName?.split('.')[0]
+        },
+        currentSourceUrl(){
+            return this.src + 'file/inline/download/'+ this.currentCourseware.ware?.coursewareId
+        },
+        currentCoursewareId(){
+            return this.currentCourseware.ware?.coursewareId
         }
     },
     beforeMount() {

@@ -55,7 +55,7 @@ export default new Vuex.Store({
             state.sessions = payload
         }
     },
-    chapters: {
+    actions: {
         login({commit}, data) {
             return post('login', data, res => {
                 if (res.data !== 'success') return false

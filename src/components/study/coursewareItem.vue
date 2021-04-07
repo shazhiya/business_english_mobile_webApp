@@ -32,7 +32,7 @@ export default {
 
     methods:{
         download(){
-            let url;
+            // let url;
             // todo
         },
         click(){
