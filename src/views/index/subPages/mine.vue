@@ -21,11 +21,12 @@
         <van-cell-group :title="organ.organizationName" style="">
 <!--          <van-cell title="发布课程" v-if="judgeSecurity(organ,'发布课程')" is-link :to="{name:'publishCourse'}"/>-->
           <van-cell title="发布课程" is-link :to="{name:'publishCourse',query:{organizationId: organ.organizationId}}"/>
-          <van-cell title="创建班级" is-link :to="{name:'createClazz'}"/>
+          <van-cell title="创建班级" is-link :to="{name:'createClazz',query:{organizationId: organ.organizationId}}"/>
           <van-cell title="布置作业" is-link :to="{name:'assignTask'}"/>
           <van-cell title="课程管理" is-link :to="{name:'courseManager',query:{organizationId: organ.organizationId}}"/>
           <van-cell title="权限管理" is-link :to="{name:'roleManager',query:{organizationId: organ.organizationId}}"/>
           <van-cell title="成员管理" is-link :to="{name:'memberManager',query:{organizationId: organ.organizationId}}"/>
+          <van-cell title="班级管理" is-link :to="{name:'classManagerIndex',query:{organizationId: organ.organizationId}}"/>
         </van-cell-group>
         <div style="position: absolute; top: 9px; right: 9px;">
           <van-tag  :color="getMyRole(organ).tagColor?getMyRole(organ).tagColor:'green'">

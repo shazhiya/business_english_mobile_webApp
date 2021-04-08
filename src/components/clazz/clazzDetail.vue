@@ -9,25 +9,18 @@
                 height="150px"
                 radius="15px"
                 style="margin: 2%"
-                src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                :src="src + clazz.clazzLogo"
                 fit="cover"
             />
 
             <van-cell-group title="班级信息">
-                <van-cell title="班级名" value="呜啦啦"/>
-                <van-cell title="班级简介" value="呜啦啦啦啦啦啦啦啦啦啦啦啦啦啦"/>
+                <van-cell title="班级名" :value="clazz.clazzName"/>
+                <van-cell title="班级简介" :value="clazz.clazzDescription" type="textarea"/>
             </van-cell-group>
-
-            <van-cell-group title="班级创建者">
-                <userSmallCard></userSmallCard>
-            </van-cell-group>
+            <slot></slot>
 
             <van-cell-group title="教授课程">
-                <myCourseItem/>
-                <myCourseItem/>
-                <myCourseItem/>
-                <myCourseItem/>
-                <myCourseItem/>
+                <myCourseItem v-for="course in courses" :course="course" :key="course.curriculumId"/>
             </van-cell-group>
 
             <van-cell-group title="授课教师">
@@ -47,8 +40,14 @@ import myCourseItem from "component/course/courseItem";
 import userSmallCard from "component/user/userSmallCard";
 export default {
     name: "clazzDetail",
+    props:['clazz'],
     components: {
         navbar,myCourseItem,userSmallCard
+    },
+    computed:{
+        courses(){
+            return this.clazz.ccs.map(cc=>cc.curriculum)
+        }
     }
 }
 </script>

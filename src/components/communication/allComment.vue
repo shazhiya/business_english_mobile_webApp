@@ -29,7 +29,6 @@
 
 <script>
 import comment from "component/communication/comment";
-import navbar from "component/card/navbar";
 export default {
   name: "allComment",
   data() {
@@ -42,7 +41,7 @@ export default {
     };
   },
   components:{
-    comment,navbar
+    comment
   },
   methods: {
     onLoad() {

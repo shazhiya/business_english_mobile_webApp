@@ -323,6 +323,28 @@ const routes = [
                 }
             }
         ]
+    },
+    {
+        path:'/classManager',
+        components: {
+            root: ()=>import('view/classManager/homePage')
+        },
+        children:[
+            {
+                path:'index',
+                name: 'classManagerIndex',
+                components:{
+                    main: ()=>import('view/classManager/index')
+                }
+            },
+            {
+                path: 'manager',
+                name: 'classManager',
+                components:{
+                    main: ()=>import('view/classManager/clazzManager')
+                }
+            }
+        ]
     }
 ]
 
