@@ -47,7 +47,7 @@ export default {
             }
         };
     },
-    props: ["course"],
+    props: ["clazz"],
 };
 </script>
 

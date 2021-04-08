@@ -1,16 +1,28 @@
 <template>
-    <div v-if="clazz.clazzId!==undefined">
-        <clazzDetail :class="clazz">
+    <div>
+        <clazzDetail :clazz="clazz">
             <van-switch-cell v-model="status" title="允许学员加入" />
         </clazzDetail>
         <van-sticky :offset-top="46" style="margin-top: 50px">
-            <van-tabs v-model="active" swipeable>
+            <van-tabs
+                    :animated="true"
+                    v-model="active"
+                    :swipeabl="true"
+            >
                 <van-tab title="班级学员">
                     <div class="remainHeight">
+                        <userSmallCard v-for="classUser in student" :key="classUser.clazzUserId" :user="classUser.user"/>
                     </div>
                 </van-tab>
                 <van-tab title="入班申请">
-                    <div class="remainHeight"></div>
+                    <div class="remainHeight">
+                        <cc v-for="classUser in audited" :key="classUser.clazzUserId">
+                        <agreePanel :all="classUser" @ok="changeCU" @reject="changeCU">
+                            <userSmallCard :user="classUser.user"/>
+                        </agreePanel>
+                        </cc>
+
+                    </div>
                 </van-tab>
             </van-tabs>
         </van-sticky>
@@ -20,10 +32,13 @@
 <script>
 import clazzDetail from "component/clazz/clazzDetail";
 import resolvedPost from "@/store/ResovePost";
+import userSmallCard from "component/user/userSmallCard";
+import agreePanel from "component/card/agreePanel";
+import post from "@/store/util";
 export default {
     name: "clazzManager",
     components:{
-        clazzDetail
+        clazzDetail,userSmallCard,agreePanel
     },
     data(){
         return {
@@ -42,6 +57,24 @@ export default {
                     this.clazz = res[0]
                     this.status = this.clazz.status === 'enabled'
                 })
+        },
+        changeCU(cu,flag){
+            post('class/changeCU',{clazzUserId:cu.clazzUserId,status:flag?'同意':'拒绝'},res=>{
+                this.loadTheCLass()
+            })
+        }
+    },
+    watch:{
+        status(n,o){
+            post('class/change',{clazzId:this.$route.query.clazzId,status:n?'enabled':'disabled'})
+        }
+    },
+    computed:{
+        student(){
+            return this.clazz.clazzUsers?.filter(cu=>cu.status==='同意')
+        },
+        audited(){
+            return this.clazz.clazzUsers?.filter(cu=>cu.status==='待同意')
         }
     }
 }

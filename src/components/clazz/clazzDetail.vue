@@ -11,6 +11,7 @@
                 style="margin: 2%"
                 :src="src + clazz.clazzLogo"
                 fit="cover"
+                v-if="clazz.clazzLogo"
             />
 
             <van-cell-group title="班级信息">
@@ -21,13 +22,6 @@
 
             <van-cell-group title="教授课程">
                 <myCourseItem v-for="course in courses" :course="course" :key="course.curriculumId"/>
-            </van-cell-group>
-
-            <van-cell-group title="授课教师">
-                <userSmallCard></userSmallCard>
-                <userSmallCard></userSmallCard>
-                <userSmallCard></userSmallCard>
-                <userSmallCard></userSmallCard>
             </van-cell-group>
 
         </template>
@@ -46,7 +40,7 @@ export default {
     },
     computed:{
         courses(){
-            return this.clazz.ccs.map(cc=>cc.curriculum)
+            return this.clazz.ccs?.map(cc=>cc.curriculum)||[]
         }
     }
 }

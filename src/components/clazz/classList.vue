@@ -10,10 +10,10 @@
             offset="300"
         >
             <van-row v-for="(row, index) in list" :key="index">
-                <van-col span="12" v-for="course in row" :key="course.id">
-                    <course-card :course="course">
+                <van-col span="12" v-for="clazz in row" :key="clazz.clazzId">
+                    <class-card :clazz="clazz">
 
-                    </course-card>
+                    </class-card>
                 </van-col>
             </van-row>
         </van-list>
@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import courseCard from "./courseCard";
+import classCard from './classCard'
 
 export default {
-    props: ["type"],
-    components: {courseCard},
+    props: ["type","classes"],
+    components: {classCard},
     data() {
         return {
             list: [],

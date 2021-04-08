@@ -2,7 +2,7 @@
     <div id="opeScope">
         <van-tabs animated swipeable :before-change="beforeChange" style="height:100%" >
             <van-tab v-for="tag in tags" :title="tag.title" :key="tag.title">
-                <course-list :type="tag.title"/>
+                <class-list :classes="currentList" :type="tag.title"/>
             </van-tab>
         </van-tabs>
         <!-- action sheet -->
@@ -13,12 +13,13 @@
 </template>
 
 <script>
-import courseList from "component/course/courseList";
+import classList from '@/components/clazz/classList'
+import resolvedPost from "@/store/ResovePost";
 export default {
-    components: {courseList},
+    components: {classList},
     data() {
         return {
-            active: "",
+            active: 0,
             tags: [
                 {
                     title: "Hot",
@@ -47,7 +48,8 @@ export default {
                 {
                     title: '4K'
                 }
-            ]
+            ],
+            classes:[]
         };
     },
     methods: {
@@ -65,10 +67,15 @@ export default {
           set(newV){
               this.$store.commit('updateActionSheet',{show:newV})
           }
+        },
+        currentList(){
+            return this.classes
         }
     },
-    created() {
-        this.$store.commit('course_base/pushSearchResult')
+    beforeMount() {
+        resolvedPost('class/load',{status:'enabled'},res=>{
+            this.classes = res
+        })
     },
     mounted() {
         let opeScope = document.querySelector("#opeScope")
