@@ -31,12 +31,11 @@
 <script>
 import navbar from "component/card/navbar";
 import myCourseItem from "component/course/courseItem";
-import userSmallCard from "component/user/userSmallCard";
 export default {
     name: "clazzDetail",
     props:['clazz'],
     components: {
-        navbar,myCourseItem,userSmallCard
+        navbar,myCourseItem
     },
     computed:{
         courses(){

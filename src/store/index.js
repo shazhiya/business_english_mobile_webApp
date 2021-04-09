@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './user'
-import course_base from "./course/course.base";
+import clazz from "./clazz";
 import optional from "@/store/optional";
 
 import security from './security'
 import post from './util'
 import createPersistedState from "vuex-persistedstate"
-import {Resolver} from "fastjson_ref_resolver";
+import resolvedPost from "@/store/ResovePost";
 
 
 Vue.use(Vuex)
@@ -25,7 +25,7 @@ export default new Vuex.Store({
         sessions:[]
     },
     modules: {
-        user, security, course_base, optional
+        user, security, clazz, optional
     },
     mutations: {
         changeSignUp(state, flag) {
@@ -79,18 +79,37 @@ export default new Vuex.Store({
             })
         },
         loadMessages({commit},options){
-            return post('message/load',options||{status:'未读'})
+            return resolvedPost('message/load',options||{status:'未读'})
                 .then(res=>{
-                    commit('loadMessage',JSON.stringify(res.data))
-                    return new Resolver(res.data).resolve()
+                    res.forEach(mess=>{
+                        mess.sendUser = {
+                            userId: mess.sendUser.userId,
+                            userName: mess.sendUser.userName,
+                            userHeadicon: mess.sendUser.userHeadicon
+                        }
+                        mess.targetUser = {
+                            userId: mess.targetUser.userId,
+                            userName: mess.targetUser.userName,
+                            userHeadicon: mess.targetUser.userHeadicon
+                        }
+                    })
+                    commit('loadMessage',res)
+                    return res
                 })
         },
         loadContactors({commit,state}){
-            post('message/contactors',{self:state.myself})
+            resolvedPost('message/contactors',{self:state.myself})
                 .then(res=>{
-                    // todo debug
-                    commit('updateContactors',JSON.stringify(res.data))
-                    return res.data
+                    res.forEach(contact=>{
+                        contact.contactor = {
+                            userId: contact.contactor.userId,
+                            userName: contact.contactor.userName,
+                            userHeadicon: contact.contactor.userHeadicon
+                        }
+                        contact.self = null
+                    })
+                    commit('updateContactors',res)
+                    return res
                 })
         },
         pushSession({state,commit},payload){
@@ -119,10 +138,9 @@ export default new Vuex.Store({
             return state.myself
         },
         messages:state =>{
-            if (state.messages.length===0) return state.messages
-            return new Resolver(JSON.parse(state.messages)).resolve()
+            return state.messages
         },
-        contactors: state => new Resolver(JSON.parse(state.contactors)).resolve(),
+        contactors: state => state.contactors,
         getSessions(state){
             return state.sessions||[]
         }

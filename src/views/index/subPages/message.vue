@@ -73,6 +73,18 @@ export default {
                         },
                         messageSendTime: new Date().getTime()
                     }).then(res=>{
+                        res.forEach(mess=>{
+                            mess.sendUser = {
+                                userId: mess.sendUser.userId,
+                                userName: mess.sendUser.userName,
+                                userHeadicon: mess.sendUser.userHeadicon
+                            }
+                            mess.targetUser = {
+                                userId: mess.targetUser.userId,
+                                userName: mess.targetUser.userName,
+                                userHeadicon: mess.targetUser.userHeadicon
+                            }
+                        })
                         lcs.messages = res
                         this.$set(lcs,'messages',res)
                         this.$set(lcs,'opposite',res[0].sendUser.userId===lcs.userId?res[0].sendUser:res[0].targetUser)

@@ -2,21 +2,23 @@
     <div id="opeScope">
         <van-tabs animated swipeable :before-change="beforeChange" style="height:100%" >
             <van-tab v-for="tag in tags" :title="tag.title" :key="tag.title">
-                <class-list :classes="currentList" :type="tag.title"/>
+                <class-list :classes="currentList" :type="tag.title" :setCurrentClass="setCurrentClass"/>
             </van-tab>
         </van-tabs>
         <!-- action sheet -->
-        <van-action-sheet v-model="actionSheetShow" title="标题">
-            <div class="content">内容</div>
+        <van-action-sheet @click.stop="1-1" v-model="actionSheetShow" title="课程一览" close-on-click-action close-on-click-overlay close-on-popstate>
+            <div class="content">
+                <courseItem v-for="cc in currentClass.ccs" :key="cc.curriculumId" :course="cc" :show-toolbar="false"/>
+            </div>
         </van-action-sheet>
     </div>
 </template>
 
 <script>
 import classList from '@/components/clazz/classList'
-import resolvedPost from "@/store/ResovePost";
+import courseItem from "component/course/courseItem";
 export default {
-    components: {classList},
+    components: {classList,courseItem},
     data() {
         return {
             active: 0,
@@ -49,7 +51,8 @@ export default {
                     title: '4K'
                 }
             ],
-            classes:[]
+            classes:[],
+            currentClass:{}
         };
     },
     methods: {
@@ -57,6 +60,9 @@ export default {
             // todo
             console.log(name);
             return true;
+        },
+        setCurrentClass(clazz){
+            this.currentClass = clazz
         }
     },
     computed:{
@@ -71,11 +77,6 @@ export default {
         currentList(){
             return this.classes
         }
-    },
-    beforeMount() {
-        resolvedPost('class/load',{status:'enabled'},res=>{
-            this.classes = res
-        })
     },
     mounted() {
         let opeScope = document.querySelector("#opeScope")

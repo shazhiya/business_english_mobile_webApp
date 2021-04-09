@@ -4,11 +4,7 @@
             <van-switch-cell v-model="status" title="允许学员加入" />
         </clazzDetail>
         <van-sticky :offset-top="46" style="margin-top: 50px">
-            <van-tabs
-                    :animated="true"
-                    v-model="active"
-                    :swipeabl="true"
-            >
+            <van-tabs animated swipeable v-model="active">
                 <van-tab title="班级学员">
                     <div class="remainHeight">
                         <userSmallCard v-for="classUser in student" :key="classUser.clazzUserId" :user="classUser.user"/>
@@ -31,9 +27,10 @@
 
 <script>
 import clazzDetail from "component/clazz/clazzDetail";
-import resolvedPost from "@/store/ResovePost";
 import userSmallCard from "component/user/userSmallCard";
 import agreePanel from "component/card/agreePanel";
+
+import resolvedPost from "@/store/ResovePost";
 import post from "@/store/util";
 export default {
     name: "clazzManager",
@@ -59,13 +56,13 @@ export default {
                 })
         },
         changeCU(cu,flag){
-            post('class/changeCU',{clazzUserId:cu.clazzUserId,status:flag?'同意':'拒绝'},res=>{
+            post('class/changeCU',{clazzUserId:cu.clazzUserId,status:flag?'同意':'拒绝'},()=>{
                 this.loadTheCLass()
             })
         }
     },
     watch:{
-        status(n,o){
+        status(n){
             post('class/change',{clazzId:this.$route.query.clazzId,status:n?'enabled':'disabled'})
         }
     },

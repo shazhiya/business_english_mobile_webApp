@@ -6,14 +6,14 @@
             finished-text="没有更多了"
             :error.sync="error"
             error-text="请求失败，点击重新加载"
-            @load="loadCourses"
+            @load="loadClasses"
             offset="300"
         >
             <van-row v-for="(row, index) in list" :key="index">
                 <van-col span="12" v-for="clazz in row" :key="clazz.clazzId">
-                    <class-card :clazz="clazz">
-
-                    </class-card>
+                    <div>
+                        <class-card :clazz="clazz" :setCurrentClass="setCurrentClass"/>
+                    </div>
                 </van-col>
             </van-row>
         </van-list>
@@ -24,7 +24,7 @@
 import classCard from './classCard'
 
 export default {
-    props: ["type","classes"],
+    props: ["type","classes","setCurrentClass"],
     components: {classCard},
     data() {
         return {
@@ -37,9 +37,9 @@ export default {
         };
     },
     methods: {
-        loadCourses(reverse) {
-            this.$store.dispatch("course_base/search", {
-                index: Math.ceil(this.$store.getters['course_base/coursesSize'](this.type) / this.pageSize),
+        loadClasses(reverse) {
+            this.$store.dispatch("clazz/search", {
+                index: Math.ceil(this.$store.getters['clazz/clazzSize'](this.type) / this.pageSize),
                 size: this.pageSize,
                 condition: {},
                 isUnshift: reverse,
@@ -48,15 +48,15 @@ export default {
                 if (res < 10) this.finished = true;
                 this.loading = false
                 this.refreshing = false;
-                this.list = this.$store.getters['course_base/renderList'](this.type)
+                this.list = this.$store.getters['clazz/renderList'](this.type)
             })
         },
         onRefresh() {
-            this.loadCourses(true);
+            this.loadClasses(true);
         }
     },
     created() {
-        this.$store.commit('course_base/pushSearchResult', {
+        this.$store.commit('clazz/pushSearchResult', {
             type: this.type,
             data: []
         })

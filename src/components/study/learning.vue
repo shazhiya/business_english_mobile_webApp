@@ -40,7 +40,7 @@
                                     {{currentChapter.chapterDescription}}
                                 </div>
                                 <van-divider></van-divider>
-                                <coursewareItem v-for="ware in currentChapter.coursewares" @click="display" :key="ware.coursewareId" :ware='ware'/>
+                                <coursewareItem v-for="ware in currentChapter.coursewares" @click="changeCourseware(ware)" :key="ware.coursewareId" :ware='ware'/>
                             </div>
                         </cc>
                     </van-cell-group>
@@ -112,9 +112,6 @@ export default {
         changeCourseware(ware){
             this.currentCourseware = this.currentChapter.coursewares?.find(wa=>wa.coursewareId==ware.coursewareId)||{}
             this.sourceSrc = this.src + 'file/inline/download/'+ ware.coursewareId
-        },
-        display(wareItem){
-            this.currentCourseware = wareItem
         },
         distinguishFileType(postfix){
             if (['png','jpg'].some(ps=>ps===postfix))
