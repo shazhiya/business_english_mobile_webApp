@@ -25,8 +25,8 @@ export default {
                 res.forEach(clazz=>{
                     clazz.clazzUsers=null
                     clazz.organization = {
-                        organizationId: clazz.organization.organizationId,
-                        organizationName: clazz.organization.organizationName
+                        organizationId: clazz.organization?.organizationId,
+                        organizationName: clazz.organization?.organizationName
                     }
                     clazz.ccs = clazz.ccs.map(cc=>{
                         return {

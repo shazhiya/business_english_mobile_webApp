@@ -17,7 +17,6 @@
                             <userSmallCard :user="classUser.user"/>
                         </agreePanel>
                         </cc>
-
                     </div>
                 </van-tab>
             </van-tabs>

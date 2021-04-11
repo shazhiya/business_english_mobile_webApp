@@ -325,7 +325,7 @@ const routes = [
         ]
     },
     {
-        path:'/classManager',
+        path:'/class',
         components: {
             root: ()=>import('view/classManager/homePage')
         },
@@ -342,6 +342,13 @@ const routes = [
                 name: 'classManager',
                 components:{
                     main: ()=>import('view/classManager/clazzManager')
+                }
+            },
+            {
+                path: 'classDetail',
+                name: 'classDetail',
+                components: {
+                    main: ()=>import('view/classManager/displayClassDetail')
                 }
             }
         ]

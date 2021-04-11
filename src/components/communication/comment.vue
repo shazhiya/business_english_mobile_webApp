@@ -18,7 +18,7 @@
           2021/12/21 20:20:13
         </p>
         <p style="margin-top: 25px; color: gray; clear: both">
-          asfjasoihfnasiudhgfv dlfskardhnsbgoiknnfx vjhckd asdfb vnsa a VGASDKZFDHGSAUIO ASGDFKJ
+          商务英语这个课程讲的真好！
         </p>
         <div class="controller">
           <van-icon name="good-job-o"/>{{2260}}

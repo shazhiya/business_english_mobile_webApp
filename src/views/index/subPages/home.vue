@@ -24,32 +24,26 @@ export default {
             active: 0,
             tags: [
                 {
-                    title: "Hot",
+                    title: "热门",
                 },
                 {
                     title: "推荐",
                 },
                 {
-                    title: 'popular'
+                    title: '好课'
                 },
                 {
-                    title: 'laster'
+                    title: '高分'
                 },
                 {
-                    title: 'likes'
+                    title: '广场'
                 },
                 {
-                    title: 'random'
+                    title: '随机'
                 },
                 {
-                    title: 'favorites'
+                    title: '猜你感兴趣'
                 },
-                {
-                    title: 'vip'
-                },
-                {
-                    title: '4K'
-                }
             ],
             classes:[],
             currentClass:{}

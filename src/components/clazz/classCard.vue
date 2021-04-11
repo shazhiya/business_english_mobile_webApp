@@ -1,5 +1,5 @@
 <template>
-    <card :width="'90%'" :iStyle="sty" style="margin: 10px auto 0">
+    <card :width="'90%'" :iStyle="sty" style="margin: 10px auto 0" @click="gotoDetail">
         <!-- image  -->
         <div style="border-radius: 5px; overflow: hidden">
             <van-image
@@ -19,17 +19,17 @@
         <!-- extension part -->
         <div style="padding: 3px">
             <!-- tag -->
+<!--            <van-tag-->
+<!--                color="#07C160"-->
+<!--                size="medium"-->
+<!--                style="margin-right: 5px"-->
+<!--            >-->
+<!--                {{'组织: ' + clazz.organization.organizationName}}-->
+<!--            </van-tag>-->
             <van-tag
                 color="#07C160"
                 size="medium"
-                style="margin-right: 5px"
-            >
-                {{'组织: ' + clazz.organization.organizationName}}
-            </van-tag>
-            <van-tag
-                color="#07C160"
-                size="medium"
-                style="margin-right: 5px"
+                style="margin-right: 5px;"
             >
                 {{'课程数: ' + clazz.ccs.length}}
             </van-tag>
@@ -56,6 +56,11 @@ export default {
         }
     },
     props: ["clazz",'setCurrentClass'],
+    methods:{
+        gotoDetail(){
+          this.$router.push({name: 'classDetail',query:{clazzId:this.clazz.clazzId}})
+        }
+    }
 };
 </script>
 
