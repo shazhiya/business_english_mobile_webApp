@@ -16,7 +16,7 @@
 
 <script>
 import classList from '@/components/clazz/classList'
-import courseItem from "component/course/courseItem";
+import courseItem from "component/course/courseItem"
 export default {
     components: {classList,courseItem},
     data() {

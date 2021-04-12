@@ -2,13 +2,13 @@
     <div>
         <clazzDetail v-if="getClazz.clazzId" :clazz="getClazz" >
             <div>
-                <van-button v-if="myStatus.status===''" color="gray" size="mini" style="margin:10px auto; width: 95%; display: block" round disabled>
+                <van-button v-if="'auditing'===myStatus" color="gray" size="mini" style="margin:10px auto; width: 95%; display: block" round disabled>
                     申请已提交
                 </van-button>
-                <van-button v-if="!myStatus" type="primary" size="mini" style="margin:10px auto; width: 95%; display: block" round @click="enrollTheClass">
+                <van-button v-if="'none'===myStatus" type="primary" size="mini" style="margin:10px auto; width: 95%; display: block" round @click="enrollTheClass">
                     申请加入
                 </van-button>
-                <van-button v-if="!myStatus" type="primary" size="mini" style="margin:10px auto; width: 95%; display: block" round @click="enrollTheClass">
+                <van-button v-if="''===myStatus" type="primary" size="mini" style="margin:10px auto; width: 95%; display: block" round @click="enrollTheClass">
                     已加入
                 </van-button>
             </div>
@@ -56,7 +56,9 @@ export default {
             },[]).map(cc=>cc.curriculum.creator)
         },
         myStatus(){
-            return this.clazz.clazzUsers?.find(cu=>cu.user.userId === this.$store.getters.myself.userId && cu.status!=='disabled')
+            return this.clazz.clazzUsers
+                ?.find(cu=>cu.user.userId === this.$store.getters.myself.userId && cu.status!=='disabled')
+                ?.status||"none"
         },
         getClazz(){
             return this.clazz

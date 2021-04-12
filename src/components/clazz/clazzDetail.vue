@@ -21,7 +21,7 @@
             <slot></slot>
 
             <van-cell-group title="教授课程">
-                <myCourseItem v-for="course in courses" :course="course" :key="course.curriculumId"/>
+                <myCourseItem v-for="course in courses" :course="course" :key="course.curriculumId" :show-toolbar="false"/>
             </van-cell-group>
 
         </template>

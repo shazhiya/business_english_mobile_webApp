@@ -36,7 +36,7 @@
             <!-- operation menu -->
             <van-icon
                 name="eye-o"
-                @click="$store.commit('updateActionSheet',{show:true});setCurrentClass(clazz)"
+                @click.stop="$store.commit('updateActionSheet',{show:true});setCurrentClass(clazz)"
                 style="float: right;"
                 size="25"
                 color="gray"
