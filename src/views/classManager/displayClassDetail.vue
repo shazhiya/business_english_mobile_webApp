@@ -2,13 +2,13 @@
     <div>
         <clazzDetail v-if="getClazz.clazzId" :clazz="getClazz" >
             <div>
-                <van-button v-if="'auditing'===myStatus" color="gray" size="mini" style="margin:10px auto; width: 95%; display: block" round disabled>
+                <van-button v-if="'待同意'===myStatus" color="gray" size="mini" style="margin:10px auto; width: 95%; display: block" round disabled>
                     申请已提交
                 </van-button>
                 <van-button v-if="'none'===myStatus" type="primary" size="mini" style="margin:10px auto; width: 95%; display: block" round @click="enrollTheClass">
                     申请加入
                 </van-button>
-                <van-button v-if="''===myStatus" type="primary" size="mini" style="margin:10px auto; width: 95%; display: block" round @click="enrollTheClass">
+                <van-button v-if="'同意'===myStatus" type="gray" size="mini" style="margin:10px auto; width: 95%; display: block" round disabled>
                     已加入
                 </van-button>
             </div>
@@ -57,7 +57,7 @@ export default {
         },
         myStatus(){
             return this.clazz.clazzUsers
-                ?.find(cu=>cu.user.userId === this.$store.getters.myself.userId && cu.status!=='disabled')
+                ?.find(cu=>cu.user.userId === this.$store.getters.myself.userId && cu.status!=='不同意')
                 ?.status||"none"
         },
         getClazz(){
@@ -77,7 +77,8 @@ export default {
         enrollTheClass(){
             post('class/saveCU',{
                 user:{userId: this.$store.getters.myself.userId},
-                clazz:{clazzId: this.$route.query.clazzId}
+                clazz:{clazzId: this.$route.query.clazzId},
+                status: '待同意'
             },()=>{
                 this.$notify({
                     message: '申请已提交'

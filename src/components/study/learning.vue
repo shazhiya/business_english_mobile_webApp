@@ -94,6 +94,7 @@ export default {
             showImg:false,
             chapters: [{ name: '选项一' }, { name: '选项二' }, { name: '选项三' }],
             curriculumId: this.$route.query.curriculumId||3,
+            chapterIndex: this.$route.query.chapterIndex||0,
             classId: this.$route.query.classId||0,
             curriculum:{},
             currentChapter:{},
@@ -148,7 +149,7 @@ export default {
                         chapterId: chapter.chapterId
                     }
                 })
-                this.changeChapter(this.chapters?.[0])
+                this.changeChapter(this.chapters?.[this.chapterIndex])
             })
     }
 }

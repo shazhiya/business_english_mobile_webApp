@@ -24,10 +24,7 @@
         </card>
 
       <van-cell-group title="我的班级">
-        <clazz-item />
-        <clazz-item />
-        <clazz-item />
-        <clazz-item />
+        <clazz-item v-for="clazz in myClasses" :key="clazz.clazzId" :clazz="clazz"/>
       </van-cell-group>
 
         <van-cell-group title="我的课程">
@@ -38,10 +35,7 @@
             >
                 <van-button round type="danger" class="bottom-button">去寻找课程</van-button>
             </van-empty>
-            <my-course-item></my-course-item>
-            <my-course-item></my-course-item>
-            <my-course-item></my-course-item>
-            <my-course-item></my-course-item>
+            <my-course-item v-for="course in courses" :key="course.curriculumId" :course="course"/>
         </van-cell-group>
 
         <van-cell-group title="待办事项">
@@ -55,10 +49,35 @@
 import bigNumber from "component/mine/bigNumber";
 import myCourseItem from "component/course/courseItem";
 import clazzItem from "component/clazz/clazzItem";
+import resolvedPost from "@/store/ResovePost";
 export default {
     name: "study",
     components: {
         bigNumber,myCourseItem,clazzItem
+    },
+    data(){
+        return {
+            myClasses: []
+        }
+    },
+    methods:{
+        loadMyClasses(){
+            resolvedPost('class/loadMyClasses',{user:{userId: this.$store.getters.myself.userId}})
+            .then(res=>{
+                this.myClasses = res
+            })
+        }
+    },
+    beforeMount() {
+        this.loadMyClasses()
+    },
+    computed:{
+        courses(){
+            return this.myClasses.reduce((courseList,clazz)=>{
+                courseList.push(...clazz.ccs.map(cc=>cc.curriculum))
+                return courseList
+            },[])
+        }
     }
 }
 </script>
