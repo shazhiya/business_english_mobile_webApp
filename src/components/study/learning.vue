@@ -53,7 +53,7 @@
             <van-tabs v-model="active" swipeable>
                 <van-tab title="评论">
                    <div class="remainHeight">
-                       <allComment></allComment>
+                       <allComment type="评论" :chapterId="this.currentChapter.chapterId"></allComment>
                    </div>
                 </van-tab>
                 <van-tab title="探讨">
