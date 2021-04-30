@@ -5,8 +5,9 @@
                     v-model="loading"
                     :finished="finished"
                     finished-text="没有更多了"
+                    @load="loadComment"
             >
-                <comment v-for="comment in comments" :key="comment.commentId" :comment="comment" style="padding-bottom: 10px"/>
+                <comment v-for="comment in comments" :show-sub="showSub" :show-control="showControl" :key="comment.commentId" :comment="comment" style="padding-bottom: 10px"/>
             </van-list>
         </div>
         <div style="position: absolute; width: 100%;">
@@ -36,33 +37,38 @@ export default {
     data() {
         return {
             loading: false,
-            finished: true,
+            finished: false,
             maxlength: 30,
             mess: '',
             comments:[]
         };
     },
-    props: ['type', 'chapterId'],
+    props: ['type', 'chapterId','showSub','showControl'],
     components: {
         comment
     },
     methods: {
         sendComment() {
             if (this.mess.trim().length===0) return
-            post('comment/mark', {
+            let mess = {
                 commentContent: this.mess,
                 chapter: {chapterId: this.chapterId},
                 type: this.type,
-                commenter: {userId: this.$store.getters.myself.userId}
-            }, () => {
+                commenter:  this.$store.getters.myself,
+                createdTime: new Date().getTime()
+            }
+            post('comment/mark', mess, (res) => {
                 this.mess = ''
-                this.loadComment()
+                mess.commentId = res.data.data
+                this.comments.unshift(mess)
             })
         },
         loadComment(){
-            resolvedPost('comment/load',{chapter:{chapterId:this.chapterId}})
+            resolvedPost(`comment/load/${this.comments.length}`,{chapter:{chapterId:this.chapterId},type: this.type})
             .then(res=>{
-                this.comments = res
+                this.comments.push(...res)
+                this.loading = false
+                if (res.length<10) this.finished = true
             })
         }
     },
@@ -71,8 +77,11 @@ export default {
             return this.mess.length > 10 ? '' + this.mess.length : '0' + this.mess.length
         }
     },
-    beforeMount() {
-        this.loadComment()
+    watch:{
+        chapterId(){
+            this.comments = []
+            this.finished = false
+        }
     }
 }
 </script>

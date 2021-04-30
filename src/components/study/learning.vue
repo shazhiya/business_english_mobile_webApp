@@ -53,17 +53,18 @@
             <van-tabs v-model="active" swipeable>
                 <van-tab title="评论">
                    <div class="remainHeight">
-                       <allComment type="评论" :chapterId="this.currentChapter.chapterId"></allComment>
+                       <allComment v-if="this.currentChapter.chapterId" :show-control="false" :show-sub="false" :type="'评论'" :chapterId="this.currentChapter.chapterId"></allComment>
                    </div>
                 </van-tab>
                 <van-tab title="探讨">
-                    <div class="remainHeight"></div>
-                </van-tab>
-                <van-tab title="解惑">
-                    <div class="remainHeight"></div>
+                    <div class="remainHeight">
+                        <allComment v-if="this.currentChapter.chapterId" :show-control="false" :show-sub="true" :type="'讨论'" :chapterId="this.currentChapter.chapterId"></allComment>
+                    </div>
                 </van-tab>
                 <van-tab title="笔记">
-                    <div class="remainHeight"></div>
+                    <div class="remainHeight">
+
+                    </div>
                 </van-tab>
                 <van-tab title="课后习题">
                     <div class="remainHeight">

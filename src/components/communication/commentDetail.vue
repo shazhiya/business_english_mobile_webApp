@@ -1,19 +1,19 @@
 <template>
     <div>
-        <navbar title="评论详情">
+        <navbar title="探讨">
             <template #right>
                 <p></p>
             </template>
             <template #default class="height">
-                <comment :show-sub="false"/>
-                <van-cell-group title="相关回复55条">
+                <comment :comment="comment" :show-sub="false"/>
+                <van-cell-group :title="'相关回复'+comment.children.length+'条'">
                     <van-list
                             v-model="loading"
                             :finished="finished"
                             finished-text="没有更多了"
                             @load="onLoad"
                     >
-                        <comment v-for="i in list" :key="i" style="padding-bottom: 10px;" :show-sub="false"/>
+                        <comment v-for="sub in comment.children" :key="sub.commentId" :comment="sub" style="padding-bottom: 10px;" :show-sub="false"/>
                     </van-list>
                 </van-cell-group>
             </template>
@@ -45,11 +45,11 @@ export default {
     name: "commentDetail",
     data() {
         return {
-            list: 0,
             loading: false,
-            finished: false,
+            finished: true,
             maxlength: 30,
-            mess: ''
+            mess: '',
+            comment: this.$route.params.comment
         };
     },
     components: {
@@ -57,28 +57,24 @@ export default {
     },
     methods: {
         onLoad() {
-            // 异步更新数据
-            // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-            setTimeout(() => {
-                this.list = 5
-
-                // 加载状态结束
-                this.loading = false;
-
-                // 数据全部加载完成
-                if (this.list.length >= 40) {
-                    this.finished = true;
-                }
-            }, 1000);
+            // todo
         },
-        sendComment(parent) {
-            post('comment/mark', {
+        sendComment() {
+            if (mess===''){
+                return
+            }
+            let mess = {
                 commentContent: this.mess,
-                chapter:{chapterId: this.chapterId},
-                type: this.type,
-                parent: parent
-            }, () => {
-
+                parent: {
+                    commentId: this.comment.commentId
+                },
+                commenter: this.$store.getters.myself,
+                createdTime: new Date().getTime()
+            }
+            post('comment/mark', mess, (res) => {
+                this.mess = ''
+                mess.commentId = res.data.data
+                this.comment.children.unshift(mess)
             })
         }
     },
