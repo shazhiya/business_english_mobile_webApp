@@ -321,6 +321,13 @@ const routes = [
                 components:{
                     main:()=>import('component/task/assignTask')
                 }
+            },
+            {
+                name: 'doTask',
+                path: 'doTask',
+                components: {
+                    main:()=>import('component/task/doTask')
+                }
             }
         ]
     },

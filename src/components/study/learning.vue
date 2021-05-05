@@ -50,7 +50,7 @@
         </navbar>
         <van-action-sheet v-model="show" :actions="chapters" close-on-click-action @select="onSelect"/>
         <van-sticky :offset-top="46" style="margin-top: 50px">
-            <van-tabs v-model="active" swipeable>
+            <van-tabs v-model="active" swipeable @change="changeTable">
                 <van-tab title="评论">
                    <div class="remainHeight">
                        <allComment v-if="this.currentChapter.chapterId" :show-control="false" :show-sub="false" :type="'评论'" :chapterId="this.currentChapter.chapterId"></allComment>
@@ -62,19 +62,28 @@
                     </div>
                 </van-tab>
                 <van-tab title="笔记">
-                    <div class="remainHeight">
-
+                    <div class="remainHeight" style="position: relative">
+                        <note-item v-for="note in notes" :note="note" :key="note.noteId" :place="'chapter'"/>
+                        <div style="position: absolute; bottom: 3vw; right: 3vw;" @click="showNotepad=true">
+                            <van-button style="border-radius: 50px;" type="primary">
+                                <van-icon name="edit"/>
+                            </van-button>
+                        </div>
                     </div>
                 </van-tab>
                 <van-tab title="课后习题">
                     <div class="remainHeight">
-                        <cc>
-                            <taskItem></taskItem>
-                        </cc>
+                        <taskItem v-for="task in curriculum.tasks" :key="task.id" :task="task"/>
                     </div>
                 </van-tab>
             </van-tabs>
         </van-sticky>
+        <van-dialog v-model="showNotepad" title="请选择笔记本" :show-confirm-button="false" show-cancel-button>
+            <van-cell v-for="notepad in notepads" :key="notepad.notepadId" :title="notepad.title" :title-style="{textAlign:'center',color:'red'}" @click="openEditor(notepad.notepadId)"/>
+        </van-dialog>
+        <van-dialog title="记笔记" v-model="showEditor" show-cancel-button :before-close="addNoteItem">
+            <van-field v-model="noteItem" type="textarea" placeholder="记笔记"></van-field>
+        </van-dialog>
     </div>
 </template>
 
@@ -83,14 +92,16 @@ import navbar from "component/card/navbar";
 import coursewareItem from './coursewareItem'
 import taskItem from "component/task/taskItem";
 import allComment from "component/communication/allComment";
+import noteItem from "component/study/noteItem";
 import resolvedPost from "@/store/ResovePost";
+import post from "@/store/util";
 export default {
     components: {
-        navbar,coursewareItem,taskItem,allComment
+        navbar,coursewareItem,taskItem,allComment,noteItem
     },
     data(){
         return {
-            active: 0,
+            active: 3,
             show: false,
             showImg:false,
             chapters: [{ name: '选项一' }, { name: '选项二' }, { name: '选项三' }],
@@ -100,10 +111,19 @@ export default {
             curriculum:{},
             currentChapter:{},
             currentCourseware:{},
-            sourceSrc: ''
+            sourceSrc: '',
+            showNotepad: false,
+            notepads:[],
+            showEditor: false,
+            noteItem: '',
+            notepadId: null,
+            notes:[]
         }
     },
     methods:{
+        changeTable(index){
+            if (index===2) this.loadNotes()
+        },
         onSelect(action){
             this.changeChapter(action)
         },
@@ -122,6 +142,43 @@ export default {
                 return 'video'
             if (['mp3'].some(ps=>ps===postfix))
                 return 'audio'
+        },
+        loadNotepads() {
+            resolvedPost('note/loadNotepads', {user: this.$store.getters.myself})
+                .then(data => {
+                    this.notepads = data.filter(np=>np.status==='normal')
+                })
+        },
+        openEditor(notepadId){
+            this.notepadId = notepadId
+            this.showNotepad = false
+            this.showEditor = true
+        },
+        addNoteItem(action,done) {
+            if (action==='cancel') {
+                done()
+                return
+            }
+            post('note/write',{
+                notepad:{notepadId: this.notepadId},
+                noteContent: this.noteItem,
+                status: 'normal',
+                chapter:{
+                    chapterId: this.currentChapter.chapterId
+                }
+            },()=>{
+                done()
+                this.loadNotes()
+                this.showDialog = false
+            })
+        },
+        loadNotes(){
+            resolvedPost('note/loadNotes',{
+                user:this.$store.getters.myself,
+                chapter:{chapterId: this.currentChapter.chapterId}
+            }).then(data=>{
+                this.notes = data?.filter(note=>note.status==='normal')
+            })
         }
     },
     computed:{
@@ -150,8 +207,11 @@ export default {
                         chapterId: chapter.chapterId
                     }
                 })
-                this.changeChapter(this.chapters?.[this.chapterIndex])
+                let selectedChapterId = this.$route.params.selectedChapterId
+                let displayedChapter = selectedChapterId?{chapterId:selectedChapterId}:this.chapters?.[this.chapterIndex]
+                this.changeChapter(displayedChapter)
             })
+        this.loadNotepads()
     }
 }
 </script>
