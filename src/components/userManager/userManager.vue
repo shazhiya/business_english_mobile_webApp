@@ -48,8 +48,10 @@ export default {
                 width: this.width,
                 query: JSON.stringify({
                     userName: this.query,
-                    roles: [{
-                        roleId: this.role
+                    uros: [{
+                        role:{
+                            roleId: this.role
+                        }
                     }],
                     userEnable: this.enable
                 })

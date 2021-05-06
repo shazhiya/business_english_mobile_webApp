@@ -1,24 +1,20 @@
 <template>
     <div>
         <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-            <van-swipe-item>
-                <div>1</div>
-            </van-swipe-item>
-            <van-swipe-item>
-                <div>2</div>
-            </van-swipe-item>
-            <van-swipe-item>
-                <div>3</div>
-            </van-swipe-item>
-            <van-swipe-item>
-                <div>4</div>
+            <van-swipe-item v-for="(banner,i) in banners" :key="i">
+                <van-image
+                        :src="src+banner"
+                        fit="cover"
+                        style="margin: 2%; display: block;border-radius: 10px;overflow: hidden;"
+                        height="25vh"
+                />
             </van-swipe-item>
         </van-swipe>
 
         <card width="95%" style="margin-top: 10px">
             <van-row>
-                <van-col v-for="i in 4" :key="i" span="6">
-                    <big-number/>
+                <van-col v-for="(c,i) in counterBar" :key="i" span="6">
+                    <big-number :name="c.name" :number="c.number"/>
                 </van-col>
             </van-row>
         </card>
@@ -57,7 +53,13 @@ export default {
     },
     data(){
         return {
-            myClasses: []
+            myClasses: [],
+            banners:[
+                'courseCover/banners/banner1.png',
+                'courseCover/banners/banner1.png',
+                'courseCover/banners/banner1.png',
+                'courseCover/banners/banner1.png'
+            ]
         }
     },
     methods:{
@@ -77,19 +79,43 @@ export default {
                 courseList.push(...clazz.ccs.map(cc=>cc.curriculum))
                 return courseList
             },[])
+        },
+        counterBar(){
+            let result = []
+            result.push({
+                name: '我的班级',
+                number: this.myClasses.length
+            })
+            result.push({
+                name: '我的课程',
+                number: this.courses.length
+            })
+            result.push({
+                name: '待办事项',
+                number: 0
+            })
+            result.push({
+                name: '通知',
+                number: 0
+            })
+            return result.map(re=>{
+                return {
+                    name: {
+                        value: re.name,
+                        size: '14px',
+                        color: 'black'
+                    },
+                    number:{
+                        value: re.number,
+                        size: '24px',
+                        color: 'black'
+                    }
+                }
+            })
         }
     }
 }
 </script>
 
 <style scoped>
-.my-swipe .van-swipe-item>div {
-    color: #fff;
-    font-size: 20px;
-    line-height: 150px;
-    text-align: center;
-    background-color: #39a9ed;
-    margin: 5px;
-    border-radius: 15px;
-}
 </style>

@@ -18,14 +18,7 @@
         </el-row>
         <el-divider></el-divider>
         <div class="tags">
-            <el-tag
-                v-for="role in info.roles"
-                :key="role.roleId"
-                style="margin: 1px"
-                :style="{ background: bgs[role.roleId % bgs.length] }"
-            >
-                {{ role.roleName }}
-            </el-tag>
+          {{info.userIntro}}
         </div>
         <el-divider></el-divider>
         <slot name="funcs"></slot>

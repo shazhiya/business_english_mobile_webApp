@@ -2,14 +2,18 @@
     <div class="div">
         <el-row type="flex" justify="space-between" :gutter="30">
             <el-col :span="6">
-                <h2 class="title-3d">shazhi</h2>
+                <h2 class="title-3d">基于webApp商务英语的移动端微课系统</h2>
             </el-col>
             <el-col :xs="15" :md="17">
-                <el-button
-                    class="el-icon-menu"
-                    size="small"
-                    @click="drawer = true"
-                ></el-button>
+                <div>
+                    <h2 class="menu" @click="go(`organizationManager`)">组织管理</h2>
+                </div>
+                <div>
+                    <h2 class="menu" @click="go('courseManager-admin')">课程管理</h2>
+                </div>
+                <div>
+                    <h2 class="menu" @click="go('userManager')">用户管理</h2>
+                </div>
             </el-col>
             <el-col :xs="3" :md="1">
                 <el-avatar
@@ -21,29 +25,6 @@
                 ></el-avatar>
             </el-col>
         </el-row>
-
-        <el-drawer
-            :visible.sync="drawer"
-            :direction="direction"
-            :title="'菜单'"
-            :show-close="false"
-            :size="'60%'"
-        >
-            <el-menu>
-                <el-menu-item @click="$router.push({name:'index'})">
-                    主页
-                </el-menu-item>
-                <el-menu-item @click="$router.push({name:'mine',query: { userName: $store.state.user.username}})">
-                    个人信息
-                </el-menu-item>
-                <el-menu-item @click="$router.push({name:'userManager'})" v-if="judge('userManager')">
-                    用户管理
-                </el-menu-item>
-                <el-menu-item @click="$router.push({name:'courseManager'})" v-if="judge('courseManager')">
-                    课程管理
-                </el-menu-item>
-            </el-menu>
-        </el-drawer>
 
         <el-popover ref="popover" placement="bottom" width="300" trigger="click">
             <show :info='$store.state.myself'>
@@ -72,6 +53,9 @@ export default {
     methods: {
         judge(name) {
             return map(name)
+        },
+        go(name){
+            this.$router.push({name})
         }
     }
 }
@@ -87,7 +71,13 @@ export default {
     0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333,
     0px 8px 7px #001135;
 }
-
+.menu{
+    padding-top: 8px;
+    margin-right: 20px;
+    float: right;
+    color: #EEEEEE;
+    border-bottom: 3px aqua solid;
+}
 .div >>> button {
     margin-top: 20px;
     float: right;

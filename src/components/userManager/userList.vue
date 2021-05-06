@@ -38,16 +38,10 @@
                 <card :info="user" :width="200">
                     <div slot="funcs" class="fl">
                         <el-row>
-                            <el-col :span="14">
-                                <el-button type="primary" @click="updateUserEnable(user)">
-                                    {{ user.userEnable ? "setDisable" : "setEnable" }}
+                            <el-col :span="24">
+                                <el-button style="width: 100%;" type="primary" @click="updateUserEnable(user)">
+                                    {{ user.userEnable ? "冻结用户" : "解冻用户" }}
                                 </el-button>
-                            </el-col>
-                            <el-col :span="8">
-                                <el-button type="primary"> profile</el-button>
-                            </el-col>
-                            <el-col :span="24" style="margin-top: 3px">
-                                <el-button type="primary"> assign role</el-button>
                             </el-col>
                         </el-row>
                     </div>
